@@ -14,7 +14,7 @@ export const Button: GTypes.FC<
       {...props}
       disabled={props.disabled || loading}
       className={clsx(
-        'disabled:bg-gray-400 disabled:cursor-not-allowed w-full flex items-center justify-center rounded-lg text-white transition-colors px-4 py-2 bg-primary-500 hover:bg-orange-600',
+        'disabled:bg-gray-400 disabled:cursor-not-allowed w-full flex items-center justify-center rounded-lg text-white transition-colors px-4 py-2 bg-primary-500 hover:bg-primary-600',
         props.className,
         { '!cursor-wait': loading },
       )}
