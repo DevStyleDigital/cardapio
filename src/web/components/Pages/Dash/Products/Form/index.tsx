@@ -13,6 +13,7 @@ export const Form = ({ product }: { product?: Product }) => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [productName, setProductName] = useState(product?.name || '');
+  const [productPrice, setProductPrice] = useState(product?.price);
   const [productImage, setProductImage] = useState<File | undefined>();
 
   function handleSubmit(ev: React.FormEvent<HTMLFormElement>) {
@@ -58,7 +59,16 @@ export const Form = ({ product }: { product?: Product }) => {
           </div>
         </div>
         <div className="mt-10">
-          <CurrencyInput onChange={() => {}} defaultValue={undefined} />
+          <Input.Root id="product-name" error={null} className="max-w-lg">
+            <Input.Label>Product Price:</Input.Label>
+            <CurrencyInput
+              required
+              currency="R$"
+              maxLength={6}
+              onChange={setProductPrice}
+              defaultValue={productPrice}
+            />
+          </Input.Root>
         </div>
       </div>
       <Button type="submit" loading={loading} className="gap-2 py-4">
