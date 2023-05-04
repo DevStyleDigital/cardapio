@@ -21,6 +21,9 @@ module.exports = {
           400: '#A88C50',
           500: '#A88C5050',
         },
+        fundo:{
+          400: '#1E1E1E',
+        }
       },
       letterSpacing: {
         '1': '0em',
