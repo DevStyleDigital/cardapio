@@ -89,8 +89,7 @@ export const Form = ({ menu }: { menu?: Menu }) => {
     })
       .then((res) => {
         toast.success('Menu created!');
-        console.log(res);
-        // router.push('/admin/dash/menu');
+        router.push('/admin/dash/menu');
       })
       .catch(() => {
         toast.error('Something went wrong!');

@@ -50,6 +50,8 @@ export const getServerSideProps: GetServerSideProps = async () => {
     .then((res) => res)
     .catch(() => []);
 
+  console.log(menus);
+
   return {
     props: { menus },
   };
