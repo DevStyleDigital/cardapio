@@ -11,12 +11,14 @@ function addDot(value: string) {
 }
 
 export const CurrencyInput = ({
+  id,
   currency,
   onChange,
   required,
   defaultValue,
   maxLength = 7,
 }: {
+  id?: string;
   currency: string;
   required?: boolean;
   onChange: (v: string) => void;
@@ -27,6 +29,10 @@ export const CurrencyInput = ({
   const [value, setValue] = useState(defaultValue ? defaultValue : addDot('000'));
 
   function handleAddDigit(ev: React.KeyboardEvent<HTMLDivElement>) {
+    if (ev.key === 'Tab') {
+      (inputRef.current?.nextElementSibling as HTMLElement)?.focus();
+      return;
+    }
     setValue((prev) => {
       const valueClear = prev.replaceAll(/,|\./g, '');
       let newValue = (
@@ -39,8 +45,6 @@ export const CurrencyInput = ({
           ...new Array(3 - newValueSplit.length).fill('0'),
           ...newValueSplit,
         ].join('')}`;
-
-        console.log(newValue);
       }
       return addDot(ev.key === 'Backspace' ? newValue.slice(0, -1) : newValue);
     });
@@ -68,7 +72,10 @@ export const CurrencyInput = ({
 
       <input
         type="text"
+        id={id}
         className="absolute opacity-0"
+        tabIndex={-1}
+        aria-hidden
         onFocus={() => inputRef.current?.focus()}
         required={required}
         value={value}

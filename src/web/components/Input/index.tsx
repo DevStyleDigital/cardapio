@@ -15,7 +15,7 @@ const InputContainer: GTypes.FC = ({ ...props }) => {
     <div
       {...props}
       className={clsx(
-        'w-full border border-gray-400 transition-all focus-within:border-gray-950 rounded-lg py-2 px-4 ring-primary-500/30 focus-within:ring-4',
+        'w-full border border-gray-400 bg-white transition-all focus-within:border-gray-950 rounded-lg py-2 px-4 ring-primary-500/30 focus-within:ring-4',
         props.className,
         {
           'ring-red-500/30 !border-red-500': !!error,
@@ -32,10 +32,12 @@ const InputRoot: GTypes.FC<{ id: string; error: string | null }> = ({
 }) => {
   return (
     <InputContext.Provider value={{ error, id }}>
-      <div {...props} className={clsx('w-full flex flex-col gap-1', props.className)} />
-      <span role="status" className="text-red-500">
-        {error}
-      </span>
+      <div className="w-full flex flex-col gap-1">
+        <div {...props} className={clsx('w-full flex flex-col gap-1', props.className)} />
+        <span role="status" className="text-red-500">
+          {error}
+        </span>
+      </div>
     </InputContext.Provider>
   );
 };

@@ -9,19 +9,22 @@ import { useState } from 'react';
 const TypeMenu = ({ type, menu }: any) => {
   const [productsData, setProductcsData] = useState(() => {
     const newProduct = Produtos.map((product) => ({ ...product, anunciante: false }));
-      if (Produtos.length > 5) {
-        newProduct[4].anunciante = true;
-      } else {
-        newProduct[Produtos.length - 1].anunciante = true;
-      }
-      return newProduct;
+    if (Produtos.length > 5) {
+      newProduct[4].anunciante = true;
+    } else {
+      newProduct[Produtos.length - 1].anunciante = true;
+    }
+    return newProduct;
   });
   const router = useRouter();
   const TypeFormated = router?.query?.nome;
 
   return (
     <section className="w-full bg-fundo-400 flex flex-col">
-      <HeaderBanner />
+      <HeaderBanner
+        text="à la carte"
+        url="https://i2.wp.com/files.agro20.com.br/uploads/2020/03/comidabrasileira3.jpg?fit=1024%2C585&ssl=1"
+      />
       <h1 className="text-md tracking-4 uppercase p-6 pb-0 text-red-600">
         {TypeFormated}
       </h1>
@@ -37,7 +40,7 @@ const TypeMenu = ({ type, menu }: any) => {
                 descricao={produto.descricao}
                 preco={produto.preco}
               />
-              {produto.anunciante   && (
+              {produto.anunciante && (
                 <div className="w-full h-40">
                   <div className="w-full h-full bg-white">{/* Anunciante aqui */}</div>
                 </div>

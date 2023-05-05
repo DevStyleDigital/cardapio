@@ -7,6 +7,8 @@ import { http } from '@web/services/http';
 
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+import { database } from '@server/services/database';
+import { GetServerSideProps } from 'next';
 
 const Admin = () => {
   const router = useRouter();
@@ -53,6 +55,14 @@ const Admin = () => {
       </form>
     </main>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { auth } = database(ctx);
+  const { data, error } = await auth.getSession();
+
+  if (error || !data.session) return { props: {} };
+  return { redirect: { destination: '/admin/dash', permanent: false } };
 };
 
 export default Admin;

@@ -1,11 +1,12 @@
 import { EyeOpenIcon, Pencil1Icon, TrashIcon } from '@radix-ui/react-icons';
 import { useMenu } from '..';
-import { Modal } from '@web/components/Modal';
 import { useRouter } from 'next/router';
+import { http } from '@web/services/http';
+import { toast } from 'react-toastify';
 
 export const MenuActions = () => {
   const router = useRouter();
-  const { handleMenuPreview, id } = useMenu();
+  const { handleMenuPreview, id, onDelete } = useMenu();
 
   return (
     <div
@@ -29,7 +30,15 @@ export const MenuActions = () => {
         aria-label="Delete"
         title="Delete"
         id="delete"
-        // onClick={handleSidebarToggle}
+        onClick={async () => {
+          await http
+            .delete(`/api/menu/${id}`)
+            .then(() => {
+              onDelete();
+              toast.success('Menu deleted successful!');
+            })
+            .catch(({ response: { data: err } }) => toast.error(err.message));
+        }}
       >
         <TrashIcon className="w-4 h-4 pointer-events-none" />
       </button>

@@ -4,9 +4,11 @@ import { Menu as MenuComp } from '@web/components/Pages/Dash/Menu/Menu';
 import { http } from '@web/services/http';
 import { GetServerSideProps } from 'next';
 import Link from 'next/link';
+import { useState } from 'react';
 import type { Menu } from 'types/menu';
 
 const Menu = ({ menus }: { menus: Menu[] }) => {
+  const [menusData, setMenus] = useState(menus);
   return (
     <main className="bg-gray-200 w-full">
       <div className="my-16 px-8 gap-4 flex flex-col">
@@ -21,8 +23,21 @@ const Menu = ({ menus }: { menus: Menu[] }) => {
         </div>
       </div>
       <div className="bg-gray-300/20 grid md:grid-cols-2 gap-8 p-8">
-        {menus.map(({ id, menuImage, menuName }) => (
-          <MenuComp alt="" key={id} id={id} text={menuName} url={menuImage} />
+        {menusData.map(({ id, menuImage, menuName }, i) => (
+          <MenuComp
+            alt=""
+            key={id}
+            id={id}
+            text={menuName}
+            url={menuImage}
+            onDelete={() => {
+              setMenus((prev) => {
+                const newPrev = [...prev];
+                newPrev.splice(i, 1);
+                return newPrev;
+              });
+            }}
+          />
         ))}
       </div>
     </main>

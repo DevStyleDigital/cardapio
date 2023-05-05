@@ -4,7 +4,7 @@ import { database } from '@server/services/database';
 export async function GET(req: NextApiRequest, res: NextApiResponse) {
   try {
     const db = database({ req, res });
-    const { data, error } = await db.from('menus').select('id');
+    const { data, error } = await db.from('menus').select('id,menuName');
 
     if (!data?.length || error)
       throw {

@@ -48,7 +48,7 @@ export const Banner: GTypes.FC<BannerProps> & {
         src={url}
         width={2080}
         height={2080}
-        className="w-full lg:h-[30rem] md:h-96 sm:h-80 h-64 object-cover object-center"
+        className="w-full lg:h-[20rem] md:h-56 sm:h-56 h-48 object-cover object-center"
       />
       {enableBackdrop && <BannerBackdrop />}
       <BannerText>{children}</BannerText>

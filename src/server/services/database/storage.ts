@@ -22,7 +22,8 @@ export const storage = {
       },
       async delete(filePath?: string | string[]) {
         if (!filePath) return await storageClient.deleteBucket(bucketPath);
-        return await storageClient.from(bucketPath).remove([...filePath]);
+        const filePathArray = Array.isArray(filePath) ? filePath : [filePath];
+        return await storageClient.from(bucketPath).remove(filePathArray);
       },
       getUrl<T extends string | string[]>(filePath: T): T {
         if (Array.isArray(filePath))

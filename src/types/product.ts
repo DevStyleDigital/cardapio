@@ -4,4 +4,7 @@ export type Product = {
   name: string;
   text: string;
   price: string;
+
+  menus: { id: string; name: string }[];
+  types: { id: string; name: string }[];
 };

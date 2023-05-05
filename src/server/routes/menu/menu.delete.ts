@@ -14,7 +14,8 @@ export async function DELETE(req: NextApiRequest, res: NextApiResponse) {
 
     const db = database({ req, res });
     await db.from('menus').delete().eq('id', id);
-    await storage.in(`menu/${id}`).delete();
+    await db.from('product_types').delete().eq('menuId', id);
+    await storage.in(`menus/${id}`).delete();
 
     return res.status(200).send({ message: 'Success' });
   } catch (err) {

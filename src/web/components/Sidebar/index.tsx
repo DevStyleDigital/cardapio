@@ -1,12 +1,10 @@
-import type { UrlObject } from 'url';
 import Link, { type LinkProps } from 'next/link';
 
 import { Slot } from '@radix-ui/react-slot';
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 import { Cross1Icon, HamburgerMenuIcon } from '@radix-ui/react-icons';
-
-//todo: make a button that open/close the sidebar when the screen is less than 'lg' size
+import { useRouter } from 'next/router';
 
 const SidebarRoot: GTypes.FC = ({ children, ...props }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -80,21 +78,27 @@ const SidebarNav: GTypes.FC = ({ ...props }) => {
 
 const SidebarLink: GTypes.FC<
   Omit<LinkProps, 'href'> & {
-    href?: UrlObject | string;
+    href?: string;
     asChild?: boolean;
     className?: string;
   },
   {},
   false
 > = ({ asChild, ...props }) => {
+  const { pathname } = useRouter();
   const Comp = asChild ? Slot : Link;
+
   return (
     <Comp
       href="/"
       {...props}
       className={clsx(
-        'px-4 py-2 hover:bg-gray-200 focus:bg-gray-300 outline-none transition flex items-center gap-4',
+        'px-4 py-2 hover:bg-gray-200 border-l-4 border-transparent focus:bg-gray-300 outline-none transition flex items-center gap-4',
         props.className,
+        {
+          '!border-primary-400 bg-red-400/20 hover:bg-red-400/30 focus:bg-red-400/30':
+            pathname.replace('/[id]', '') === props.href,
+        },
       )}
     />
   );

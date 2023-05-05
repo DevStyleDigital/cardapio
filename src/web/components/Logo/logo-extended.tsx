@@ -1,5 +1,3 @@
-import clsx from 'clsx';
+// import clsx from 'clsx';
 
-export const LogoExtended: GTypes.FCIcon = ({ ...props }) => (
-  <h1 className='text-primary-500'>Yoshi's</h1>
-);
+export const LogoExtended: GTypes.FCIcon = ({ ...props }) => <h1>Yoshi&#39;s</h1>;

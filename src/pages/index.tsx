@@ -26,7 +26,7 @@ const Home = () => {
           <div className="text-golden-400 pb-2 border-b-2 border-golden-400 hover:text-golden-500 hover:border-golden-500 transition-all">
             <button
               type="button"
-              className='tracking-3 uppercase text-md sm:text-base md:text-lg'
+              className="tracking-3 uppercase text-md sm:text-base md:text-lg"
               aria-labelledby="sidebar-menu"
               onClick={() => setSidebarOpen(true)}
             >
@@ -35,9 +35,7 @@ const Home = () => {
           </div>
         </div>
         <div className="w-full h-40 bottom-0 left-0 absolute p-[1rem]">
-            <div className="w-full h-full bg-white">
-               {/* Anunciante aqui */}
-            </div>
+          <div className="w-full h-full bg-white">{/* Anunciante aqui */}</div>
         </div>
       </section>
     </>

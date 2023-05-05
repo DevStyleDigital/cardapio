@@ -5,14 +5,12 @@ export const SideBar = () => {
   return (
     <SidebarCardapio.Fundo>
       <SidebarCardapio.Title>
-         <div className='uppercase'>
-            Menu Yoshi's
-         </div>
-         <div className="text-white flex gap-2 text-sm">
-          by <LogoVelasco  />
-         </div>
+        <div className="uppercase">Menu Yoshi&#39;s</div>
+        <div className="text-white flex gap-2 text-sm">
+          by <LogoVelasco />
+        </div>
       </SidebarCardapio.Title>
-      <SidebarCardapio.Navs></SidebarCardapio.Navs>
+      <SidebarCardapio.Navs />
     </SidebarCardapio.Fundo>
   );
 };

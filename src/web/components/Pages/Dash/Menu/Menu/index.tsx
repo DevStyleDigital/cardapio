@@ -8,6 +8,7 @@ type MenuBaseProps = {
   url: string;
   alt: string;
   text: string;
+  onDelete: () => void;
 };
 type MenuContextProps = MenuBaseProps & {
   menuPreview: boolean;
@@ -17,7 +18,14 @@ type MenuContextProps = MenuBaseProps & {
 const MenuContext = createContext<MenuContextProps>({} as MenuContextProps);
 export const useMenu = () => useContext(MenuContext);
 
-export const Menu: GTypes.FC<MenuBaseProps> = ({ url, alt, id, text, ...props }) => {
+export const Menu: GTypes.FC<MenuBaseProps> = ({
+  onDelete,
+  url,
+  alt,
+  id,
+  text,
+  ...props
+}) => {
   const [menuPreview, setMenuPreview] = useState(false);
 
   function handleMenuPreview() {
@@ -34,7 +42,9 @@ export const Menu: GTypes.FC<MenuBaseProps> = ({ url, alt, id, text, ...props })
   }, []);
 
   return (
-    <MenuContext.Provider value={{ url, alt, id, text, handleMenuPreview, menuPreview }}>
+    <MenuContext.Provider
+      value={{ url, alt, id, text, handleMenuPreview, menuPreview, onDelete }}
+    >
       <div
         id={id}
         {...props}

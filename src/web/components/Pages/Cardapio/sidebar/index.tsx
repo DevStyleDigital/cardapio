@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import FundoImg from '../../../../assets/img/fundo.png';
-import Logo from "../../../../assets/img/logo2.png"
+import Logo from '../../../../assets/img/logo2.png';
 import { MenuItens } from '@web/utils/menu';
 import Link from 'next/link';
 import {
@@ -92,7 +92,9 @@ const SideBarFundo = ({ children }: any) => {
 };
 
 const SideBarTitle = ({ children }: any) => {
-  return <h1 className="text-golden-400 tracking-2 text-md flex flex-col gap-4">{children}</h1>;
+  return (
+    <h1 className="text-golden-400 tracking-2 text-md flex flex-col gap-4">{children}</h1>
+  );
 };
 
 const SideBarNavs = () => {
@@ -101,7 +103,7 @@ const SideBarNavs = () => {
     <div className="w-full h-full flex flex-col pt-18 justify-center lg:items-center  gap-10">
       {MenuItens.map((item, index) => {
         return (
-          <div className="flex flex-col gap-6 md:gap-10 lg:items-center">
+          <div key={item.id} className="flex flex-col gap-6 md:gap-10 lg:items-center">
             <Link
               href={`/${item.link}`}
               onClick={() => setSidebarOpen(false)}
@@ -111,19 +113,23 @@ const SideBarNavs = () => {
               {item.label}
             </Link>
             {MenuItens.length - 1 > index && (
-              <div className="w-10/12 sm:w-3/6 md:w-6/12 lg:w-full h-px bg-red-600"></div>
+              <div className="w-10/12 sm:w-3/6 md:w-6/12 lg:w-full h-px bg-red-600" />
             )}
           </div>
         );
       })}
       <div className="flex justify-end">
-          <Image className="w-1/4 h-auto md:w-1/6 lg:w-32" src={Logo} alt="Logo" width={378}  height={520} />
+        <Image
+          className="w-1/4 h-auto md:w-1/6 lg:w-32"
+          src={Logo}
+          alt="Logo"
+          width={378}
+          height={520}
+        />
       </div>
     </div>
   );
 };
-
-
 
 export const SidebarCardapio = {
   Root: SideBarCardapioRoot,

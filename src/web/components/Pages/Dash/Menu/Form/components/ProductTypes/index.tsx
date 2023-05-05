@@ -1,14 +1,17 @@
 import type { ProductType } from 'types/menu';
-import { Cross1Icon, PlusIcon } from '@radix-ui/react-icons';
+import { PlusIcon } from '@radix-ui/react-icons';
 import { Button } from '@web/components/Button';
 import { Input } from '@web/components/Input';
 import { useEffect, useState } from 'react';
+import { Types } from './Types';
 
 export const ProductTypes = ({
   defaultValue,
   onChange,
+  onDelete,
 }: {
   onChange: (v: ProductType[]) => void;
+  onDelete: (v: string[]) => void;
   defaultValue?: ProductType[];
 }) => {
   const [newProductType, setNewProductType] = useState('');
@@ -31,9 +34,9 @@ export const ProductTypes = ({
 
   return (
     <div>
-      <h2 className="text-xl font-bold uppercase">Menu products types:</h2>
+      <h2 className="text-xl font-bold uppercase mb-4">Menu products types:</h2>
       <Input.Root id="menu-name" error={newProductTypeError} className="max-w-lg">
-        <Input.Label>New product type:</Input.Label>
+        <Input.Label>New product type*:</Input.Label>
         <div className="flex gap-4">
           <Input
             placeholder="Name of product type"
@@ -50,29 +53,11 @@ export const ProductTypes = ({
           </Button>
         </div>
       </Input.Root>
-      <ul className="flex gap-6 mt-4 flex-wrap">
-        {productTypes.map(({ id, type }, i) => (
-          <li key={id} className="min-[330px]:w-fit w-full">
-            <button
-              id={id}
-              type="button"
-              className="bg-white min-[330px]:w-fit w-full max-w-full justify-between shadow-lg hover:shadow-sm transition group gap-4 px-4 py-2 overflow-hidden rounded-[20px] flex items-center"
-              onClick={() =>
-                setProductTypes((prev) => {
-                  const newPrev = [...prev];
-                  newPrev.splice(i, 1);
-                  return newPrev;
-                })
-              }
-            >
-              <span className="uppercase text-left break-all">{type}</span>
-              <div className="h-auto transition group-hover:text-red-500">
-                <Cross1Icon className="w-3 h-3 mt-px" />
-              </div>
-            </button>
-          </li>
-        ))}
-      </ul>
+      <Types
+        productTypes={productTypes}
+        setProductTypes={setProductTypes}
+        onDelete={onDelete}
+      />
     </div>
   );
 };

@@ -8,19 +8,19 @@ export const formDataConfig = {
   keepExtensions: true,
   maxFileSize: 10_000_000,
   maxFieldsSize: 10_000_000,
-  multiples: false,
 };
 
 type Fields<T extends string> = { [key in T]: string | string[] };
 type Files<T extends string> = { [key in T]: File | File[] };
 
 function handleFile(file: formidable.File) {
-  const filenameSplit = file.originalFilename!.split('.');
+  const filenameSplit = file.mimetype!.split('/');
   const fileExtension = filenameSplit[filenameSplit.length - 1];
   return {
     id: uuidv4(),
     file: readFileSync(file.filepath),
     extension: fileExtension,
+    filename: file.originalFilename,
   };
 }
 
