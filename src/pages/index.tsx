@@ -16,7 +16,6 @@ const Home = () => {
           height={2793}
         />
         <div className="w-full h-full top-0 absolute z-40 flex flex-col justify-center items-center gap-16 px-8">
-          <div className="w-full h-40 bg-white relative"></div>
           <Image
             className="w-3/5 h-auto sm:w-2/5 md:w-2/6 lg:w-1/4 xl:w-1/5 2xl:w-2/12"
             src={Logo}
@@ -24,16 +23,21 @@ const Home = () => {
             width={378}
             height={520}
           />
-          <div className="text-golden-400 text-sm sm:text-base md:text-lg uppercase tracking-3 pb-2 border-b-2 border-golden-400 hover:text-golden-500 hover:border-golden-500 transition-all">
+          <div className="text-golden-400 pb-2 border-b-2 border-golden-400 hover:text-golden-500 hover:border-golden-500 transition-all">
             <button
               type="button"
+              className='tracking-3 uppercase text-md sm:text-base md:text-lg'
               aria-labelledby="sidebar-menu"
               onClick={() => setSidebarOpen(true)}
             >
               Ver Menu
             </button>
           </div>
-          <div className="w-full h-40 bg-white relative"></div>
+        </div>
+        <div className="w-full h-40 bottom-0 left-0 absolute p-[1rem]">
+            <div className="w-full h-full bg-white">
+               {/* Anunciante aqui */}
+            </div>
         </div>
       </section>
     </>

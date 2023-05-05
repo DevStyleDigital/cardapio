@@ -1,6 +1,6 @@
 export interface iItemMenu {
   id: number;
   name: string;
-  imagem?: string;
+  img?: string;
   link: string;
 }

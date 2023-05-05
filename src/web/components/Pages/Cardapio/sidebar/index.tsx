@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import FundoImg from '../../../../assets/img/fundo.png';
+import Logo from "../../../../assets/img/logo2.png"
 import { MenuItens } from '@web/utils/menu';
 import Link from 'next/link';
 import {
@@ -43,7 +44,7 @@ export const SideBarCardapioRoot = ({
 
   return (
     <SidebarContext.Provider value={{ sidebarOpen, setSidebarOpen }}>
-      <div className="fixed w-16 z-[999] h-16 top-12 right-8">
+      <div className="fixed w-16 z-[200] h-16 top-12 right-8">
         <button
           type="button"
           className="w-full h-full"
@@ -91,7 +92,7 @@ const SideBarFundo = ({ children }: any) => {
 };
 
 const SideBarTitle = ({ children }: any) => {
-  return <h1 className="text-golden-400 uppercase tracking-2 text-md">{children}</h1>;
+  return <h1 className="text-golden-400 tracking-2 text-md flex flex-col gap-4">{children}</h1>;
 };
 
 const SideBarNavs = () => {
@@ -115,22 +116,18 @@ const SideBarNavs = () => {
           </div>
         );
       })}
+      <div className="flex justify-end">
+          <Image className="w-1/4 h-auto md:w-1/6 lg:w-32" src={Logo} alt="Logo" width={378}  height={520} />
+      </div>
     </div>
   );
 };
 
-const SideBarAnuncios = ({ children }: any) => {
-  return (
-    <div className="w-full h-40">
-      <div className=" w-full h-full bg-white">{children}</div>
-    </div>
-  );
-};
+
 
 export const SidebarCardapio = {
   Root: SideBarCardapioRoot,
   Fundo: SideBarFundo,
   Title: SideBarTitle,
   Navs: SideBarNavs,
-  Anuncio: SideBarAnuncios,
 };
