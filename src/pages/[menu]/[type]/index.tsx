@@ -29,7 +29,7 @@ const TypeMenu = ({ type, menu }: any) => {
         {TypeFormated}
       </h1>
       <BackButton menuPath={menu} />
-      <div className="w-full h-auto flex flex-col gap-6 py-6 pb-28 px-6">
+      <div className="w-full h-auto flex flex-col lg:grid lg:grid-cols-3 gap-6 py-6 pb-28 px-6">
         {productsData.map((produto, index) => {
           return (
             <>
@@ -40,8 +40,8 @@ const TypeMenu = ({ type, menu }: any) => {
                 descricao={produto.descricao}
                 preco={produto.preco}
               />
-              {produto.anunciante && (
-                <div className="w-full h-40">
+              {produto.anunciante   && (
+                <div className="w-full h-40 lg:hidden">
                   <div className="w-full h-full bg-white">{/* Anunciante aqui */}</div>
                 </div>
               )}

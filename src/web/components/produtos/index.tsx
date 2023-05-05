@@ -18,7 +18,7 @@ const ProdutosContent = ({ nome, descricao, preco, img }: ProdutoProps) => {
             <div className='w-full flex flex-col gap-2'>
                 <div className="w-full flex flex-col gap-2">
                     <h1 className="text-lg break-all text-white/95">{nome}</h1>
-                    <p className="text-sm break-all text-white/70">{descricao}</p>
+                    <p className="text-[0.7rem] break-all text-white/70">{descricao}</p>
                 </div>
                 <p className="h-full text-white flex items-center gap-1">
                     <span className='text-sm'>R$</span>
@@ -26,7 +26,7 @@ const ProdutosContent = ({ nome, descricao, preco, img }: ProdutoProps) => {
                 </p>
             </div>
             {img && (
-                <div className='w-full h-full max-h-[110px] max-w-[130px] bg-golden-400 shadow-lg shadow-black/80'>
+                <div className='w-full h-full max-h-[110px] max-w-[130px] md:max-h-[140px] md:max-w-[160px]  bg-golden-400 shadow-lg shadow-black/80'>
                   <Image className='w-full h-full' src={img} width={400} height={400} alt='img-product' /> 
                 </div>
             )}
@@ -38,16 +38,16 @@ const ProdutosContent = ({ nome, descricao, preco, img }: ProdutoProps) => {
                   <Cross1Icon className="w-16 h-16 text-golden-400" />
               </div>
             </Modal.Trigger>
-            <div className='fixed w-full h-auto min-h-[50%] top-1/2 -translate-y-1/2  flex flex-col gap-4 p-4'>
+            <div className='fixed w-full sm:w-[50%] h-auto min-h-[50%] top-1/2 -translate-y-1/2 flex flex-col sm:translate-x-1/2 gap-4 p-4'>
               {img && (
-                <div className='w-full max-w-[400px] max-h-[400px] bg-golden-400 shadow-lg shadow-black/80'>
+                <div className='w-full max-w-[630px] bg-golden-400 shadow-lg shadow-black/80'>
                   <Image className='w-full h-full' src={img} width={400} height={400} alt='img-product' /> 
                 </div>
               )}
-                <div className='w-full flex flex-col gap-2 py-4 pr-[20%]'>
+                <div className='w-full flex flex-col max-h-[40vh] overflow-auto gap-2 py-4 pr-6 lg:pr-4 2xl:pr-[30%]'>
                   <div className="w-full flex flex-col gap-2">
                       <h1 className="text-xl break-all text-white/95">{nome}</h1>
-                      <p className="text-lg break-all text-white/70">{descricao}</p>
+                      <p className="text-md lg:text-lg break-all text-white/70">{descricao}</p>
                   </div>
                   <p className="h-full text-white flex items-center gap-1">
                       <span className='text-md'>R$</span>
