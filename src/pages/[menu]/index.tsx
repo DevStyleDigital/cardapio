@@ -53,6 +53,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   .then((res) => res)
   .catch(() => []);
 
+  if(!menus){
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    };
+  }
 
   return {
     props: {
