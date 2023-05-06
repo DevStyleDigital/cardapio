@@ -13,6 +13,8 @@ import {
 } from 'react';
 import clsx from 'clsx';
 import { Cross1Icon, HamburgerMenuIcon } from '@radix-ui/react-icons';
+import { http } from '@web/services/http';
+import type { Menu } from 'types/menu';
 
 interface SideBarProps {
   sidebarOpen: boolean;
@@ -99,20 +101,30 @@ const SideBarTitle = ({ children }: any) => {
 
 const SideBarNavs = () => {
   const { setSidebarOpen } = useSideBar();
+  const [menuItems, setMenuItems] = useState([] as Menu[])
+  useEffect(() => {
+    async function fetchData() {
+      const response = await http.get<Menu[]>('/api/menu')
+      .then((res) => res).catch(() => []);
+      setMenuItems(response);
+    }
+    fetchData()
+  }, [])
+
   return (
     <div className="w-full h-full flex flex-col pt-18 justify-center lg:items-center  gap-10">
-      {MenuItens.map((item, index) => {
+      {menuItems.map((item, index) => {
         return (
           <div key={item.id} className="flex flex-col gap-6 md:gap-10 lg:items-center">
             <Link
-              href={`/${item.link}`}
+              href={`/${item.id}`}
               onClick={() => setSidebarOpen(false)}
               key={item.id}
               className="text-white uppercase text-xl md:text-3xl tracking-4"
             >
-              {item.label}
+              {item.menuName}
             </Link>
-            {MenuItens.length - 1 > index && (
+            {menuItems.length - 1 > index && (
               <div className="w-10/12 sm:w-3/6 md:w-6/12 lg:w-full h-px bg-red-600" />
             )}
           </div>

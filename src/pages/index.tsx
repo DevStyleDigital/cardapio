@@ -2,6 +2,9 @@ import Image from 'next/image';
 import FundoImg from '../web/assets/img/fundo.png';
 import Logo from '../web/assets/img/logo.png';
 import { useSideBar } from '@web/components/Pages/Cardapio/sidebar';
+import { GetServerSideProps } from 'next';
+import { http } from '@web/services/http';
+import { getCookie } from '@web/services/cookies';
 
 const Home = () => {
   const { setSidebarOpen } = useSideBar();
@@ -15,31 +18,49 @@ const Home = () => {
           width={1290}
           height={2793}
         />
-        <div className="w-full h-full top-0 absolute z-40 flex flex-col justify-center items-center gap-16 px-8">
-          <Image
-            className="w-3/5 h-auto sm:w-2/5 md:w-2/6 lg:w-1/4 xl:w-1/5 2xl:w-2/12"
-            src={Logo}
-            alt="Logo"
-            width={378}
-            height={520}
-          />
-          <div className="text-golden-400 pb-2 border-b-2 border-golden-400 hover:text-golden-500 hover:border-golden-500 transition-all">
-            <button
-              type="button"
-              className="tracking-3 uppercase text-md sm:text-base md:text-lg"
-              aria-labelledby="sidebar-menu"
-              onClick={() => setSidebarOpen(true)}
-            >
-              Ver Menu
-            </button>
+        <div className="w-full h-full top-0 absolute z-40 flex flex-col justify-between items-center gap-2 px-8 py-8">
+            <div className='w-full h-full flex flex-col gap-6 items-center justify-center'>
+            <Image
+              className="w-[12rem] h-auto"
+              src={Logo}
+              alt="Logo"
+              width={378}
+              height={520}
+            />
+            <div className="text-golden-400 pb-2 border-b-2 border-golden-400 hover:text-golden-500 hover:border-golden-500 transition-all">
+              <button
+                type="button"
+                className="tracking-3 uppercase text-md sm:text-base md:text-lg"
+                aria-labelledby="sidebar-menu"
+                onClick={() => setSidebarOpen(true)}
+              >
+                Ver Menu
+              </button>
+            </div>
           </div>
-        </div>
-        <div className="w-full h-40 bottom-0 left-0 absolute p-[1rem]">
-          <div className="w-full h-full bg-white">{/* Anunciante aqui */}</div>
+          <div className="w-full h-[12rem] md:h-[15rem]">
+            <div className="w-full h-full bg-white">{/* Anunciante aqui */}</div>
+          </div>
         </div>
       </section>
     </>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const cookies = getCookie(context, '_CODE_VALID')
+  if (!cookies) {
+      return {
+          redirect: {
+            destination: '/code',
+            permanent: false,
+          },
+      };
+  }
+  return {
+    props: {
+    },
+  };
 };
 
 export default Home;

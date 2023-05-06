@@ -27,11 +27,14 @@ const MenuItem = ({ nome, menu, link, img }: MenuItemProps) => {
       <div className="w-full h-full bg-golden-400 shadow-lg shadow-black/90">
         {img && (
           <Image
-            className="w-full h-full"
+            className="w-full object-cover h-full"
             src={img}
             alt="img-menu"
             width={400}
             height={400}
+            blurDataURL={img}
+            placeholder="blur"
+            loading="lazy"
           />
         )}
       </div>

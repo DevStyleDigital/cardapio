@@ -1,43 +1,62 @@
 import MenuItem from '@web/components/Pages/Cardapio/Menu';
 import HeaderBanner from '@web/components/Pages/Cardapio/header';
+import { getCookie } from '@web/services/cookies';
+import { http } from '@web/services/http';
 import { MenuItens } from '@web/utils/menu';
 import { GetServerSideProps } from 'next';
+import Image from 'next/image';
+import type { Menu } from 'types/menu';
 
-const Menu = ({ menu }: any) => {
-  const MenuFilter = MenuItens.filter((item) => item.link === menu);
+const Menu = ({ menus }: any) => {
+  // const MenuFilter = MenuItens.filter((item) => item.link === menu);
+    const { id, menuName, menuAdvertiser, menuImage, productTypes, menuResponser } = menus;
   return (
-    <section className="w-full bg-fundo-400 flex flex-col justify-between gap-6">
+    <section className="w-full bg-fundo-400 flex flex-col justify-between gap-6 xl:items-center">
       <HeaderBanner
-        text="à la carte"
-        url="https://i2.wp.com/files.agro20.com.br/uploads/2020/03/comidabrasileira3.jpg?fit=1024%2C585&ssl=1"
+        text={menuName}
+        responser={menuResponser}
+        url={menuImage}
       />
-      <div className="w-full h-auto grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 2xl:grid-cols-10 gap-6 p-6">
-        {MenuFilter.map((menuItem) => {
-          return menuItem?.menu?.map((item) => {
+      <div className="w-full h-auto grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:max-w-[1300px]  gap-6 p-6">
+        {productTypes.map((item: any) => {
             return (
               <MenuItem
                 key={item.id}
-                menu={menu}
-                link={item.link}
-                nome={item.name}
-                img={item.img}
+                menu={id}
+                link={item.id}
+                nome={item.type}
+                img={item.images.image}
               />
             );
-          });
         })}
       </div>
-      <div className="w-full h-40 p-6">
-        <div className=" w-full h-full bg-white">{/* Anunciante aqui */}</div>
+      <div className="w-full flex justify-center px-6 pb-6 h-[15rem] md:h-[20rem] xl:h-[25rem]">
+        <Image className='w-full h-full max-w-[550px]  xl:max-w-[700px] shadow-lg shadow-black/90' src={menuAdvertiser} width={1000} height={500} alt='banner-anunciante' />
       </div>
     </section>
   );
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const menu = context?.params?.menu;
+  const cookies = getCookie(context, '_CODE_VALID')
+  if (!cookies) {
+    return {
+        redirect: {
+          destination: '/code',
+          permanent: false,
+        },
+    };
+  }
+  const id = context?.params?.menu;
+  const menus = await http
+  .get<Menu[]>(`/api/menu/${id}`)
+  .then((res) => res)
+  .catch(() => []);
+
+
   return {
     props: {
-      menu,
+      menus,
     },
   };
 };
