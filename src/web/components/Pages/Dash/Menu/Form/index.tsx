@@ -56,20 +56,22 @@ export const Form = ({
         return;
       }
 
-      if (!productType.images?.advertiser || !productType.images?.image)
-        error = 'Some fields in product type are not filed';
-      else {
+      // if (!productType.images?.advertiser || !productType.images?.image)
+      //   error = 'Some fields in product type are not filed';
+      // else {
+      productType.images?.advertiser &&
         formData.append(
           `productTypes-advertiser-${productType.id}`,
           productType.images.advertiser,
           'advertiser',
         );
+      productType.images?.image &&
         formData.append(
           `productTypes-image-${productType.id}`,
           productType.images.image,
           'image',
         );
-      }
+      // }
     });
 
     if (error) return toast.error(error);
@@ -132,8 +134,6 @@ export const Form = ({
       });
   }
 
-  console.log(menu?.productTypes, 'djhsajkfhdjkshfjk');
-
   return (
     <form className="px-8 flex flex-col gap-4 pb-10" onSubmit={handleSubmit}>
       <Input.Root id="menu-name" error={null} className="max-w-lg">
@@ -164,7 +164,7 @@ export const Form = ({
             id="menu-image"
             className="rounded-md border-2 border-dashed border-gray-400 max-h-64"
             onFileUpload={setMenuImage}
-            defaultValue={`${menu?.menuImage}?v=${Date.now()}`}
+            defaultValue={menu?.menuImage && `${menu?.menuImage}?v=${Date.now()}`}
           />
         </div>
       </Input.Root>
@@ -173,7 +173,7 @@ export const Form = ({
         <ImageDropzone
           id="menu-advertiser-image"
           className="px-8 max-h-60"
-          defaultValue={`${menu?.menuAdvertiser}?v=${Date.now()}`}
+          defaultValue={menu?.menuAdvertiser && `${menu?.menuAdvertiser}?v=${Date.now()}`}
           onFileUpload={setAdvertiser}
         />
       </Input.Root>
@@ -186,11 +186,12 @@ export const Form = ({
           ...productType,
           images: {
             advertiser:
+              productType.images?.advertiser &&
               typeof productType.images?.advertiser === 'string'
                 ? `${productType.images?.advertiser}?v=${Date.now()}`
                 : productType.images?.advertiser,
             image:
-              typeof productType.images?.image === 'string'
+              productType.images?.image && typeof productType.images?.image === 'string'
                 ? `${productType.images?.image}?v=${Date.now()}`
                 : productType.images?.image,
           },
