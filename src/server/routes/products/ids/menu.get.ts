@@ -1,16 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { database } from '@server/services/database';
 
-export async function GET_ALL(req: NextApiRequest, res: NextApiResponse) {
+export async function GET(req: NextApiRequest, res: NextApiResponse) {
   try {
-    const { types, menus } = req.body;
-
     const db = database({ req, res });
-    const { data, error } = await db
-      .from('products')
-      .select('*')
-      .eq('menus', menus)
-      .eq('types', types);
+    const { data, error } = await db.from('products').select('id');
 
     if (!data?.length || error)
       throw {

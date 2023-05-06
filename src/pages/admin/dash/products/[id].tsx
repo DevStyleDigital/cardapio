@@ -16,7 +16,7 @@ const ProductForm = ({ product, menus }: { product: Product; menus: Menu[] }) =>
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const products = await http
-    .get<{ id: string }[]>('/api/product/ids')
+    .get<{ id: string }[]>('/api/products/ids')
     .then((res) => res)
     .catch(() => []);
 
@@ -32,7 +32,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   let product = null;
   if (params?.id !== 'create')
     product = await http
-      .get(`/api/product/${params?.id}`)
+      .get(`/api/products/${params?.id}`)
       .then((res) => res)
       .catch(() => null);
 

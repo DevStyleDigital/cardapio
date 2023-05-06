@@ -3,7 +3,7 @@ import { PlusIcon } from '@radix-ui/react-icons';
 import { Button } from '@web/components/Button';
 import { Table } from '@web/components/Table';
 import { http } from '@web/services/http';
-import { GetServerSideProps } from 'next';
+import { GetServerSideProps, GetStaticProps } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { TableActions } from '@web/components/Table/TableActions';
@@ -75,7 +75,7 @@ const Menu = ({ products }: { products: Product[] }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
   const products = await http
     .get('/api/products')
     .then((res) => res)
@@ -85,6 +85,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
     props: {
       products: products,
     },
+    revalidate: 1,
   };
 };
 

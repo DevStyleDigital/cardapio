@@ -19,7 +19,7 @@ export async function PATCH(req: NextApiRequest, res: NextApiResponse) {
     const {
       fields: { types, menus, ...fields },
       files,
-    } = await handleFormData<keyof Omit<Product, 'image'>, 'image'>(req);
+    } = await handleFormData<keyof Product, 'image'>(req);
 
     const typesParsed = JSON.parse(types as string) as Product['types'];
     const menusParsed = JSON.parse(menus as string) as Product['menus'];
@@ -32,11 +32,14 @@ export async function PATCH(req: NextApiRequest, res: NextApiResponse) {
       imageUrl = storage.in(`products/${id}`).getUrl(`image.${file.extension}`);
     }
 
+    if (fields.image === 'delete')
+      await storage.in('products').delete(`${id}/image.webp`);
+
     await db
       .from('products')
       .update({
         ...fields,
-        image: imageUrl,
+        image: fields.image === 'delete' ? null : imageUrl,
         types: typesParsed,
         menus: menusParsed,
       })

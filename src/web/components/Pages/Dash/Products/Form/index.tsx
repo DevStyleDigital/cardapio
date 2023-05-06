@@ -30,12 +30,19 @@ export const Form = ({ product, menus }: { product?: Product; menus: Menu[] }) =
     product?.name !== productName && formData.append('name', productName);
     product?.name !== productDesc && formData.append('text', productDesc);
     product?.name !== productPrice && formData.append('price', productPrice);
-    productImage && formData.append('image', productImage, 'image');
     formData.append('menus', JSON.stringify(selectedMenus));
     formData.append('types', JSON.stringify(selectedTypes));
 
+    if (
+      productImage &&
+      (productImage as any)?.name !== 'default-image.webp' &&
+      typeof productImage !== 'string'
+    )
+      formData.append('image', productImage, 'image');
+    else formData.append('image', 'delete');
+
     http[!!product ? 'patch' : 'post'](
-      `/api/product/${!!product ? product?.id : ''}`,
+      `/api/products/${!!product ? product?.id : ''}`,
       formData,
       {
         headers: { 'content-type': 'application/x-www-form-urlencode' },
@@ -43,7 +50,7 @@ export const Form = ({ product, menus }: { product?: Product; menus: Menu[] }) =
     )
       .then(() => {
         toast.success('Product created!');
-        router.push('/admin/dash/product');
+        router.push('/admin/dash/products');
       })
       .catch(() => {
         toast.error('Something went wrong!');
@@ -58,7 +65,7 @@ export const Form = ({ product, menus }: { product?: Product; menus: Menu[] }) =
       <div className="flex max-lg:flex-col-reverse gap-4 lg:gap-20">
         <div className="flex flex-col gap-4">
           <Input.Root id="product-name" error={null} className="lg:max-w-lg">
-            <Input.Label>Product Name:</Input.Label>
+            <Input.Label>Product Name*:</Input.Label>
             <Input
               required
               value={productName}
@@ -73,13 +80,18 @@ export const Form = ({ product, menus }: { product?: Product; menus: Menu[] }) =
               id="product-image"
               className="rounded-md border-2 border-dashed border-gray-400 max-h-64"
               onFileUpload={setProductImage}
-              defaultValue={product?.image}
+              defaultValue={
+                productImage === undefined
+                  ? undefined
+                  : productImage ||
+                    (product?.image && `${product?.image}?v=${Date.now()}`)
+              }
             />
           </div>
         </div>
         <div className="w-full flex flex-col gap-4">
           <Input.Root id="product-price" error={null} className="lg:max-w-lg">
-            <Input.Label>Product Price:</Input.Label>
+            <Input.Label>Product Price*:</Input.Label>
             <CurrencyInput
               required
               id="product-price"
@@ -91,7 +103,7 @@ export const Form = ({ product, menus }: { product?: Product; menus: Menu[] }) =
           </Input.Root>
           <div className="flex flex-col gap-2">
             <Input.Root id="product-menu" error={null} className="w-full">
-              <Input.Label>Product menu:</Input.Label>
+              <Input.Label>Product menu*:</Input.Label>
               <Select
                 options={menus.map(({ id, menuName }) => ({
                   value: id,
@@ -106,7 +118,7 @@ export const Form = ({ product, menus }: { product?: Product; menus: Menu[] }) =
               />
             </Input.Root>
             <Input.Root id="product-type" error={null} className="w-full">
-              <Input.Label>Product menu:</Input.Label>
+              <Input.Label>Product type*:</Input.Label>
               <Select
                 id="product-types"
                 options={menus
@@ -132,7 +144,7 @@ export const Form = ({ product, menus }: { product?: Product; menus: Menu[] }) =
         error={null}
         className="w-full h-60 lg:max-w-[32rem]"
       >
-        <Input.Label>Product Description:</Input.Label>
+        <Input.Label>Product Description*:</Input.Label>
         <Editor
           defaultValue={productDesc}
           id="product-description"

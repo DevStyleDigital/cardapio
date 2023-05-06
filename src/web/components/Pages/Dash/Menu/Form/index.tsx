@@ -22,8 +22,8 @@ export const Form = ({
   const [loading, setLoading] = useState(false);
   const [menuName, setMenuName] = useState(menu?.menuName || '');
   const [menuResponser, setMenuResponser] = useState(menu?.menuResponser || '');
-  const [menuImage, setMenuImage] = useState<File | null>();
-  const [menuAdvertiser, setAdvertiser] = useState<File | null>();
+  const [menuImage, setMenuImage] = useState<File | null>(null);
+  const [menuAdvertiser, setAdvertiser] = useState<File | null>(null);
   const [productTypes, setProductTypes] = useState<ProductType[]>(
     menu?.productTypes ? [...menu?.productTypes] : [],
   );
@@ -38,7 +38,7 @@ export const Form = ({
     productTypes.forEach((productType) => {
       if (!!menu) {
         productType.images?.advertiser &&
-          productType.images?.advertiser !== 'default-image.webp' &&
+          (productType.images?.advertiser as any)?.name !== 'default-image.webp' &&
           typeof productType.images?.advertiser !== 'string' &&
           formData.append(
             `productTypes-advertiser-${productType.id}`,
@@ -46,7 +46,7 @@ export const Form = ({
             'advertiser',
           );
         productType.images?.image &&
-          productType.images?.image !== 'default-image.webp' &&
+          (productType.images?.image as any)?.name !== 'default-image.webp' &&
           typeof productType.images?.image !== 'string' &&
           formData.append(
             `productTypes-image-${productType.id}`,
@@ -134,6 +134,8 @@ export const Form = ({
       });
   }
 
+  console.log('fdasfkldf', menuImage);
+
   return (
     <form className="px-8 flex flex-col gap-4 pb-10" onSubmit={handleSubmit}>
       <Input.Root id="menu-name" error={null} className="max-w-lg">
@@ -164,7 +166,11 @@ export const Form = ({
             id="menu-image"
             className="rounded-md border-2 border-dashed border-gray-400 max-h-64"
             onFileUpload={setMenuImage}
-            defaultValue={menu?.menuImage && `${menu?.menuImage}?v=${Date.now()}`}
+            defaultValue={
+              menuImage === undefined
+                ? undefined
+                : menuImage || (menu?.menuImage && `${menu?.menuImage}?v=${Date.now()}`)
+            }
           />
         </div>
       </Input.Root>
@@ -173,7 +179,12 @@ export const Form = ({
         <ImageDropzone
           id="menu-advertiser-image"
           className="px-8 max-h-60"
-          defaultValue={menu?.menuAdvertiser && `${menu?.menuAdvertiser}?v=${Date.now()}`}
+          defaultValue={
+            menuAdvertiser === undefined
+              ? undefined
+              : menuAdvertiser ||
+                (menu?.menuAdvertiser && `${menu?.menuAdvertiser}?v=${Date.now()}`)
+          }
           onFileUpload={setAdvertiser}
         />
       </Input.Root>

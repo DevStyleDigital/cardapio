@@ -38,15 +38,25 @@ export async function POST(req: NextApiRequest, res: NextApiResponse) {
     const id = uuidv4();
 
     const file = files?.[0]?.files?.[0];
-    let imageUrl;
+    let image;
+    let imageError = false;
     if (file) {
-      await storage.in('products').upload(`${id}/image.${file.extension}`, file.file);
-      imageUrl = storage.in(`products/${id}`).getUrl(`image.${file.extension}`);
+      const { error } = await storage
+        .in('products')
+        .upload(`${id}/image.${file.extension}`, file.file);
+      image = storage.in(`products/${id}`).getUrl(`image.${file.extension}`);
+      imageError = !!error;
     }
 
-    await db
-      .from('menus')
-      .insert({ ...fields, types: typesParsed, menus: menusParsed, imageUrl, id });
+    if (imageError) throw 'error';
+
+    const { error } = await db
+      .from('products')
+      .insert({ ...fields, types: typesParsed, menus: menusParsed, image, id });
+
+    console.log(error);
+
+    if (error) throw 'error';
 
     return res.status(200).send({ message: 'Success' });
   } catch (err) {
