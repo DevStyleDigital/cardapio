@@ -7,15 +7,17 @@ import { Types } from './Types';
 
 export const ProductTypes = ({
   defaultValue,
+  value,
   onChange,
   onDelete,
 }: {
   onChange: (v: ProductType[]) => void;
   onDelete: (v: string[]) => void;
   defaultValue?: ProductType[];
+  value?: ProductType[];
 }) => {
   const [newProductType, setNewProductType] = useState('');
-  const [productTypes, setProductTypes] = useState<ProductType[]>(defaultValue || []);
+  const [productTypes, setProductTypes] = useState<ProductType[]>(value || []);
   const [newProductTypeError, setNewProductTypeError] = useState<string | null>(null);
 
   function handleNewProductType() {
@@ -23,6 +25,7 @@ export const ProductTypes = ({
       setNewProductTypeError('Input required*');
       return;
     }
+
     setProductTypes((prev) => [
       { id: Date.now().toString(), type: newProductType },
       ...prev,
@@ -54,6 +57,7 @@ export const ProductTypes = ({
         </div>
       </Input.Root>
       <Types
+        defaultValue={defaultValue}
         productTypes={productTypes}
         setProductTypes={setProductTypes}
         onDelete={onDelete}

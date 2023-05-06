@@ -16,15 +16,14 @@ export async function PATCH(req: NextApiRequest, res: NextApiResponse) {
     const db = database({ req, res });
 
     const { fields, files } = await handleFormData<
-      'menuName' | 'productTypes' | 'menuResponser' | 'productTypesDeleted',
+      | 'menuName'
+      | 'productTypes'
+      | 'menuResponser'
+      | 'productTypesDeleted'
+      | 'menuImage'
+      | 'menuAdvertiser',
       'menuImage' | 'menuAdvertiser' | 'productTypesAdvertiser' | 'productTypesImage'
     >(req);
-
-    if (!files.length)
-      throw {
-        status: 400,
-        type: 'missing-fields',
-      };
 
     const menuName = fields.menuName as string;
     const menuResponser = fields.menuResponser as string;
@@ -53,7 +52,7 @@ export async function PATCH(req: NextApiRequest, res: NextApiResponse) {
           const file = filesByKey[0];
           const { error } = await storage
             .in('menus')
-            .upload(`${id}/image.${file.extension}`, file.file);
+            .upsert(`${id}/image.${file.extension}`, file.file);
           if (error) return (errorImage = true);
           menuImage = storage.in(`menus/${id}`).getUrl(`image.${file.extension}`);
         }
@@ -62,7 +61,7 @@ export async function PATCH(req: NextApiRequest, res: NextApiResponse) {
           const file = filesByKey[0];
           const { error } = await storage
             .in('menus')
-            .upload(`${id}/advertiser.${file.extension}`, file.file);
+            .upsert(`${id}/advertiser.${file.extension}`, file.file);
           if (error) return (errorImage = true);
           menuAdvertiser = storage
             .in(`menus/${id}`)
@@ -75,10 +74,11 @@ export async function PATCH(req: NextApiRequest, res: NextApiResponse) {
               const file = filesByKey[0];
               const { error } = await storage
                 .in('menus')
-                .upload(
+                .upsert(
                   `${id}/product-type/${productType.id}/${file.filename}.${file.extension}`,
                   file.file,
                 );
+
               if (error) return (errorImage = true);
               productType.images[file.filename as 'image'] = storage
                 .in(`menus/${id}/product-type/${productType.id}`)
@@ -93,15 +93,27 @@ export async function PATCH(req: NextApiRequest, res: NextApiResponse) {
     if (errorImage) throw 'error';
 
     let errorProductTypes = false;
+
     await Promise.all(
       productTypes.map(async (productType) => {
+        const images = productType.images;
+        if (images?.advertiser === 'delete')
+          await storage
+            .in(`menus/${id}/product-type/${productType.id}`)
+            .delete('advertiser.webp'); // CHANGE
+        if (images?.image === 'delete')
+          await storage
+            .in(`menus/${id}/product-type/${productType.id}`)
+            .delete('image.webp'); // CHANGE
+
         const { error } = await db
           .from('product_types')
-          .update({
+          .upsert({
+            id: productType.id,
             menuId: id,
             type: productType.type,
-            image: productType.images.image,
-            advertiser: productType.images.advertiser,
+            image: images?.image === 'delete' ? '' : images?.image,
+            advertiser: images?.advertiser === 'delete' ? '' : images?.image,
           })
           .eq('id', productType.id);
 
@@ -116,6 +128,11 @@ export async function PATCH(req: NextApiRequest, res: NextApiResponse) {
       }),
     );
 
+    if (fields.menuImage === 'delete')
+      await storage.in(`menus/${id}/`).delete('image.webp'); // CHANGE
+    if (fields.menuAdvertiser === 'delete')
+      await storage.in(`menus/${id}/`).delete('advertiser.webp'); // CHANGE
+
     if (errorProductTypes) throw 'error';
 
     const { error } = await db
@@ -123,8 +140,8 @@ export async function PATCH(req: NextApiRequest, res: NextApiResponse) {
       .update({
         menuResponser,
         menuName,
-        menuAdvertiser,
-        menuImage,
+        menuAdvertiser: fields.menuAdvertiser === 'delete' ? '' : menuAdvertiser,
+        menuImage: fields.menuImage === 'delete' ? '' : menuImage,
         productTypes: productTypes.map(({ id }) => id),
       })
       .eq('id', id);

@@ -46,11 +46,14 @@ const Menu = ({ menus }: { menus: Menu[] }) => {
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const menus = await http
-    .get<Menu[]>('/api/menu')
-    .then((res) => res)
-    .catch(() => []);
-
-  console.log(menus);
+    .get<Menu[]>('/api/menu/')
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      console.log(err);
+      return [];
+    });
 
   return {
     props: { menus },

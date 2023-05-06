@@ -5,14 +5,30 @@ import { Slide, ToastContainer } from 'react-toastify';
 import { SidebarDash } from '@web/components/Sidebar/SidebarDash';
 import { Lato } from 'next/font/google';
 import React, { useState } from 'react';
+import { registerPlugin } from 'react-filepond';
+
+import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation';
+import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
+import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
+import FilePondPluginFilePoster from 'filepond-plugin-file-poster';
 
 import '@web/styles/globals.css';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-quill/dist/quill.snow.css';
+import 'filepond/dist/filepond.min.css';
+import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css';
+import 'filepond-plugin-file-poster/dist/filepond-plugin-file-poster.css';
 
 import { SideBar } from '@web/components/Pages/Cardapio/sidebar/SidebarCardapio';
 import { SideBarCardapioRoot } from '@web/components/Pages/Cardapio/sidebar';
+
+registerPlugin(
+  FilePondPluginFilePoster,
+  FilePondPluginImageExifOrientation,
+  FilePondPluginImagePreview,
+  FilePondPluginFileValidateType,
+);
 
 const lato = Lato({
   weight: ['300', '400'],

@@ -11,6 +11,11 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'www.sabornamesa.com.br',
       },
+      {
+        protocol: 'https',
+        hostname: 'vxegwttiptzqzytzwlhx.supabase.co',
+        pathname: '/**',
+      },
     ],
   },
 };

@@ -6,7 +6,6 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
   try {
     const db = database({ req, res });
     const { data, error } = await db.from('code').select('code');
-    console.log(data);
 
     if (error || !data?.[0]?.code)
       throw {

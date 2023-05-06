@@ -5,10 +5,12 @@ import { Modal } from '@web/components/Modal';
 
 export const Types = ({
   onDelete,
+  defaultValue,
   productTypes,
   setProductTypes,
 }: {
   onDelete: (v: string[]) => void;
+  defaultValue?: ProductType[];
   productTypes: ProductType[];
   setProductTypes: React.Dispatch<React.SetStateAction<ProductType[]>>;
 }) => {
@@ -25,6 +27,9 @@ export const Types = ({
           <Modal.Root id="edit-type-modal">
             <Type
               id={id}
+              defaultModalOpen={
+                defaultValue?.length !== productTypes.length && productTypes[0].id === id
+              }
               type={type}
               defaultImages={
                 images as {

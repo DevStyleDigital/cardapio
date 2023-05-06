@@ -11,8 +11,12 @@ type ModalContextProps = {
 const ModalContext = createContext<ModalContextProps>({} as ModalContextProps);
 export const useModal = () => useContext(ModalContext);
 
-const ModalRoot = ({ children, id }: GTypes.FCChildren & { id: string }) => {
-  const [open, setOpen] = useState(false);
+const ModalRoot = ({
+  defaultOpen,
+  children,
+  id,
+}: GTypes.FCChildren & { id: string; defaultOpen?: boolean }) => {
+  const [open, setOpen] = useState(defaultOpen || false);
 
   function toggleModal() {
     setOpen(!open);
@@ -55,7 +59,8 @@ const ModalTrigger: GTypes.FC<{
 
 const ModalPortal: GTypes.FC<{
   classNames?: { container?: string; backdrop?: string };
-}> = ({ children, classNames, ...props }) => {
+  onBackdropClick?: () => void;
+}> = ({ children, onBackdropClick, classNames, ...props }) => {
   const { id, toggleModal, open } = useModal();
 
   return (
@@ -79,7 +84,13 @@ const ModalPortal: GTypes.FC<{
         {children}
       </div>
       <div
-        onClick={toggleModal}
+        onClick={() => {
+          if (onBackdropClick) {
+            const result = onBackdropClick() as any;
+            if (result === 'no-open') return;
+            toggleModal();
+          } else toggleModal();
+        }}
         className={clsx(
           'absolute top-0 left-0 z-40 h-screen w-full bg-black bg-opacity-0',
           classNames?.backdrop,

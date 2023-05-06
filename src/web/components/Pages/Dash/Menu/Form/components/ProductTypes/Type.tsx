@@ -11,7 +11,9 @@ export const Type = ({
   onImagesChange,
   onInputChange,
   defaultImages,
+  defaultModalOpen,
 }: ProductType & {
+  defaultModalOpen?: boolean;
   onClickDelete?: () => void;
   onClickEdit?: () => void;
   defaultImages?: { image?: string; advertiser?: string };
@@ -21,7 +23,7 @@ export const Type = ({
   const { toggleModal } = useModal();
 
   useEffect(() => {
-    toggleModal();
+    defaultModalOpen && toggleModal();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

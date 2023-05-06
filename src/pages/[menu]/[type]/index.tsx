@@ -40,7 +40,7 @@ const TypeMenu = ({ type, menu }: any) => {
                 descricao={produto.descricao}
                 preco={produto.preco}
               />
-              {produto.anunciante   && (
+              {produto.anunciante && (
                 <div className="w-full h-40 lg:hidden">
                   <div className="w-full h-full bg-white">{/* Anunciante aqui */}</div>
                 </div>

@@ -20,6 +20,12 @@ export const storage = {
       async update(filePath: string, file: File | Buffer) {
         return await storageClient.from(bucketPath).update(filePath, file);
       },
+      async upsert(filePath: string, file: File | Buffer) {
+        const res = await storageClient.from(bucketPath).upload(filePath, file);
+        if (res.error?.message === 'The resource already exists')
+          return await storageClient.from(bucketPath).update(filePath, file);
+        return res;
+      },
       async delete(filePath?: string | string[]) {
         if (!filePath) return await storageClient.deleteBucket(bucketPath);
         const filePathArray = Array.isArray(filePath) ? filePath : [filePath];

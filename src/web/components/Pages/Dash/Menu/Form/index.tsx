@@ -5,13 +5,19 @@ import { Button } from '@web/components/Button';
 import { ImageDropzone } from '@web/components/ImageDropzone';
 import { Input } from '@web/components/Input';
 import React, { useState } from 'react';
-import { http } from '@web/services/http';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
 import type { Menu, ProductType } from 'types/menu';
 import { mergeArrays } from '@web/utils/merge-arrays';
+import { http } from '@web/services/http';
 
-export const Form = ({ menu }: { menu?: Menu }) => {
+export const Form = ({
+  menu,
+  productTypeDb,
+}: {
+  menu?: Menu;
+  productTypeDb: ProductType[];
+}) => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [menuName, setMenuName] = useState(menu?.menuName || '');
@@ -19,7 +25,7 @@ export const Form = ({ menu }: { menu?: Menu }) => {
   const [menuImage, setMenuImage] = useState<File | null>();
   const [menuAdvertiser, setAdvertiser] = useState<File | null>();
   const [productTypes, setProductTypes] = useState<ProductType[]>(
-    menu?.productTypes || [],
+    menu?.productTypes ? [...menu?.productTypes] : [],
   );
   const [productTypesDeleted, setProductTypesDeleted] = useState<string[]>([]);
 
@@ -32,12 +38,14 @@ export const Form = ({ menu }: { menu?: Menu }) => {
     productTypes.forEach((productType) => {
       if (!!menu) {
         productType.images?.advertiser &&
+          typeof productType.images?.advertiser !== 'string' &&
           formData.append(
             `productTypes-advertiser-${productType.id}`,
             productType.images.advertiser,
             'advertiser',
           );
         productType.images?.image &&
+          typeof productType.images?.image !== 'string' &&
           formData.append(
             `productTypes-image-${productType.id}`,
             productType.images.image,
@@ -67,19 +75,38 @@ export const Form = ({ menu }: { menu?: Menu }) => {
     menuResponser !== menu?.menuResponser &&
       formData.append('menuResponser', menuResponser);
     formData.append('productTypesDeleted', JSON.stringify(productTypesDeleted));
-    menuImage && formData.append('menuImage', menuImage, 'menuImage');
-    menuAdvertiser && formData.append('menuAdvertiser', menuAdvertiser, 'menuAdvertiser');
+
+    if (menuImage === null) formData.append('menuImage', 'delete');
+    else if (menuImage) formData.append('menuImage', menuImage, 'menuImage');
+
+    if (menuAdvertiser === null) formData.append('menuAdvertiser', 'delete');
+    else if (menuAdvertiser)
+      formData.append('menuAdvertiser', menuAdvertiser, 'menuAdvertiser');
 
     const productTypesFormatted = productTypes.map((productType) => ({
       id: productType.id,
       type: productType.type,
+      images: {
+        advertiser: !productType.images?.advertiser ? 'delete' : null,
+        image: !productType.images?.image ? 'delete' : null,
+      },
     }));
+
     productTypesFormatted.length &&
       formData.append(
         'productTypes',
         JSON.stringify(
           !!menu
-            ? mergeArrays(menu.productTypes, productTypesFormatted, ['type'])
+            ? mergeArrays(
+                productTypesFormatted,
+                productTypeDb
+                  .filter(({ id }) => !productTypesDeleted.includes(id))
+                  .map((productType) => ({
+                    id: productType.id,
+                    type: productType.type,
+                  })),
+                ['type'],
+              )
             : productTypesFormatted,
         ),
       );
@@ -87,8 +114,8 @@ export const Form = ({ menu }: { menu?: Menu }) => {
     http[!!menu ? 'patch' : 'post'](`/api/menu/${!!menu ? menu?.id : ''}`, formData, {
       headers: { 'content-type': 'application/x-www-form-urlencode' },
     })
-      .then((res) => {
-        toast.success('Menu created!');
+      .then(() => {
+        toast.success(`Menu ${!!menu ? 'edited!' : 'created!'}`);
         router.push('/admin/dash/menu');
       })
       .catch(() => {
@@ -123,23 +150,19 @@ export const Form = ({ menu }: { menu?: Menu }) => {
 
       <Input.Root id="menu-image" error={null}>
         <Input.Label>Menu image*:</Input.Label>
-        <Banner.Root className="rounded-md border-2 border-dashed border-gray-400 max-h-64">
+        <div>
           <ImageDropzone
             required
             id="menu-image"
-            className="border-none"
+            className="rounded-md border-2 border-dashed border-gray-400 max-h-64"
             onFileUpload={setMenuImage}
             defaultValue={menu?.menuImage}
           />
-          {menuImage && (
-            <Banner.Text className="pointer-events-none">{menuName}</Banner.Text>
-          )}
-        </Banner.Root>
+        </div>
       </Input.Root>
       <Input.Root id="menu-advertiser-image" error={null} className="lg:max-w-lg">
-        <Input.Label>Menu advertiser*:</Input.Label>
+        <Input.Label>Menu advertiser:</Input.Label>
         <ImageDropzone
-          required
           id="menu-advertiser-image"
           className="px-8 max-h-60"
           defaultValue={menu?.menuAdvertiser}
@@ -148,13 +171,14 @@ export const Form = ({ menu }: { menu?: Menu }) => {
       </Input.Root>
 
       <ProductTypes
+        defaultValue={menu?.productTypes}
         onChange={setProductTypes}
         onDelete={(ev) => !!menu && setProductTypesDeleted(ev)}
-        defaultValue={productTypes}
+        value={productTypes}
       />
 
       <Button type="submit" loading={loading} className="gap-2 py-4">
-        <span>Create menu</span>
+        <span>{!!menu ? 'Edit' : 'Create'} menu</span>
         <BookmarkFilledIcon className="w-5 h-5" />
       </Button>
     </form>

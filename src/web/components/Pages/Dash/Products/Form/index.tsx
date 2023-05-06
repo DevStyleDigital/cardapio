@@ -143,7 +143,7 @@ export const Form = ({ product, menus }: { product?: Product; menus: Menu[] }) =
       </Input.Root>
 
       <Button type="submit" loading={loading} className="gap-2 py-4">
-        <span>Create product</span>
+        <span>{!!product ? 'Edit' : 'Create'} product</span>
         <BookmarkFilledIcon className="w-5 h-5" />
       </Button>
     </form>
