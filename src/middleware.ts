@@ -6,7 +6,7 @@ export async function middleware(req: NextRequest) {
   const { auth } = database({ req, res });
   const { data, error } = await auth.getSession();
 
-  if (error && !data.session) return new NextResponse(null, { status: 404 });
+  if (error || !data.session) return new NextResponse(null, { status: 404 });
   return NextResponse.next();
 }
 
