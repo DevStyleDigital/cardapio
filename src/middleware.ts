@@ -3,10 +3,13 @@ import { NextResponse, type NextRequest } from 'next/server';
 
 export async function middleware(req: NextRequest) {
   const res = NextResponse.next();
+  const cookie = req.cookies.get('supabase-auth-token');
+  const cookieValue = JSON.parse(cookie?.value || '[]') as string[];
   const { auth } = database({ req, res });
-  const { data, error } = await auth.getSession();
+  const dataUser = cookieValue[0] && (await auth.getUser(cookieValue[0]));
 
-  if (error || !data.session) return new NextResponse(null, { status: 404 });
+  if (!dataUser || dataUser.error || !dataUser.data.user)
+    return new NextResponse(null, { status: 404 });
   return NextResponse.next();
 }
 
