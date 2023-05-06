@@ -3,5 +3,5 @@ export type { HttpFetchOptions } from './fetch';
 import { httpFetch } from './fetch';
 
 export const http = {
-  ...httpFetch(process.env.HOST || 'http://localhost:3000'),
+  ...httpFetch(process.env.NEXT_PUBLIC_HOST || 'http://localhost:3000'),
 };
