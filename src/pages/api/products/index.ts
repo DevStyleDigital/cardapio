@@ -5,6 +5,7 @@ import { gatherMethods } from '@server/services/getter-methods';
 
 export const config = {
   api: {
+    responseLimit: false,
     bodyParser: false,
   },
 };
