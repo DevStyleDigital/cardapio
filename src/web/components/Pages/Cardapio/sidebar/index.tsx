@@ -101,15 +101,17 @@ const SideBarTitle = ({ children }: any) => {
 
 const SideBarNavs = () => {
   const { setSidebarOpen } = useSideBar();
-  const [menuItems, setMenuItems] = useState([] as Menu[])
+  const [menuItems, setMenuItems] = useState([] as Menu[]);
   useEffect(() => {
     async function fetchData() {
-      const response = await http.get<Menu[]>('/api/menu')
-      .then((res) => res).catch(() => []);
+      const response = await http
+        .get<Menu[]>('/api/menu')
+        .then((res) => res)
+        .catch(() => []);
       setMenuItems(response);
     }
-    fetchData()
-  }, [])
+    fetchData();
+  }, []);
 
   return (
     <div className="w-full h-full flex flex-col pt-18 justify-center lg:items-center  gap-10">

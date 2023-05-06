@@ -23,7 +23,11 @@ const BannerBackdrop = () => {
   return <div className="absolute inset-0 bg-black opacity-40" aria-hidden />;
 };
 
-const BannerText: GTypes.FC<{ children: string; responser?: string }> = ({ children, responser,...props }) => {
+const BannerText: GTypes.FC<{ children: string; responser?: string }> = ({
+  children,
+  responser,
+  ...props
+}) => {
   return (
     <div
       {...props}
@@ -34,7 +38,7 @@ const BannerText: GTypes.FC<{ children: string; responser?: string }> = ({ child
     >
       <span dangerouslySetInnerHTML={{ __html: purifyText(children) }} />
       {responser && (
-        <span className='text-2xl normal-case font-light break-all'>by {responser}</span>
+        <span className="text-2xl normal-case font-light break-all">by {responser}</span>
       )}
     </div>
   );

@@ -45,9 +45,12 @@ const App = ({
 }>) => {
   const [supabase] = useState(() => createBrowserSupabaseClient());
 
-  const Comp = !router.pathname.includes('/admin') && !router.pathname.includes('/code') && !router.pathname.includes('/404')
-    ? SideBarCardapioRoot
-    : React.Fragment;
+  const Comp =
+    !router.pathname.includes('/admin') &&
+    !router.pathname.includes('/code') &&
+    !router.pathname.includes('/404')
+      ? SideBarCardapioRoot
+      : React.Fragment;
   return (
     <SessionContextProvider
       supabaseClient={supabase}

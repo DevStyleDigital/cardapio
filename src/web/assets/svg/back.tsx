@@ -27,4 +27,4 @@ const Back = () => {
   );
 };
 
-export default Back
+export default Back;

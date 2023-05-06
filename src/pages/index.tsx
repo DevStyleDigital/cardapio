@@ -19,7 +19,7 @@ const Home = () => {
           height={2793}
         />
         <div className="w-full h-full top-0 absolute z-40 flex flex-col justify-between items-center gap-2 px-8 py-8">
-            <div className='w-full h-full flex flex-col gap-6 items-center justify-center'>
+          <div className="w-full h-full flex flex-col gap-6 items-center justify-center">
             <Image
               className="w-[12rem] h-auto"
               src={Logo}
@@ -48,18 +48,17 @@ const Home = () => {
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const cookies = getCookie(context, '_CODE_VALID')
+  const cookies = getCookie(context, '_CODE_VALID');
   if (!cookies) {
-      return {
-          redirect: {
-            destination: '/code',
-            permanent: false,
-          },
-      };
+    return {
+      redirect: {
+        destination: '/code',
+        permanent: false,
+      },
+    };
   }
   return {
-    props: {
-    },
+    props: {},
   };
 };
 
