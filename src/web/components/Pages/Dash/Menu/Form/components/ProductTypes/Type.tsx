@@ -17,7 +17,10 @@ export const Type = ({
   onClickDelete?: () => void;
   onClickEdit?: () => void;
   defaultImages?: { image?: string; advertiser?: string };
-  onImagesChange?: (images: { image: File | null; advertiser: File | null }) => void;
+  onImagesChange?: (images: {
+    image: File | string | null;
+    advertiser: File | string | null;
+  }) => void;
   onInputChange?: (value: string) => void;
 }) => {
   const { toggleModal } = useModal();

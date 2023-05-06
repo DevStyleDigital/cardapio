@@ -3,10 +3,12 @@ import { useMenu } from '..';
 import { useRouter } from 'next/router';
 import { http } from '@web/services/http';
 import { toast } from 'react-toastify';
+import { useState } from 'react';
 
 export const MenuActions = () => {
   const router = useRouter();
   const { handleMenuPreview, id, onDelete } = useMenu();
+  const [loading, setLoading] = useState(false);
 
   return (
     <div
@@ -30,14 +32,17 @@ export const MenuActions = () => {
         aria-label="Delete"
         title="Delete"
         id="delete"
+        disabled={loading}
         onClick={async () => {
+          setLoading(true);
           await http
             .delete(`/api/menu/${id}`)
             .then(() => {
               onDelete();
               toast.success('Menu deleted successful!');
             })
-            .catch(({ response: { data: err } }) => toast.error(err.message));
+            .catch(({ response: { data: err } }) => toast.error(err.message))
+            .finally(() => setLoading(false));
         }}
       >
         <TrashIcon className="w-4 h-4 pointer-events-none" />

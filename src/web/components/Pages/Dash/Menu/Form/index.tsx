@@ -38,6 +38,7 @@ export const Form = ({
     productTypes.forEach((productType) => {
       if (!!menu) {
         productType.images?.advertiser &&
+          productType.images?.advertiser !== 'default-image.webp' &&
           typeof productType.images?.advertiser !== 'string' &&
           formData.append(
             `productTypes-advertiser-${productType.id}`,
@@ -45,6 +46,7 @@ export const Form = ({
             'advertiser',
           );
         productType.images?.image &&
+          productType.images?.image !== 'default-image.webp' &&
           typeof productType.images?.image !== 'string' &&
           formData.append(
             `productTypes-image-${productType.id}`,
@@ -76,19 +78,23 @@ export const Form = ({
       formData.append('menuResponser', menuResponser);
     formData.append('productTypesDeleted', JSON.stringify(productTypesDeleted));
 
-    if (menuImage === null) formData.append('menuImage', 'delete');
-    else if (menuImage) formData.append('menuImage', menuImage, 'menuImage');
+    if (!menuImage) formData.append('menuImage', 'delete');
+    else if (menuImage.name !== 'default-image.webp' && typeof menuImage !== 'string')
+      formData.append('menuImage', menuImage, 'menuImage');
 
-    if (menuAdvertiser === null) formData.append('menuAdvertiser', 'delete');
-    else if (menuAdvertiser)
+    if (!menuAdvertiser) formData.append('menuAdvertiser', 'delete');
+    else if (
+      menuAdvertiser.name !== 'default-image.webp' &&
+      typeof menuAdvertiser !== 'string'
+    )
       formData.append('menuAdvertiser', menuAdvertiser, 'menuAdvertiser');
 
     const productTypesFormatted = productTypes.map((productType) => ({
       id: productType.id,
       type: productType.type,
       images: {
-        advertiser: !productType.images?.advertiser ? 'delete' : null,
-        image: !productType.images?.image ? 'delete' : null,
+        advertiser: !productType.images?.advertiser ? 'delete' : undefined,
+        image: !productType.images?.image ? 'delete' : undefined,
       },
     }));
 
@@ -105,7 +111,7 @@ export const Form = ({
                     id: productType.id,
                     type: productType.type,
                   })),
-                ['type'],
+                ['type', 'images'],
               )
             : productTypesFormatted,
         ),
@@ -125,6 +131,8 @@ export const Form = ({
         setLoading(false);
       });
   }
+
+  console.log(menu?.productTypes, 'djhsajkfhdjkshfjk');
 
   return (
     <form className="px-8 flex flex-col gap-4 pb-10" onSubmit={handleSubmit}>
@@ -156,7 +164,7 @@ export const Form = ({
             id="menu-image"
             className="rounded-md border-2 border-dashed border-gray-400 max-h-64"
             onFileUpload={setMenuImage}
-            defaultValue={menu?.menuImage}
+            defaultValue={`${menu?.menuImage}?v=${Date.now()}`}
           />
         </div>
       </Input.Root>
@@ -165,7 +173,7 @@ export const Form = ({
         <ImageDropzone
           id="menu-advertiser-image"
           className="px-8 max-h-60"
-          defaultValue={menu?.menuAdvertiser}
+          defaultValue={`${menu?.menuAdvertiser}?v=${Date.now()}`}
           onFileUpload={setAdvertiser}
         />
       </Input.Root>
@@ -174,7 +182,19 @@ export const Form = ({
         defaultValue={menu?.productTypes}
         onChange={setProductTypes}
         onDelete={(ev) => !!menu && setProductTypesDeleted(ev)}
-        value={productTypes}
+        value={productTypes.map((productType) => ({
+          ...productType,
+          images: {
+            advertiser:
+              typeof productType.images?.advertiser === 'string'
+                ? `${productType.images?.advertiser}?v=${Date.now()}`
+                : productType.images?.advertiser,
+            image:
+              typeof productType.images?.image === 'string'
+                ? `${productType.images?.image}?v=${Date.now()}`
+                : productType.images?.image,
+          },
+        }))}
       />
 
       <Button type="submit" loading={loading} className="gap-2 py-4">

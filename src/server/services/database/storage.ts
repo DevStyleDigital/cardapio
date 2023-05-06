@@ -8,6 +8,20 @@ const storageClient = new StorageClient(
   },
 );
 
+async function findFiles(bucket: string, path: string): Promise<string[]> {
+  const { data } = await storageClient.from(bucket).list(path);
+  if (!data) return [];
+  return (
+    await Promise.all(
+      data.map(async (file) => {
+        if (file.metadata) return file.name;
+        const files = await findFiles(bucket, [path, file.name].join('/'));
+        return files.map((x) => `${[file.name].join('/')}/${x}`);
+      }),
+    )
+  ).flat(999);
+}
+
 export const storage = {
   in(bucketPath: string) {
     return {
@@ -27,7 +41,17 @@ export const storage = {
         return res;
       },
       async delete(filePath?: string | string[]) {
-        if (!filePath) return await storageClient.deleteBucket(bucketPath);
+        if (!filePath) {
+          const [bucket, ...path] = bucketPath.split('/');
+          const filesToRemove = await findFiles(bucket, path.join('/'));
+          return await Promise.all(
+            filesToRemove.map(async (file) => {
+              return await storageClient
+                .from(bucket)
+                .remove([`${path.join('/')}/${file}`]);
+            }),
+          );
+        }
         const filePathArray = Array.isArray(filePath) ? filePath : [filePath];
         return await storageClient.from(bucketPath).remove(filePathArray);
       },

@@ -9,7 +9,7 @@ export const MenuContent = () => {
     <>
       <Image
         alt={alt}
-        src={url}
+        src={`${url}?v=${Date.now()}`}
         width={2080}
         height={2080}
         className="w-full h-full object-cover object-center"

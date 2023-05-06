@@ -40,13 +40,12 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       .then((res) => res)
       .catch(() => null);
 
-  console.log(menu);
-
   return {
     props: {
       menu: menu,
       productTypeDb: (menu as any)?.productTypes || [],
     },
+    revalidate: 1,
   };
 };
 

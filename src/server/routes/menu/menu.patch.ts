@@ -27,8 +27,10 @@ export async function PATCH(req: NextApiRequest, res: NextApiResponse) {
 
     const menuName = fields.menuName as string;
     const menuResponser = fields.menuResponser as string;
-    const productTypesDeleted = JSON.parse(fields.productTypes as string) as string[];
-    let productTypes = JSON.parse(fields.productTypes as string) as {
+    const productTypesDeleted = JSON.parse(
+      fields.productTypesDeleted as string,
+    ) as string[];
+    const productTypes = JSON.parse(fields.productTypes as string) as {
       type: string;
       id: string;
       images: {
@@ -36,12 +38,6 @@ export async function PATCH(req: NextApiRequest, res: NextApiResponse) {
         image: string;
       };
     }[];
-    productTypes = productTypes.map((productType) => {
-      return {
-        ...productType,
-        images: { advertiser: '', image: '' },
-      };
-    });
 
     let errorImage = false;
     let menuImage;
@@ -73,9 +69,9 @@ export async function PATCH(req: NextApiRequest, res: NextApiResponse) {
             if (key.includes(productType.id)) {
               const file = filesByKey[0];
               const { error } = await storage
-                .in('menus')
+                .in(`menus/${id}`)
                 .upsert(
-                  `${id}/product-type/${productType.id}/${file.filename}.${file.extension}`,
+                  `product-type/${productType.id}/${file.filename}.${file.extension}`,
                   file.file,
                 );
 
@@ -84,7 +80,6 @@ export async function PATCH(req: NextApiRequest, res: NextApiResponse) {
                 .in(`menus/${id}/product-type/${productType.id}`)
                 .getUrl(`${file.filename}.${file.extension}`);
             }
-            return productType;
           }),
         );
       }),
@@ -99,12 +94,12 @@ export async function PATCH(req: NextApiRequest, res: NextApiResponse) {
         const images = productType.images;
         if (images?.advertiser === 'delete')
           await storage
-            .in(`menus/${id}/product-type/${productType.id}`)
-            .delete('advertiser.webp'); // CHANGE
+            .in('menus')
+            .delete(`/${id}/product-type/${productType.id}/advertiser.webp`); // CHANGE
         if (images?.image === 'delete')
           await storage
-            .in(`menus/${id}/product-type/${productType.id}`)
-            .delete('image.webp'); // CHANGE
+            .in('menus')
+            .delete(`/${id}/product-type/${productType.id}/image.webp`); // CHANGE
 
         const { error } = await db
           .from('product_types')
@@ -112,8 +107,8 @@ export async function PATCH(req: NextApiRequest, res: NextApiResponse) {
             id: productType.id,
             menuId: id,
             type: productType.type,
-            image: images?.image === 'delete' ? '' : images?.image,
-            advertiser: images?.advertiser === 'delete' ? '' : images?.image,
+            image: images?.image === 'delete' ? null : images?.image,
+            advertiser: images?.advertiser === 'delete' ? null : images?.advertiser,
           })
           .eq('id', productType.id);
 
@@ -140,8 +135,8 @@ export async function PATCH(req: NextApiRequest, res: NextApiResponse) {
       .update({
         menuResponser,
         menuName,
-        menuAdvertiser: fields.menuAdvertiser === 'delete' ? '' : menuAdvertiser,
-        menuImage: fields.menuImage === 'delete' ? '' : menuImage,
+        menuAdvertiser: fields.menuAdvertiser === 'delete' ? null : menuAdvertiser,
+        menuImage: fields.menuImage === 'delete' ? null : menuImage,
         productTypes: productTypes.map(({ id }) => id),
       })
       .eq('id', id);

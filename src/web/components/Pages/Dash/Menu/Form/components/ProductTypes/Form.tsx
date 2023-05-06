@@ -2,7 +2,7 @@ import { Cross1Icon } from '@radix-ui/react-icons';
 import { Button } from '@web/components/Button';
 import { ImageDropzone } from '@web/components/ImageDropzone';
 import { Input } from '@web/components/Input';
-import { Modal } from '@web/components/Modal';
+import { Modal, useModal } from '@web/components/Modal';
 import { useEffect, useState } from 'react';
 
 export const Form = ({
@@ -13,23 +13,29 @@ export const Form = ({
   defaultInputValue,
 }: {
   id: string;
-  onImagesChange?: (images: { image: File | null; advertiser: File | null }) => void;
+  onImagesChange?: (images: {
+    image: File | string | null;
+    advertiser: File | string | null;
+  }) => void;
   defaultImages?: { image?: string; advertiser?: string };
   defaultInputValue?: string;
   onInputChange?: (value: string) => void;
 }) => {
+  const { open } = useModal();
   const [inputValue, setInputValue] = useState(defaultInputValue || '');
 
-  const [image, setImage] = useState<File | string | null>(defaultImages?.image || null);
-  const [advertiser, setAdvertiser] = useState<File | string | null>(
-    defaultImages?.advertiser || null,
+  const [imageFile, setImageFile] = useState<File | boolean | null>(
+    !!defaultImages?.image || !!defaultImages?.image?.length || null,
+  );
+  const [advertiserFile, setAdvertiserFile] = useState<File | boolean | null>(
+    !!defaultImages?.advertiser || !!defaultImages?.advertiser?.length || null,
   );
 
   function handleResetValues() {
     setInputValue(defaultInputValue || '');
-    setImage(defaultImages?.image || null);
-    setAdvertiser(defaultImages?.advertiser || null);
-    return 'no-open';
+    setImageFile(null);
+    setAdvertiserFile(null);
+    // return 'no-open';
   }
 
   return (
@@ -64,14 +70,20 @@ export const Form = ({
           className="lg:max-w-lg"
         >
           <Input.Label>Product type image:</Input.Label>
-          <ImageDropzone
-            id={`product-type-image-${id}`}
-            className="px-8 max-h-60"
-            defaultValue={image || undefined}
-            onFileUpload={(ev) => {
-              setImage(ev);
-            }}
-          />
+          {open && (
+            <ImageDropzone
+              id={`product-type-image-${id}`}
+              className="px-8 max-h-60"
+              defaultValue={
+                imageFile === true
+                  ? defaultImages?.image
+                  : imageFile ?? defaultImages?.image
+              }
+              onFileUpload={(ev) => {
+                setImageFile(ev || false);
+              }}
+            />
+          )}
         </Input.Root>
         <Input.Root
           id={`advertiser-image-${id}`}
@@ -80,14 +92,20 @@ export const Form = ({
           className="lg:max-w-lg"
         >
           <Input.Label>Advertiser image:</Input.Label>
-          <ImageDropzone
-            id={`advertiser-image-${id}`}
-            className="px-8 max-h-60"
-            defaultValue={advertiser || undefined}
-            onFileUpload={(ev) => {
-              setAdvertiser(ev);
-            }}
-          />
+          {open && (
+            <ImageDropzone
+              id={`advertiser-image-${id}`}
+              className="px-8 max-h-60"
+              defaultValue={
+                advertiserFile === true
+                  ? defaultImages?.advertiser
+                  : advertiserFile ?? defaultImages?.advertiser
+              }
+              onFileUpload={(ev) => {
+                setAdvertiserFile(ev || false);
+              }}
+            />
+          )}
         </Input.Root>
 
         <Modal.Trigger
@@ -97,9 +115,19 @@ export const Form = ({
             onInputChange && onInputChange(inputValue);
             onImagesChange &&
               onImagesChange({
-                advertiser: typeof advertiser !== 'string' ? advertiser : null,
-                image: typeof image !== 'string' ? image : null,
+                advertiser: !['boolean', 'string'].includes(typeof advertiserFile)
+                  ? (advertiserFile as File).name !== 'default-image.webp'
+                    ? (advertiserFile as File)
+                    : defaultImages?.advertiser || null
+                  : null,
+                image: !['boolean', 'string'].includes(typeof imageFile)
+                  ? (imageFile as File).name !== 'default-image.webp'
+                    ? (imageFile as File)
+                    : defaultImages?.image || null
+                  : null,
               });
+
+            handleResetValues();
           }}
         >
           <Button type="button">Save Changes</Button>

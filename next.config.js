@@ -2,6 +2,17 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
+    headers: () => [
+      {
+        source: '/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'no-store',
+          },
+        ],
+      },
+    ],
     remotePatterns: [
       {
         protocol: 'https',

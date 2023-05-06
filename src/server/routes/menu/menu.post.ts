@@ -52,8 +52,8 @@ export async function POST(req: NextApiRequest, res: NextApiResponse) {
         if (key === 'menuImage') {
           const file = filesByKey[0];
           const { error } = await storage
-            .in('menus')
-            .upload(`${id}/image.${file.extension}`, file.file);
+            .in(`menus/${id}`)
+            .upload(`image.${file.extension}`, file.file);
           if (error) return (errorImage = true);
           menuImage = storage.in(`menus/${id}`).getUrl(`image.${file.extension}`);
         }
@@ -61,8 +61,8 @@ export async function POST(req: NextApiRequest, res: NextApiResponse) {
         if (key === 'menuAdvertiser') {
           const file = filesByKey[0];
           const { error } = await storage
-            .in('menus')
-            .upload(`${id}/advertiser.${file.extension}`, file.file);
+            .in(`menus/${id}`)
+            .upload(`advertiser.${file.extension}`, file.file);
           if (error) return (errorImage = true);
           menuAdvertiser = storage
             .in(`menus/${id}`)
@@ -73,9 +73,9 @@ export async function POST(req: NextApiRequest, res: NextApiResponse) {
             if (key.includes(productType.id)) {
               const file = filesByKey[0];
               const { error } = await storage
-                .in('menus')
+                .in(`menus/${id}`)
                 .upload(
-                  `${id}/product-type/${productType.id}/${file.filename}.${file.extension}`,
+                  `product-type/${productType.id}/${file.filename}.${file.extension}`,
                   file.file,
                 );
               if (error) return (errorImage = true);
