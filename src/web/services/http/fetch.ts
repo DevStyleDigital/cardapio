@@ -28,7 +28,10 @@ export const httpFetch = (baseUrl: string = '') => ({
     options?: HttpFetchOptions,
   ): Promise<U> => {
     return axios
-      .post(concatWithBaseUrl(url, baseUrl), data, options)
+      .post(concatWithBaseUrl(url, baseUrl), data, {
+        ...options,
+        timeout: 4 * 1000,
+      })
       .then(({ data }) => data);
   },
 
@@ -37,7 +40,10 @@ export const httpFetch = (baseUrl: string = '') => ({
     options?: HttpFetchOptions,
   ): Promise<U> => {
     return axios
-      .delete(concatWithBaseUrl(url, baseUrl), options)
+      .delete(concatWithBaseUrl(url, baseUrl), {
+        ...options,
+        timeout: 4 * 1000,
+      })
       .then(({ data }) => data);
   },
 
@@ -47,7 +53,10 @@ export const httpFetch = (baseUrl: string = '') => ({
     options?: HttpFetchOptions,
   ): Promise<U> => {
     return axios
-      .patch(concatWithBaseUrl(url, baseUrl), data, options)
+      .patch(concatWithBaseUrl(url, baseUrl), data, {
+        ...options,
+        timeout: 4 * 1000,
+      })
       .then(({ data }) => data);
   },
 
@@ -55,6 +64,11 @@ export const httpFetch = (baseUrl: string = '') => ({
     url: string,
     options?: HttpFetchOptions,
   ): Promise<U> => {
-    return axios.get(concatWithBaseUrl(url, baseUrl), options).then(({ data }) => data);
+    return axios
+      .get(concatWithBaseUrl(url, baseUrl), {
+        ...options,
+        timeout: 4 * 1000,
+      })
+      .then(({ data }) => data);
   },
 });

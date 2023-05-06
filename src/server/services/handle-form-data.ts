@@ -6,8 +6,6 @@ import { NextApiRequest } from 'next';
 
 export const formDataConfig = {
   keepExtensions: true,
-  maxFileSize: 10_000_000,
-  maxFieldsSize: 10_000_000,
 };
 
 type Fields<T extends string> = { [key in T]: string | string[] };

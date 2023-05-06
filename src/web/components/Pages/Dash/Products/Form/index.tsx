@@ -68,9 +68,10 @@ export const Form = ({ product, menus }: { product?: Product; menus: Menu[] }) =
             />
           </Input.Root>
 
-          <div className="max-h-56 lg:w-[32rem]">
+          <div className="lg:w-[32rem]">
             <ImageDropzone
               id="product-image"
+              className="rounded-md border-2 border-dashed border-gray-400 max-h-64"
               onFileUpload={setProductImage}
               defaultValue={product?.image}
             />
