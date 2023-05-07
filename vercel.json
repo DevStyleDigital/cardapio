@@ -1,8 +1,9 @@
 {
-    "body-parser": {
-      "sizeLimit": "100mb"
-    },
-    "server": {
-        "maxPayloadSize": "100mb"
+    "routes": [
+      {
+        "src": "/.*",
+        "methods": ["POST"],
+        "body": "100mb"
       }
+    ]
   }
