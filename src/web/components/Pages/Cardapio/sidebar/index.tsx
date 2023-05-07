@@ -85,7 +85,7 @@ const SideBarFundo = ({ children }: any) => {
           width={1290}
           height={2793}
         />
-        <div className="absolute w-full flex flex-col gap-12 p-14 top-0 h-full z-50">
+        <div className="absolute w-full flex flex-col gap-12 p-12  top-0 h-full z-50">
           {children}
         </div>
       </div>
@@ -95,7 +95,7 @@ const SideBarFundo = ({ children }: any) => {
 
 const SideBarTitle = ({ children }: any) => {
   return (
-    <h1 className="text-golden-400 tracking-2 text-md flex flex-col gap-4">{children}</h1>
+    <h1 className="text-golden-400 tracking-2 text-md flex flex-col gap-4 absolute">{children}</h1>
   );
 };
 
@@ -115,24 +115,26 @@ const SideBarNavs = () => {
 
   return (
     <>
-    <div className="w-full h-full flex flex-col pt-18 max-h-[500px] overflow-auto justify-center lg:items-center  gap-10">
-      {menuItems.map((item, index) => {
-        return (
-          <div key={item.id} className="flex flex-col gap-6 md:gap-10 lg:items-center">
-            <Link
-              href={`/${item.id}`}
-              onClick={() => setSidebarOpen(false)}
-              key={item.id}
-              className="text-white uppercase text-xl md:text-3xl tracking-4"
-            >
-              {item.menuName}
-            </Link>
-            {menuItems.length - 1 > index && (
-              <div className="w-10/12 sm:w-3/6 md:w-6/12 lg:w-full h-px bg-red-600" />
-            )}
-          </div>
-        );
-      })}
+    <div className='mt-28 overflow-y-scroll'>
+      <div className="w-full flex flex-col  justify-center lg:items-center gap-8">
+        {menuItems.map((item, index) => {
+          return (
+            <div key={item.id} className="flex flex-col gap-2 md:gap-10 lg:items-center">
+              <Link
+                href={`/${item.id}`}
+                onClick={() => setSidebarOpen(false)}
+                key={item.id}
+                className="text-white uppercase text-xl md:text-3xl tracking-4"
+              >
+                {item.menuName}
+              </Link>
+              {menuItems.length - 1 > index && (
+                <div className="w-10/12 sm:w-3/6 md:w-6/12 lg:w-full h-px bg-red-600" />
+              )}
+            </div>
+          );
+        })}
+      </div>
     </div>
      <div className="flex justify-end">
      <Image
