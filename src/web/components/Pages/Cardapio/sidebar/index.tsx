@@ -85,7 +85,7 @@ const SideBarFundo = ({ children }: any) => {
           width={1290}
           height={2793}
         />
-        <div className="absolute w-full flex flex-col p-14 top-0 h-full z-50">
+        <div className="absolute w-full flex flex-col gap-12 p-14 top-0 h-full z-50">
           {children}
         </div>
       </div>
@@ -115,7 +115,7 @@ const SideBarNavs = () => {
 
   return (
     <>
-    <div className="w-full h-full flex flex-col pt-18 max-h-[600px] my-[100px] overflow-auto justify-center lg:items-center  gap-10">
+    <div className="w-full h-full flex flex-col pt-18 max-h-[500px] overflow-auto justify-center lg:items-center  gap-10">
       {menuItems.map((item, index) => {
         return (
           <div key={item.id} className="flex flex-col gap-6 md:gap-10 lg:items-center">

@@ -92,7 +92,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     (item) => item.id === context?.params?.type,
   );
 
-  
   if (!MenuType) {
     return {
       redirect: {
