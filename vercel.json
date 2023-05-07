@@ -3,7 +3,7 @@
       {
         "src": "/api/*",
         "methods": ["POST"],
-        "maxBodySize": "100mb"
+        "body": "100mb"
       }
     ]
   }
