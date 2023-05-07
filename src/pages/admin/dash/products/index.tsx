@@ -75,17 +75,16 @@ const Menu = ({ products }: { products: Product[] }) => {
   );
 };
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getServerSideProps: GetServerSideProps = async () => {
   const products = await http
     .get('/api/products')
     .then((res) => res)
     .catch(() => []);
-
+    
   return {
     props: {
       products: products,
     },
-    revalidate: 1,
   };
 };
 

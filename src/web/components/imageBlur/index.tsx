@@ -3,7 +3,6 @@ import { useState } from "react";
 
 const BlurImage = ({ src, width, height, className } : any) =>  {
   const [isLoading, setLoading] = useState(true);
-
   return (
     <div className="w-full h-full">
       <div className="h-full w-full overflow-hidde bg-gray-200 ">

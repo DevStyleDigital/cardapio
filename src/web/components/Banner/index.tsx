@@ -32,13 +32,13 @@ const BannerText: GTypes.FC<{ children: string; responser?: string }> = ({
     <div
       {...props}
       className={clsx(
-        'absolute inset-0 flex gap-2 items-end md:text-6xl sm:text-4xl text-3xl uppercase p-8 text-white font-light',
+        'absolute inset-0 flex gap-1 flex-wrap flex-col justify-end md:text-6xl sm:text-4xl text-3xl uppercase p-8 text-white font-light',
         props.className,
       )}
     >
       <span dangerouslySetInnerHTML={{ __html: purifyText(children) }} />
       {responser && (
-        <span className="text-2xl normal-case font-light break-all">by {responser}</span>
+        <span className="text-2xl normal-case font-light">by {responser}</span>
       )}
     </div>
   );

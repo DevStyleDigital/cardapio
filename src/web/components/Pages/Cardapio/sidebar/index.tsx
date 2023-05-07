@@ -114,7 +114,8 @@ const SideBarNavs = () => {
   }, []);
 
   return (
-    <div className="w-full h-full flex flex-col pt-18 justify-center lg:items-center  gap-10">
+    <>
+    <div className="w-full h-full flex flex-col pt-18 max-h-[600px] my-[100px] overflow-auto justify-center lg:items-center  gap-10">
       {menuItems.map((item, index) => {
         return (
           <div key={item.id} className="flex flex-col gap-6 md:gap-10 lg:items-center">
@@ -132,16 +133,17 @@ const SideBarNavs = () => {
           </div>
         );
       })}
-      <div className="flex justify-end">
-        <Image
-          className="w-1/4 h-auto md:w-1/6 lg:w-32"
-          src={Logo}
-          alt="Logo"
-          width={378}
-          height={520}
-        />
-      </div>
     </div>
+     <div className="flex justify-end">
+     <Image
+       className="w-1/4 h-auto md:w-1/6 lg:w-32"
+       src={Logo}
+       alt="Logo"
+       width={378}
+       height={520}
+     />
+   </div>
+   </>
   );
 };
 

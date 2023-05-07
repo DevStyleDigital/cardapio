@@ -1,4 +1,4 @@
-import type { GetStaticPaths, GetStaticProps } from 'next';
+import type { GetServerSideProps } from 'next';
 import type { Menu, ProductType } from 'types/menu';
 
 import { Form } from '@web/components/Pages/Dash/Menu/Form';
@@ -19,23 +19,10 @@ const MenuForm = ({
   );
 };
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  const menus = await http
-    .get<{ id: string }[]>('/api/menu/ids')
-    .then((res) => res)
-    .catch(() => []);
-  return {
-    paths: [{ params: { id: 'create' } }].concat(
-      menus.map(({ id }) => ({ params: { id } })),
-    ),
-    fallback: false,
-  };
-};
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
-  let menu = null;
-  if (params?.id !== 'create')
-    menu = await http
+
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+  let menu = await http
       .get(`/api/menu/${params?.id}`)
       .then((res) => res)
       .catch(() => null);
@@ -45,7 +32,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       menu: menu,
       productTypeDb: (menu as any)?.productTypes || [],
     },
-    revalidate: 1,
   };
 };
 

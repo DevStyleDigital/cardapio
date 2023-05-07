@@ -11,7 +11,6 @@ import type { Menu } from 'types/menu';
 const Menu = ({ menus }: any) => {
   // const MenuFilter = MenuItens.filter((item) => item.link === menu);
   const { id, menuName, menuAdvertiser, menuImage, productTypes, menuResponser } = menus;
-
   return (
     <section className="w-full bg-fundo-400 flex flex-col justify-between gap-6 xl:items-center">
       <HeaderBanner text={menuName} responser={menuResponser} url={menuImage} />
@@ -54,7 +53,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const menus = await http
     .get<Menu[]>(`/api/menu/${id}`)
     .then((res) => res)
-    .catch((error) => []);
+    .catch((error) => null);
 
   if (!menus) {
     return {
@@ -64,6 +63,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       },
     };
   }
+  
+  console
 
   return {
     props: {
