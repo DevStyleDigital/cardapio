@@ -31,7 +31,7 @@ export const httpFetch = (baseUrl: string = '') => ({
       .post(concatWithBaseUrl(url, baseUrl), data, {
         ...options,
         maxContentLength: 50 * 1024 * 1024,
-        timeout: 4 * 1000,
+        timeout: 8 * 1000,
       })
       .then(({ data }) => data);
   },
