@@ -1,9 +1,0 @@
-{
-    "routes": [
-      {
-        "src": "/.*",
-        "methods": ["POST"],
-        "body": "100mb"
-      }
-    ]
-}
