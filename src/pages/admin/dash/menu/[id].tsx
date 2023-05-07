@@ -19,13 +19,16 @@ const MenuForm = ({
   );
 };
 
-
-
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-  let menu = await http
-      .get(`/api/menu/${params?.id}`)
-      .then((res) => res)
-      .catch(() => null);
+  const menu = await http
+    .get(`/api/menu/${params?.id}`)
+    .then((res) => res)
+    .catch(() => null);
+
+  if (!menu)
+    return {
+      notFound: true,
+    };
 
   return {
     props: {

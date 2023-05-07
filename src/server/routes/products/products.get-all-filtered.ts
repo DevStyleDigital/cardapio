@@ -3,14 +3,14 @@ import { database } from '@server/services/database';
 
 export async function GET_ALL_FILTERED(req: NextApiRequest, res: NextApiResponse) {
   try {
-    const { types, menus } = req.body;
+    const { type, menu } = req.query;
 
     const db = database({ req, res });
     const { data, error } = await db
       .from('products')
       .select('*')
-      .eq('menus', menus)
-      .eq('types', types);
+      .eq('menus', [type])
+      .eq('types', [menu]);
 
     if (!data?.length || error)
       throw {

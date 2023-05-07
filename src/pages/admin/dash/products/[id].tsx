@@ -15,15 +15,20 @@ const ProductForm = ({ product, menus }: { product: Product; menus: Menu[] }) =>
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-  let product = await http
-      .get(`/api/products/${params?.id}`)
-      .then((res) => res)
-      .catch(() => null);
+  const product = await http
+    .get(`/api/products/${params?.id}`)
+    .then((res) => res)
+    .catch(() => null);
 
   const menus = await http
     .get('/api/menu')
     .then((res) => res)
     .catch(() => []);
+
+  if (!product)
+    return {
+      notFound: true,
+    };
 
   return {
     props: {

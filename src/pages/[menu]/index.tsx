@@ -63,8 +63,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       },
     };
   }
-  
-  console
+
+  console;
 
   return {
     props: {
