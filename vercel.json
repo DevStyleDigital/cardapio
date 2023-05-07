@@ -1,0 +1,8 @@
+{
+    "build": {},
+    "routes": [],
+    "env": {},
+    "body-parser": {
+      "sizeLimit": "100mb"
+    }
+  }
