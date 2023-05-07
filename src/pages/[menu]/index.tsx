@@ -12,7 +12,7 @@ const Menu = ({ menus }: any) => {
   // const MenuFilter = MenuItens.filter((item) => item.link === menu);
   const { id, menuName, menuAdvertiser, menuImage, productTypes, menuResponser } = menus;
   return (
-    <section className="w-full bg-fundo-400 flex flex-col justify-between gap-6 xl:items-center">
+    <section className="w-full bg-fundo-400 flex flex-col justify-between xl:items-center">
       <HeaderBanner text={menuName} responser={menuResponser} url={menuImage} />
       <div className="w-full h-auto grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:max-w-[1300px]  gap-6 p-6">
         {productTypes?.map((item: any) => {
