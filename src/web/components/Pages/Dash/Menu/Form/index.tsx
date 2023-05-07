@@ -118,7 +118,6 @@ export const Form = ({
             : productTypesFormatted,
         ),
       );
-    
 
     http[!!menu ? 'patch' : 'post'](`/api/menu/${!!menu ? menu?.id : ''}`, formData, {
       headers: { 'content-type': 'application/x-www-form-urlencode' },

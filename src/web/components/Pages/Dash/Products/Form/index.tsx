@@ -42,7 +42,7 @@ export const Form = ({ product, menus }: { product?: Product; menus: Menu[] }) =
     else formData.append('image', 'delete');
 
     http[!!product ? 'patch' : 'post'](
-      `/api/products/${!!product ? product?.id : ''}`,
+      `/api/products/${!!product ? product?.id : 'dash'}`,
       formData,
       {
         headers: { 'content-type': 'application/x-www-form-urlencode' },

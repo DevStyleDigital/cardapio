@@ -77,10 +77,10 @@ const Menu = ({ products }: { products: Product[] }) => {
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const products = await http
-    .get('/api/products')
+    .get('/api/products/dash')
     .then((res) => res)
     .catch(() => []);
-    
+
   return {
     props: {
       products: products,
