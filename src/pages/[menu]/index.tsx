@@ -34,7 +34,7 @@ const Menu = ({ menus }: any) => {
           width={1000}
           height={500}
           alt="banner-anunciante"
-          blurDataURL={menuAdvertiser}
+          blurDataURL={`data:image/webp;base64,${menuAdvertiser}`}
           placeholder="blur"
         />
       </div>

@@ -55,7 +55,7 @@ const TypeMenu = ({ type, menus }: any) => {
                         width={1000}
                         height={500}
                         alt="banner-anunciante"
-                        blurDataURL={type.images.advertiser}
+                        blurDataURL={`data:image/webp;base64,${type.images.advertiser}`}
                         placeholder="blur"
                       />
                     </div>

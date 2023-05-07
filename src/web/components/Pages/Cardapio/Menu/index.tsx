@@ -32,7 +32,7 @@ const MenuItem = ({ nome, menu, link, img }: MenuItemProps) => {
             alt="img-menu"
             width={400}
             height={400}
-            blurDataURL={img}
+            blurDataURL={`data:image/webp;base64,${img}`}
             placeholder="blur"
           />
         )}
