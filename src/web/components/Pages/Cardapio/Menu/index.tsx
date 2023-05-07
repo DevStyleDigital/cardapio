@@ -24,7 +24,7 @@ const MenuItem = ({ nome, menu, link, img }: MenuItemProps) => {
       onClick={() => push(nome)}
       className="w-full flex flex-col items-center gap-2 h-auto min-h-[160px] "
     >
-      <div className="w-full h-full bg-golden-400 shadow-lg shadow-black/90">
+      <div className="w-full h-36 bg-golden-400 shadow-lg shadow-black/90">
         {img && (
           <Image
             className="w-full object-cover h-full"
@@ -32,9 +32,6 @@ const MenuItem = ({ nome, menu, link, img }: MenuItemProps) => {
             alt="img-menu"
             width={400}
             height={400}
-            blurDataURL={img}
-            placeholder="blur"
-            loading="lazy"
           />
         )}
       </div>

@@ -31,7 +31,7 @@ export const httpFetch = (baseUrl: string = '') => ({
       .post(concatWithBaseUrl(url, baseUrl), data, {
         ...options,
         maxContentLength: 50 * 1024 * 1024,
-        timeout: 4 * 1000,
+        timeout: 200 * 1000,
       })
       .then(({ data }) => data);
   },
@@ -43,7 +43,7 @@ export const httpFetch = (baseUrl: string = '') => ({
     return axios
       .delete(concatWithBaseUrl(url, baseUrl), {
         ...options,
-        timeout: 4 * 1000,
+        timeout: 200 * 1000,
       })
       .then(({ data }) => data);
   },
@@ -57,7 +57,7 @@ export const httpFetch = (baseUrl: string = '') => ({
       .patch(concatWithBaseUrl(url, baseUrl), data, {
         ...options,
         maxContentLength: 50 * 1024 * 1024,
-        timeout: 4 * 1000,
+        timeout: 200 * 1000,
       })
       .then(({ data }) => data);
   },

@@ -27,7 +27,7 @@ const Menu = ({ menus }: any) => {
           );
         })}
       </div>
-      <div className="w-full flex justify-center px-6 pb-6 h-[15rem] md:h-[20rem] xl:h-[25rem]">
+      <div className="w-full flex justify-center px-6 pb-6 h-[11rem] md:h-[20rem] xl:h-[25rem]">
         <Image
           className="w-full h-full max-w-[550px]  xl:max-w-[700px] shadow-lg shadow-black/90"
           src={menuAdvertiser}
