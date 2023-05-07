@@ -30,7 +30,7 @@ export const httpFetch = (baseUrl: string = '') => ({
     return axios
       .post(concatWithBaseUrl(url, baseUrl), data, {
         ...options,
-        timeout: 4 * 1000,
+        timeout: 200 * 1000,
       })
       .then(({ data }) => data);
   },
@@ -42,7 +42,7 @@ export const httpFetch = (baseUrl: string = '') => ({
     return axios
       .delete(concatWithBaseUrl(url, baseUrl), {
         ...options,
-        timeout: 4 * 1000,
+        timeout: 200 * 1000,
       })
       .then(({ data }) => data);
   },
@@ -55,7 +55,7 @@ export const httpFetch = (baseUrl: string = '') => ({
     return axios
       .patch(concatWithBaseUrl(url, baseUrl), data, {
         ...options,
-        timeout: 4 * 1000,
+        timeout: 200 * 1000,
       })
       .then(({ data }) => data);
   },
@@ -67,7 +67,7 @@ export const httpFetch = (baseUrl: string = '') => ({
     return axios
       .get(concatWithBaseUrl(url, baseUrl), {
         ...options,
-        timeout: 4 * 1000,
+        timeout: 200 * 1000,
       })
       .then(({ data }) => data);
   },

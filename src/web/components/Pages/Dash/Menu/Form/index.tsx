@@ -34,9 +34,12 @@ export const Form = ({
     setLoading(true);
     let error;
 
+    let teste;
+
     const formData = new FormData();
     productTypes.forEach((productType) => {
       if (!!menu) {
+        teste = [(productType as any).images.advertiser, (productType as any).images.image, menuImage, menuAdvertiser]
         productType.images?.advertiser &&
           (productType.images?.advertiser as any)?.name !== 'default-image.webp' &&
           typeof productType.images?.advertiser !== 'string' &&
@@ -59,6 +62,7 @@ export const Form = ({
       // if (!productType.images?.advertiser || !productType.images?.image)
       //   error = 'Some fields in product type are not filed';
       // else {
+      teste = [(productType as any).images.advertiser, (productType as any).images.image, menuImage, menuAdvertiser]
       productType.images?.advertiser &&
         formData.append(
           `productTypes-advertiser-${productType.id}`,
@@ -118,6 +122,8 @@ export const Form = ({
             : productTypesFormatted,
         ),
       );
+    
+    console.log('teste', teste)
 
     http[!!menu ? 'patch' : 'post'](`/api/menu/${!!menu ? menu?.id : ''}`, formData, {
       headers: { 'content-type': 'application/x-www-form-urlencode' },
