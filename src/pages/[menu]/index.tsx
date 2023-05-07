@@ -1,5 +1,6 @@
 import MenuItem from '@web/components/Pages/Cardapio/Menu';
 import HeaderBanner from '@web/components/Pages/Cardapio/header';
+import BlurImage from '@web/components/imageBlur';
 import { getCookie } from '@web/services/cookies';
 import { http } from '@web/services/http';
 import { MenuItens } from '@web/utils/menu';
@@ -28,14 +29,11 @@ const Menu = ({ menus }: any) => {
         })}
       </div>
       <div className="w-full flex justify-center px-6 pb-6 h-[11rem] md:h-[20rem] xl:h-[25rem]">
-        <Image
+        <BlurImage
           className="w-full h-full max-w-[550px]  xl:max-w-[700px] shadow-lg shadow-black/90"
           src={menuAdvertiser}
           width={1000}
           height={500}
-          alt="banner-anunciante"
-          blurDataURL={`data:image/webp;base64,${menuAdvertiser}`}
-          placeholder="blur"
         />
       </div>
     </section>

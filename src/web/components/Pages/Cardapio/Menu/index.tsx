@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import BlurImage from '@web/components/imageBlur';
 import { useRouter } from 'next/router';
 import url from 'url';
 interface MenuItemProps {
@@ -26,14 +26,10 @@ const MenuItem = ({ nome, menu, link, img }: MenuItemProps) => {
     >
       <div className="w-full h-36 bg-golden-400 shadow-lg shadow-black/90">
         {img && (
-          <Image
-            className="w-full object-cover h-full"
+          <BlurImage
             src={img}
-            alt="img-menu"
             width={400}
             height={400}
-            blurDataURL={`data:image/webp;base64,${img}`}
-            placeholder="blur"
           />
         )}
       </div>
