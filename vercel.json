@@ -1,9 +1,9 @@
 {
-  "routes": [
-    {
-      "src": "/api/*",
-      "methods": ["POST"],
-      "body-size": "100mb"
-    }
-  ]
-}
+    "routes": [
+      {
+        "src": "/api/*",
+        "methods": ["POST"],
+        "maxBodySize": "100mb"
+      }
+    ]
+  }
