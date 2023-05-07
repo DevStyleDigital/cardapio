@@ -1,5 +1,4 @@
 import Image from 'next/image';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import url from 'url';
 interface MenuItemProps {
@@ -19,6 +18,7 @@ const MenuItem = ({ nome, menu, link, img }: MenuItemProps) => {
     const urlCompleta = `${urlString}?${new URLSearchParams(objetoState).toString()}`;
     router.push(urlCompleta);
   }
+
   return (
     <button
       onClick={() => push(nome)}
@@ -32,6 +32,8 @@ const MenuItem = ({ nome, menu, link, img }: MenuItemProps) => {
             alt="img-menu"
             width={400}
             height={400}
+            blurDataURL={img}
+            placeholder="blur"
           />
         )}
       </div>
