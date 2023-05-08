@@ -29,7 +29,7 @@ const ProdutosContent = ({ nome, descricao, preco, img }: ProdutoProps) => {
             {img && (
               <div className="w-full h-full max-h-[110px] max-w-[130px] md:max-h-[140px] md:max-w-[160px]  bg-golden-400 shadow-lg shadow-black/80">
                 <Image
-                  className="w-full h-full"
+                  className="w-full h-full object-cover"
                   blurDataURL={img}
                   placeholder="blur"
                   loading="lazy"

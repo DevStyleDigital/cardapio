@@ -12,7 +12,7 @@ const BlurImage = ({ src, width, height, className } : any) =>  {
           height={height}
           src={src}
           className={`
-                duration-700 w-full h-full ease-in-out group-hover:opacity-75
+                duration-700 w-full h-full ease-in-out object-cover group-hover:opacity-75
                 ${
                   isLoading
                     ? 'scale-100 blur-sm grayscale'
