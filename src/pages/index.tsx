@@ -13,9 +13,7 @@ const Home = () => {
   const [ loading, setLoading ] = useState(true);
 
   useEffect(() => {
-    window.onload = () => {
       setLoading(false);
-    };
   }, []);
 
   if(loading){

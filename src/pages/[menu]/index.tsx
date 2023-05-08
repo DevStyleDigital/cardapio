@@ -20,10 +20,8 @@ const Menu = ({ menus }: any) => {
   };
   
   useEffect(()=> {
-    if(menus){
       handleLoad()
-    }
-}, [menus])
+}, [])
 
 
   if(loading){
