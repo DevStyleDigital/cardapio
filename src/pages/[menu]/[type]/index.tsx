@@ -33,12 +33,12 @@ const TypeMenu = ({ type, menus, products }: any) => {
         text={menus.menuName}
         url={menus.menuImage}
       />
-      <div className="xl:max-w-[1300px] w-full flex flex-col">
-        <h1 className="text-md tracking-4 uppercase p-6 pb-0 text-red-600 self-start">
+      <div className="xl:max-w-[1300px] w-full flex flex-col p-6">
+        <h1 className="text-md tracking-4 uppercase pb-0 text-red-600 self-start">
           {TypeFormated}
         </h1>
         <BackButton menuPath={menus} />
-        <div className="w-full h-auto flex flex-col lg:grid lg:grid-cols-3 gap-6 pb-28 px-6">
+        <div className="w-full h-auto flex flex-col lg:grid lg:grid-cols-3 gap-6 pb-28">
           {productsData.map((produto: any, index: number) => {
             return (
               <>
