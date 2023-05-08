@@ -79,8 +79,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     };
   }
   const id = context?.params?.menu;
-  console.log(id)
-
   return {
     props: {
       id,
