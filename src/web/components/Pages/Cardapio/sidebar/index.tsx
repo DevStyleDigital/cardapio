@@ -29,7 +29,7 @@ export const SideBarCardapioRoot = ({
   hiddenHamburguer,
 }: {
   children: any;
-  hiddenHamburguer: boolean;
+  hiddenHamburguer: any;
 }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -115,7 +115,7 @@ const SideBarNavs = () => {
 
   return (
     <>
-    <div className='mt-28 overflow-y-scroll'>
+    <div className='mt-10 overflow-y-scroll h-full flex'>
       <div className="w-full flex flex-col  justify-center lg:items-center gap-8">
         {menuItems.map((item, index) => {
           return (
@@ -136,9 +136,9 @@ const SideBarNavs = () => {
         })}
       </div>
     </div>
-     <div className="flex justify-end">
+     <div className="absolute bottom-8 right-2">
      <Image
-       className="w-1/4 h-auto md:w-1/6 lg:w-32"
+       className="w-3/4 h-auto md:w-1/6 lg:w-32"
        src={Logo}
        alt="Logo"
        width={378}

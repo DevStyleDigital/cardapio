@@ -14,7 +14,7 @@ const Menu = ({ menus }: any) => {
   return (
     <section className="w-full bg-fundo-400 flex flex-col justify-between xl:items-center">
       <HeaderBanner text={menuName} responser={menuResponser} url={menuImage} />
-      <div className="w-full h-auto grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:max-w-[1300px]  gap-6 p-6">
+      <div className="w-full h-auto grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:max-w-[1300px] gap-6 p-6">
         {productTypes?.map((item: any) => {
           return (
             <MenuItem
@@ -27,9 +27,9 @@ const Menu = ({ menus }: any) => {
           );
         })}
       </div>
-      <div className="w-full flex justify-center px-6 pb-6 h-[11rem] md:h-[20rem] xl:h-[25rem]">
+      <div className="w-full flex justify-center px-6 pb-6 h-[11rem] md:h-[15rem] xl:h-[18rem]">
         <BlurImage
-          className="w-full h-full max-w-[550px]  xl:max-w-[700px] shadow-lg shadow-black/90"
+          className="w-full h-full max-w-[550px] xl:max-w-[600px] shadow-lg shadow-black/90"
           src={menuAdvertiser}
           width={1000}
           height={500}
@@ -64,8 +64,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     };
   }
   
-  console
-
   return {
     props: {
       menus,

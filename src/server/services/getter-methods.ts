@@ -14,6 +14,7 @@ export async function gatherMethods(
   methods: Methods,
 ) {
   const method = methods[req.method as keyof Methods];
+  
   if (!method) return res.status(404).send(handleError('method-not-found'));
 
   try {

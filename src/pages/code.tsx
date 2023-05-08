@@ -77,7 +77,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const code = await http
     .get('api/code')
     .then((res) => res)
-    .catch((error) => console.log(error));
+    .catch((error) => error);
 
   return {
     props: {
