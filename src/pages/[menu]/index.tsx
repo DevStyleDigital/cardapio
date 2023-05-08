@@ -7,21 +7,31 @@ import { getCookie } from '@web/services/cookies';
 import { http } from '@web/services/http';
 import clsx from 'clsx';
 import { GetServerSideProps } from 'next';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import type { Menu } from 'types/menu';
 
-const Menu = ({ menus }: any) => {
+const Menu = ({ id }: any) => {
   const { sidebarOpen } = useSideBar();
   const [ loading, setLoading ] = useState(true);
-  const { id, menuName, menuAdvertiser, menuImage, productTypes, menuResponser } = menus;
-  
-  const handleLoad = () => {
-    setLoading(false);
-  };
-  
-  useEffect(()=> {
-      handleLoad()
-}, [])
+  const [ data , setData ] = useState<Menu>();
+  const router = useRouter();
+
+  useEffect(() => {
+    async function fetchData() {
+      const response = await http
+        .get<Menu>(`/api/menu/${id}`)
+        .then((res) => res)
+        .catch((error) => null);  
+      if (!response){
+        router.push('/')
+      }else{
+        setLoading(false);
+        setData(response)
+      }
+    }
+    fetchData();
+  }, [id]);
 
 
   if(loading){
@@ -32,9 +42,9 @@ const Menu = ({ menus }: any) => {
   
   return (
     <section className={clsx("w-full h-auto bg-fundo-400 flex flex-col justify-between xl:items-center", {'h-screen overflow-hidden': sidebarOpen})}>
-      <HeaderBanner text={menuName} responser={menuResponser} url={menuImage} />
+      <HeaderBanner text={data?.menuName!} responser={data?.menuResponser!} url={data?.menuImage!} />
       <div className="w-full h-auto grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:max-w-[1300px] gap-6 p-6">
-        {productTypes?.map((item: any) => {
+        {data?.productTypes?.map((item: any) => {
           return (
             <MenuItem
               key={item.id}
@@ -49,7 +59,7 @@ const Menu = ({ menus }: any) => {
       <div className="w-full flex justify-center px-6 pb-6 h-[11rem] md:h-[15rem] xl:h-[18rem]">
         <BlurImage
           className="w-full h-full max-w-[550px] xl:max-w-[600px] shadow-lg shadow-black/90"
-          src={menuAdvertiser}
+          src={data?.menuAdvertiser}
           width={1000}
           height={500}
         />
@@ -69,23 +79,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     };
   }
   const id = context?.params?.menu;
-  const menus = await http
-    .get<Menu[]>(`/api/menu/${id}`)
-    .then((res) => res)
-    .catch((error) => null);
+  console.log(id)
 
-  if (!menus) {
-    return {
-      redirect: {
-        destination: '/',
-        permanent: false,
-      },
-    };
-  }
-  
   return {
     props: {
-      menus,
+      id,
     },
   };
 };

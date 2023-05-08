@@ -5,22 +5,10 @@ import { useSideBar } from '@web/components/Pages/Cardapio/sidebar';
 import { GetServerSideProps } from 'next';
 import { getCookie } from '@web/services/cookies';
 import clsx from 'clsx';
-import { useEffect, useState } from 'react';
-import Loading from '@web/components/Loading';
+
 
 const Home = () => {
   const { setSidebarOpen, sidebarOpen } = useSideBar();
-  const [ loading, setLoading ] = useState(true);
-
-  useEffect(() => {
-      setLoading(false);
-  }, []);
-
-  if(loading){
-    return (
-      <Loading />
-    )
-  }
 
   return (
     <>

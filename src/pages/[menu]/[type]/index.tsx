@@ -12,33 +12,59 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { Menu } from 'types/menu';
 
-const TypeMenu = ({ type, menus, products }: any) => {
+const TypeMenu = ({ type, menus }: any) => {
   const { sidebarOpen } = useSideBar();
-  const [ loading, setLoading ] = useState(true);
-  const [productsData, setProductcsData] = useState(() => {
-    const newProduct = products.map((product: any) => ({ ...product, anunciante: false }));
-    if (products.length > 5) {
-      newProduct[4].anunciante = true;
-    } else {
-      newProduct[products.length - 1].anunciante = true;
-    }
-    return newProduct;
-  });
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState<any>();
+  const [productsData, setProductcsData] = useState([]);
   const router = useRouter();
   const TypeFormated = router?.query?.nome;
 
   useEffect(() => {
-      setLoading(false);
-  }, []);
+    async function fetchData() {
+      const response = await http
+        .get(`/api/products/dash`)
+        .then((res) => res)
+        .catch((err) => err);
+      if (!response) {
+        router.push('/');
+      } else {
+        setLoading(false);
+        setData(response);
+      }
+    }
+    fetchData();
+  }, [type]);
 
-  if(loading){
-    return (
-      <Loading />
-    )
+  
+  useEffect(() => {
+    if(data?.length){
+    setProductcsData(() => {
+      const newProduct = data?.map((product: any) => ({
+        ...product,
+        anunciante: false,
+      }));
+      if (data?.length > 5) {
+        newProduct[4].anunciante = true;
+      } else {
+        newProduct[data?.length - 1].anunciante = true;
+      }
+      return newProduct;
+    })
+  }
+  },[data])
+
+
+  if (loading) {
+    return <Loading />;
   }
 
   return (
-    <section className={clsx("w-full h-auto bg-fundo-400 flex flex-col xl:items-center", {'h-screen overflow-hidden': sidebarOpen})}>
+    <section
+      className={clsx('w-full h-auto bg-fundo-400 flex flex-col xl:items-center', {
+        'h-screen overflow-hidden': sidebarOpen,
+      })}
+    >
       <HeaderBanner
         responser={menus.menuResponser}
         text={menus.menuName}
@@ -50,7 +76,7 @@ const TypeMenu = ({ type, menus, products }: any) => {
         </h1>
         <BackButton menuPath={menus} />
         <div className="w-full h-auto flex flex-col lg:grid lg:grid-cols-3 gap-6 pb-24">
-          {productsData.map((produto: any, index: number) => {
+          {productsData?.map((produto: any, index: number) => {
             return (
               <>
                 <ProdutosContent
@@ -102,11 +128,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     .then((res) => res)
     .catch(() => null);
 
+    
   const MenuType = menus?.productTypes.filter(
     (item) => item.id === context?.params?.type,
   );
-  
-  if (!MenuType) {
+
+  if (!MenuType?.length) {
     return {
       redirect: {
         destination: '/',
@@ -114,18 +141,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       },
     };
   }
-  
-  const products = await http
-      .get(`/api/products/dash`)
-      .then((res) => res)
-      .catch((err) => err);
-
-
   return {
     props: {
       menus,
       type: MenuType?.[0],
-      products
     },
   };
 };
