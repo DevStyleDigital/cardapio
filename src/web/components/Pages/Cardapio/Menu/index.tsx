@@ -30,6 +30,7 @@ const MenuItem = ({ nome, menu, link, img }: MenuItemProps) => {
             src={img}
             width={400}
             height={400}
+            onCover={true}
           />
         )}
       </div>

@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Modal } from '../Modal';
 import { Cross1Icon } from '@radix-ui/react-icons';
 import { purifyText } from '@web/services/purifyText';
+import BlurImage from '../imageBlur';
 
 interface ProdutoProps {
   nome: string;
@@ -28,15 +29,12 @@ const ProdutosContent = ({ nome, descricao, preco, img }: ProdutoProps) => {
             </div>
             {img && (
               <div className="w-full h-full max-h-[110px] max-w-[130px] md:max-h-[140px] md:max-w-[160px]  bg-golden-400 shadow-lg shadow-black/80">
-                <Image
-                  className="w-full h-full object-cover"
-                  blurDataURL={img}
-                  placeholder="blur"
-                  loading="lazy"
+                <BlurImage
+                  className="w-full h-full"
                   src={img}
                   width={400}
                   height={400}
-                  alt="img-product"
+                  onCover={true}
                 />
               </div>
             )}

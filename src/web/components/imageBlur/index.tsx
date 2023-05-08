@@ -1,7 +1,8 @@
 import Image from "next/image";
 import { useState } from "react";
 
-const BlurImage = ({ src, width, height, className } : any) =>  {
+
+const BlurImage = ({ src, width, height, className , onCover } : any) =>  {
   const [isLoading, setLoading] = useState(true);
   return (
     <div className={`w-full h-full ${className}`}>
@@ -12,7 +13,9 @@ const BlurImage = ({ src, width, height, className } : any) =>  {
           height={height}
           src={src}
           className={`
-                duration-700 w-full h-full ease-in-out object-cover group-hover:opacity-75
+                duration-700 w-full h-full ease-in-out group-hover:opacity-75 ${
+                  onCover && 'object-cover'
+                }
                 ${
                   isLoading
                     ? 'scale-100 blur-sm grayscale'

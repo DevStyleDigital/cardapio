@@ -89,7 +89,7 @@ const TypeMenu = ({ type, menus }: any) => {
                 {produto.anunciante && (
                   <div className="w-full h-auto p-6 lg:hidden">
                     {type?.images.advertiser && (
-                      <div className="w-full h-full md:h-[15rem] bg-golden-400 shadow-lg shadow-black/90">
+                      <div className="w-full h-full md:h-[15rem] bg-golden-400">
                         <Image
                           className="w-full h-full"
                           src={type.images.advertiser}
