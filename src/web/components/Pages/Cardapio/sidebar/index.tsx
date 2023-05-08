@@ -1,7 +1,6 @@
 import Image from 'next/image';
 import FundoImg from '../../../../assets/img/fundo.png';
 import Logo from '../../../../assets/img/logo2.png';
-import { MenuItens } from '@web/utils/menu';
 import Link from 'next/link';
 import {
   Dispatch,

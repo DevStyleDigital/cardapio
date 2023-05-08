@@ -16,7 +16,9 @@ const Menu = ({ menus }: any) => {
   const { id, menuName, menuAdvertiser, menuImage, productTypes, menuResponser } = menus;
 
   useEffect(() => {
+    console.log('disparei')
     window.onload = () => {
+      console.log('teste2')
       setLoading(false);
     };
   }, []);
