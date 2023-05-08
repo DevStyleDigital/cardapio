@@ -1,18 +1,32 @@
+import Loading from '@web/components/Loading';
 import MenuItem from '@web/components/Pages/Cardapio/Menu';
 import HeaderBanner from '@web/components/Pages/Cardapio/header';
 import { useSideBar } from '@web/components/Pages/Cardapio/sidebar';
 import BlurImage from '@web/components/imageBlur';
 import { getCookie } from '@web/services/cookies';
 import { http } from '@web/services/http';
-import { MenuItens } from '@web/utils/menu';
 import clsx from 'clsx';
 import { GetServerSideProps } from 'next';
-import Image from 'next/image';
+import { useEffect, useState } from 'react';
 import type { Menu } from 'types/menu';
 
 const Menu = ({ menus }: any) => {
   const { sidebarOpen } = useSideBar();
+  const [ loading, setLoading ] = useState(true);
   const { id, menuName, menuAdvertiser, menuImage, productTypes, menuResponser } = menus;
+
+  useEffect(() => {
+    window.onload = () => {
+      setLoading(false);
+    };
+  }, []);
+
+  if(loading){
+    return (
+      <Loading />
+    )
+  }
+  
   return (
     <section className={clsx("w-full h-auto bg-fundo-400 flex flex-col justify-between xl:items-center", {'h-screen overflow-hidden': sidebarOpen})}>
       <HeaderBanner text={menuName} responser={menuResponser} url={menuImage} />

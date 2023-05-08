@@ -1,19 +1,20 @@
 import BackButton from '@web/components/Button/back';
+import Loading from '@web/components/Loading';
 import HeaderBanner from '@web/components/Pages/Cardapio/header';
 import { useSideBar } from '@web/components/Pages/Cardapio/sidebar';
 import ProdutosContent from '@web/components/produtos';
 import { getCookie } from '@web/services/cookies';
 import { http } from '@web/services/http';
-import { Produtos } from '@web/utils/produtos';
 import clsx from 'clsx';
 import { GetServerSideProps } from 'next';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Menu } from 'types/menu';
 
 const TypeMenu = ({ type, menus, products }: any) => {
   const { sidebarOpen } = useSideBar();
+  const [ loading, setLoading ] = useState(true);
   const [productsData, setProductcsData] = useState(() => {
     const newProduct = products.map((product: any) => ({ ...product, anunciante: false }));
     if (products.length > 5) {
@@ -25,6 +26,18 @@ const TypeMenu = ({ type, menus, products }: any) => {
   });
   const router = useRouter();
   const TypeFormated = router?.query?.nome;
+
+  useEffect(() => {
+    window.onload = () => {
+      setLoading(false);
+    };
+  }, []);
+
+  if(loading){
+    return (
+      <Loading />
+    )
+  }
 
   return (
     <section className={clsx("w-full h-auto bg-fundo-400 flex flex-col xl:items-center", {'h-screen overflow-hidden': sidebarOpen})}>

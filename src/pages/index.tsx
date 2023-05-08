@@ -6,10 +6,25 @@ import { GetServerSideProps } from 'next';
 import { http } from '@web/services/http';
 import { getCookie } from '@web/services/cookies';
 import clsx from 'clsx';
+import { useEffect, useState } from 'react';
+import Loading from '@web/components/Loading';
 
 const Home = () => {
   const { setSidebarOpen, sidebarOpen } = useSideBar();
-  console.log(sidebarOpen)
+  const [ loading, setLoading ] = useState(true);
+
+  useEffect(() => {
+    window.onload = () => {
+      setLoading(false);
+    };
+  }, []);
+
+  if(loading){
+    return (
+      <Loading />
+    )
+  }
+
   return (
     <>
       <section className={clsx("w-full h-screen relative bg-black" , {'h-screen overflow-hidden': sidebarOpen})}>
