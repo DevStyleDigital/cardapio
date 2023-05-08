@@ -138,7 +138,7 @@ const SideBarNavs = () => {
     </div>
      <div className="absolute bottom-8 right-2">
      <Image
-       className="w-3/4 h-auto md:w-1/6 lg:w-32"
+       className="w-3/5 h-auto md:w-1/6 lg:w-32"
        src={Logo}
        alt="Logo"
        width={378}
