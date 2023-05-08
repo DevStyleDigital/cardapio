@@ -5,12 +5,14 @@ import { useSideBar } from '@web/components/Pages/Cardapio/sidebar';
 import { GetServerSideProps } from 'next';
 import { http } from '@web/services/http';
 import { getCookie } from '@web/services/cookies';
+import clsx from 'clsx';
 
 const Home = () => {
-  const { setSidebarOpen } = useSideBar();
+  const { setSidebarOpen, sidebarOpen } = useSideBar();
+  console.log(sidebarOpen)
   return (
     <>
-      <section className="w-full h-screen relative bg-black">
+      <section className={clsx("w-full h-screen relative bg-black" , {'h-screen': sidebarOpen})}>
         <Image
           className="w-full h-full"
           src={FundoImg}

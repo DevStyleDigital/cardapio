@@ -1,18 +1,20 @@
 import MenuItem from '@web/components/Pages/Cardapio/Menu';
 import HeaderBanner from '@web/components/Pages/Cardapio/header';
+import { useSideBar } from '@web/components/Pages/Cardapio/sidebar';
 import BlurImage from '@web/components/imageBlur';
 import { getCookie } from '@web/services/cookies';
 import { http } from '@web/services/http';
 import { MenuItens } from '@web/utils/menu';
+import clsx from 'clsx';
 import { GetServerSideProps } from 'next';
 import Image from 'next/image';
 import type { Menu } from 'types/menu';
 
 const Menu = ({ menus }: any) => {
-  // const MenuFilter = MenuItens.filter((item) => item.link === menu);
+  const { sidebarOpen } = useSideBar();
   const { id, menuName, menuAdvertiser, menuImage, productTypes, menuResponser } = menus;
   return (
-    <section className="w-full bg-fundo-400 flex flex-col justify-between xl:items-center">
+    <section className={clsx("w-full h-auto bg-fundo-400 flex flex-col justify-between xl:items-center", {'h-screen': sidebarOpen})}>
       <HeaderBanner text={menuName} responser={menuResponser} url={menuImage} />
       <div className="w-full h-auto grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:max-w-[1300px] gap-6 p-6">
         {productTypes?.map((item: any) => {
