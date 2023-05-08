@@ -27,11 +27,15 @@ const TypeMenu = ({ type, menus, products }: any) => {
   const router = useRouter();
   const TypeFormated = router?.query?.nome;
 
-  useEffect(() => {
-    window.onload = () => {
-      setLoading(false);
-    };
-  }, []);
+  const handleLoad = () => {
+    setLoading(false);
+  };
+  
+  useEffect(()=> {
+    if(products.length) {
+      handleLoad()
+    }
+}, [products])
 
   if(loading){
     return (

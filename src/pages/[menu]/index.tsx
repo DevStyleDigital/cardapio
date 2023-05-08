@@ -14,14 +14,17 @@ const Menu = ({ menus }: any) => {
   const { sidebarOpen } = useSideBar();
   const [ loading, setLoading ] = useState(true);
   const { id, menuName, menuAdvertiser, menuImage, productTypes, menuResponser } = menus;
+  
+  const handleLoad = () => {
+    setLoading(false);
+  };
+  
+  useEffect(()=> {
+    if(menus){
+      handleLoad()
+    }
+}, [menus])
 
-  useEffect(() => {
-    console.log('disparei')
-    window.onload = () => {
-      console.log('teste2')
-      setLoading(false);
-    };
-  }, []);
 
   if(loading){
     return (

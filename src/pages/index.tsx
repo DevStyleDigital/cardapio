@@ -3,7 +3,6 @@ import FundoImg from '../web/assets/img/fundo.png';
 import Logo from '../web/assets/img/logo.png';
 import { useSideBar } from '@web/components/Pages/Cardapio/sidebar';
 import { GetServerSideProps } from 'next';
-import { http } from '@web/services/http';
 import { getCookie } from '@web/services/cookies';
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
