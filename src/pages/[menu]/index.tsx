@@ -14,7 +14,7 @@ const Menu = ({ menus }: any) => {
   const { sidebarOpen } = useSideBar();
   const { id, menuName, menuAdvertiser, menuImage, productTypes, menuResponser } = menus;
   return (
-    <section className={clsx("w-full h-auto bg-fundo-400 flex flex-col justify-between xl:items-center", {'h-screen': sidebarOpen})}>
+    <section className={clsx("w-full h-auto bg-fundo-400 flex flex-col justify-between xl:items-center", {'h-screen overflow-hidden': sidebarOpen})}>
       <HeaderBanner text={menuName} responser={menuResponser} url={menuImage} />
       <div className="w-full h-auto grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:max-w-[1300px] gap-6 p-6">
         {productTypes?.map((item: any) => {

@@ -46,7 +46,7 @@ export const SideBarCardapioRoot = ({
 
   return (
     <SidebarContext.Provider value={{ sidebarOpen, setSidebarOpen }}>
-      <div className="fixed w-16 z-[200] h-16 top-12 right-8">
+      <div className="fixed w-14 z-[200] h-16 top-12 right-8">
         <button
           type="button"
           className="w-full h-full"
@@ -119,12 +119,12 @@ const SideBarNavs = () => {
       <div className="w-full flex flex-col  justify-center lg:items-center gap-8">
         {menuItems.map((item, index) => {
           return (
-            <div key={item.id} className="flex flex-col gap-2 md:gap-10 lg:items-center">
+            <div key={item.id} className="flex flex-col gap-2 md:gap-4 lg:items-center">
               <Link
                 href={`/${item.id}`}
                 onClick={() => setSidebarOpen(false)}
                 key={item.id}
-                className="text-white uppercase text-xl md:text-3xl tracking-4"
+                className="text-white uppercase text-xl md:text-xl tracking-4"
               >
                 {item.menuName}
               </Link>
@@ -138,7 +138,7 @@ const SideBarNavs = () => {
     </div>
      <div className="absolute bottom-8 right-2">
      <Image
-       className="w-4/5 h-auto md:w-1/6 lg:w-32"
+       className="w-4/5 h-auto lg:w-20"
        src={Logo}
        alt="Logo"
        width={378}

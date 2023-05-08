@@ -12,7 +12,7 @@ const Home = () => {
   console.log(sidebarOpen)
   return (
     <>
-      <section className={clsx("w-full h-screen relative bg-black" , {'h-screen': sidebarOpen})}>
+      <section className={clsx("w-full h-screen relative bg-black" , {'h-screen overflow-hidden': sidebarOpen})}>
         <Image
           className="w-full h-full"
           src={FundoImg}
