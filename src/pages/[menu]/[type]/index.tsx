@@ -35,7 +35,7 @@ const TypeMenu = ({ type, menus, products }: any) => {
           {TypeFormated}
         </h1>
         <BackButton menuPath={menus} />
-        <div className="w-full h-auto flex flex-col lg:grid lg:grid-cols-3 gap-6 py-6 pb-28 px-6">
+        <div className="w-full h-auto flex flex-col lg:grid lg:grid-cols-3 gap-6 pb-28 px-6">
           {productsData.map((produto: any, index: number) => {
             return (
               <>
