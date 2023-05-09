@@ -54,8 +54,6 @@ export async function POST(req: NextApiRequest, res: NextApiResponse) {
       .from('products')
       .insert({ ...fields, types: typesParsed, menus: menusParsed, image, id });
 
-    console.log(error);
-
     if (error) throw 'error';
 
     return res.status(200).send({ message: 'Success' });

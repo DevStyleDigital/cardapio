@@ -15,8 +15,6 @@ export async function PATCH(req: NextApiRequest, res: NextApiResponse) {
 
     const { fields, files } = await handleFormData(req);
 
-    console.log(fields, files);
-
     const db = database({ req, res });
     const values = Object.entries(fields);
 

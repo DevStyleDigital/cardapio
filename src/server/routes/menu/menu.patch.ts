@@ -18,8 +18,6 @@ export async function PATCH(req: NextApiRequest, res: NextApiResponse) {
       .update({ ...req.body })
       .eq('id', id);
 
-    console.log(error);
-
     if (error) throw 'error';
 
     return res.status(200).send({ id });
