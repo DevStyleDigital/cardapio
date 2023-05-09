@@ -23,9 +23,9 @@ const TypeMenu = ({ type, menus }: any) => {
   useEffect(() => {
     async function fetchData() {
       const response = await http
-        .get(`/api/products/dash?menu=${menus.id}&type=${type.id}`)
+        .get(`/api/products?menu=${menus.id}&type=${type.id}`)
         .then((res) => res)
-        .catch((err) => err);
+        .catch((err) => null);
       if (!response) {
         router.push('/');
       } else {
@@ -75,7 +75,7 @@ const TypeMenu = ({ type, menus }: any) => {
         </h1>
         <BackButton menuPath={menus} />
         <div className="w-full h-auto flex flex-col lg:grid lg:grid-cols-3 gap-6 pb-24">
-          {productsData?.map((produto: any, index: number) => {
+          {productsData?.sort((a,b) => (a as any).name.localeCompare((b as any).name)).map((produto: any, index: number) => {
             return (
               <>
                 <ProdutosContent
