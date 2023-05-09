@@ -69,6 +69,7 @@ export const ImageDropzone = ({
         required={required}
         credits={false}
         acceptedFileTypes={['image/webp']}
+        maxFileSize="3MB"
         labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
       />
     </div>

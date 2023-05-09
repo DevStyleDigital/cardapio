@@ -1,15 +1,15 @@
 import { BookmarkFilledIcon } from '@radix-ui/react-icons';
 import { ProductTypes } from './components/ProductTypes';
-import { Banner } from '@web/components/Banner';
 import { Button } from '@web/components/Button';
 import { ImageDropzone } from '@web/components/ImageDropzone';
 import { Input } from '@web/components/Input';
 import React, { useState } from 'react';
-import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
 import type { Menu, ProductType } from 'types/menu';
-import { mergeArrays } from '@web/utils/merge-arrays';
 import { http } from '@web/services/http';
+import { toast } from 'react-toastify';
+import { v4 as uuidv4 } from 'uuid';
+import { mergeArrays } from '@web/utils/merge-arrays';
 
 export const Form = ({
   menu,
@@ -29,109 +29,111 @@ export const Form = ({
   );
   const [productTypesDeleted, setProductTypesDeleted] = useState<string[]>([]);
 
+  async function submitImage(
+    validDelete: boolean,
+    key: string,
+    filepath: string,
+    file: any,
+    route?: string,
+  ) {
+    const formData = new FormData();
+    formData.append('path', filepath);
+
+    let makeFetch;
+    if (!file && validDelete) {
+      formData.append(key, 'delete');
+      makeFetch = true;
+    } else if (
+      !!file &&
+      file?.name !== 'default-image.webp' &&
+      typeof file !== 'string'
+    ) {
+      makeFetch = true;
+      formData.append(key, file, key);
+    }
+    makeFetch &&
+      (await http[!!menu ? 'patch' : 'post'](
+        route || `/api/menu/${filepath.split('/')[0]}/upload`,
+        formData,
+        { headers: { 'content-type': 'application/x-www-form-urlencode' } },
+      ).catch((err) => console.log(err)));
+  }
+
   function handleSubmit(ev: React.FormEvent<HTMLFormElement>) {
     ev.preventDefault();
-    setLoading(true);
-    let error;
-
-    const formData = new FormData();
-    productTypes.forEach((productType) => {
-      if (!!menu) {
-        productType.images?.advertiser &&
-          (productType.images?.advertiser as any)?.name !== 'default-image.webp' &&
-          typeof productType.images?.advertiser !== 'string' &&
-          formData.append(
-            `productTypes-advertiser-${productType.id}`,
-            productType.images.advertiser,
-            'advertiser',
-          );
-        productType.images?.image &&
-          (productType.images?.image as any)?.name !== 'default-image.webp' &&
-          typeof productType.images?.image !== 'string' &&
-          formData.append(
-            `productTypes-image-${productType.id}`,
-            productType.images.image,
-            'image',
-          );
-        return;
-      }
-
-      // if (!productType.images?.advertiser || !productType.images?.image)
-      //   error = 'Some fields in product type are not filed';
-      // else {
-      productType.images?.advertiser &&
-        formData.append(
-          `productTypes-advertiser-${productType.id}`,
-          productType.images.advertiser,
-          'advertiser',
-        );
-      productType.images?.image &&
-        formData.append(
-          `productTypes-image-${productType.id}`,
-          productType.images.image,
-          'image',
-        );
-      // }
-    });
-
-    if (error) return toast.error(error);
-    menuName !== menu?.menuName && formData.append('menuName', menuName);
-    menuResponser !== menu?.menuResponser &&
-      formData.append('menuResponser', menuResponser);
-    formData.append('productTypesDeleted', JSON.stringify(productTypesDeleted));
-
-    if (!menuImage) formData.append('menuImage', 'delete');
-    else if (menuImage.name !== 'default-image.webp' && typeof menuImage !== 'string')
-      formData.append('menuImage', menuImage, 'menuImage');
-
-    if (!menuAdvertiser) formData.append('menuAdvertiser', 'delete');
-    else if (
-      menuAdvertiser.name !== 'default-image.webp' &&
-      typeof menuAdvertiser !== 'string'
-    )
-      formData.append('menuAdvertiser', menuAdvertiser, 'menuAdvertiser');
+    const menuData = {
+      menuName: menuName === menu?.menuName ? undefined : menuName,
+      menuResponser: menuResponser === menu?.menuResponser ? undefined : menuResponser,
+    };
 
     const productTypesFormatted = productTypes.map((productType) => ({
       id: productType.id,
       type: productType.type,
-      images: {
-        advertiser: !productType.images?.advertiser ? 'delete' : undefined,
-        image: !productType.images?.image ? 'delete' : undefined,
-      },
     }));
 
-    productTypesFormatted.length &&
-      formData.append(
-        'productTypes',
-        JSON.stringify(
-          !!menu
-            ? mergeArrays(
-                productTypesFormatted,
-                productTypeDb
-                  .filter(({ id }) => !productTypesDeleted.includes(id))
-                  .map((productType) => ({
-                    id: productType.id,
-                    type: productType.type,
-                  })),
-                ['type', 'images'],
-              )
-            : productTypesFormatted,
-        ),
-      );
+    const productsTypes = !!menu
+      ? mergeArrays(
+          productTypesFormatted,
+          productTypeDb.filter(({ id }) => !productTypesDeleted.includes(id)),
+          ['type'],
+        )
+      : productTypesFormatted;
 
-    http[!!menu ? 'patch' : 'post'](`/api/menu/${!!menu ? menu?.id : ''}`, formData, {
-      headers: { 'content-type': 'application/x-www-form-urlencode' },
-    })
-      .then(() => {
-        toast.success(`Menu ${!!menu ? 'edited!' : 'created!'}`);
-        router.push('/admin/dash/menu');
+    http[!!menu ? 'patch' : 'post']<{ id: string }>(
+      `/api/menu/${!!menu ? menu.id : ''}`,
+      menuData,
+    )
+      .then(async (res) => {
+        console.log(res);
+        await submitImage(
+          !!menu?.menuImage,
+          'menuImage',
+          `${res.id}/image.webp`,
+          menuImage,
+        );
+        await submitImage(
+          !!menu?.menuAdvertiser,
+          'menuAdvertiser',
+          `${res.id}/advertiser.webp`,
+          menuAdvertiser,
+        );
+
+        productTypesDeleted.length &&
+          (await http.post('/api/product-type/delete', { productTypesDeleted }));
+        await Promise.all(
+          productsTypes.map(async (productType) => {
+            await http[!!menu ? 'patch' : 'post'](`/api/product-type/${productType.id}`, {
+              type: productType.type,
+              menuId: res.id,
+            }).catch((err) => toast.error(err.message));
+          }),
+        );
+        await Promise.all(
+          productTypes.map(async ({ id, images }) => {
+            await submitImage(
+              true,
+              'image',
+              `${res.id}/product-type/${id}/image.webp`,
+              images?.image,
+              `/api/product-type/${id}/upload`,
+            );
+            await submitImage(
+              true,
+              'advertiser',
+              `${res.id}/product-type/${id}/advertiser.webp`,
+              images?.advertiser,
+              `/api/product-type/${id}/upload`,
+            );
+          }),
+        );
+        toast.success(!!menu ? 'Menu edited!' : 'Menu created!');
+        return res;
       })
-      .catch(() => {
-        toast.error('Something went wrong!');
-      })
-      .finally(() => {
+      .catch((err) => {
+        toast.error(err.message);
         setLoading(false);
-      });
+      })
+      .finally(() => router.push('/admin/dash/menu'));
   }
 
   return (

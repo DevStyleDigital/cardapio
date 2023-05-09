@@ -8,8 +8,9 @@ export async function middleware(req: NextRequest) {
   const { auth } = database({ req, res });
   const dataUser = cookieValue[0] && (await auth.getUser(cookieValue[0]));
 
-  if (!dataUser || dataUser.error || !dataUser.data.user)
-    return new NextResponse(null, { status: 404 });
+  if (!dataUser || dataUser.error || !dataUser.data.user) {
+    return NextResponse.rewrite(new URL('/admin', req.url));
+  }
   return NextResponse.next();
 }
 

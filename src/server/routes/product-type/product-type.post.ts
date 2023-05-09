@@ -1,18 +1,16 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { database } from '@server/services/database';
-import { v4 as uuidv4 } from 'uuid';
 
 export async function POST(req: NextApiRequest, res: NextApiResponse) {
   try {
+    const { id } = req.query;
     const db = database({ req, res });
 
-    const id = uuidv4();
-
-    const { error } = await db.from('menus').insert({ ...req.body, id });
+    const { error } = await db.from('product_types').insert({ ...req.body, id });
 
     if (error) throw 'error';
 
-    return res.status(200).send({ id });
+    return res.status(200).send({ message: 'Success' });
   } catch (err) {
     throw err;
   }

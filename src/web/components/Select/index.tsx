@@ -5,6 +5,7 @@ export const Select = ({
   multi,
   disabled,
   onChange,
+  value,
   defaultValue,
   ...props
 }: {
@@ -12,6 +13,7 @@ export const Select = ({
   id?: string;
   required?: boolean;
   multi?: boolean;
+  value?: { value: string; label: string }[];
   disabled?: boolean;
   onChange: (options: { value: string; label: string }[]) => void;
   defaultValue: { value: string; label: string }[];
@@ -21,6 +23,7 @@ export const Select = ({
       {...props}
       isMulti={multi}
       isDisabled={disabled}
+      value={value}
       defaultValue={multi ? defaultValue : defaultValue[0]}
       onChange={(ev) => onChange(Array.isArray(ev) ? ev : [ev])}
       classNames={{

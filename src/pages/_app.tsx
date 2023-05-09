@@ -11,6 +11,7 @@ import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orien
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import FilePondPluginFilePoster from 'filepond-plugin-file-poster';
+import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size';
 
 import '@web/styles/globals.css';
 import 'react-toastify/dist/ReactToastify.css';
@@ -28,6 +29,7 @@ registerPlugin(
   FilePondPluginImageExifOrientation,
   FilePondPluginImagePreview,
   FilePondPluginFileValidateType,
+  FilePondPluginFileValidateSize,
 );
 
 const lato = Lato({

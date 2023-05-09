@@ -44,12 +44,10 @@ export const Form = ({ product, menus }: { product?: Product; menus: Menu[] }) =
     http[!!product ? 'patch' : 'post'](
       `/api/products/${!!product ? product?.id : 'dash'}`,
       formData,
-      {
-        headers: { 'content-type': 'application/x-www-form-urlencode' },
-      },
+      { headers: { 'content-type': 'application/x-www-form-urlencode' } },
     )
       .then(() => {
-        toast.success('Product created!');
+        toast.success(!!product ? 'Product edited!' : 'Product created!');
         router.push('/admin/dash/products');
       })
       .catch(() => {
@@ -112,9 +110,10 @@ export const Form = ({ product, menus }: { product?: Product; menus: Menu[] }) =
                 id="product-menus"
                 required
                 defaultValue={selectedMenus.map((v) => ({ label: v.name, value: v.id }))}
-                onChange={(values) =>
-                  setSelectedMenus(values.map((v) => ({ id: v.value, name: v.label })))
-                }
+                onChange={(values) => {
+                  setSelectedMenus(values.map((v) => ({ id: v.value, name: v.label })));
+                  setSelectedTypes([]);
+                }}
               />
             </Input.Root>
             <Input.Root id="product-type" error={null} className="w-full">
@@ -128,6 +127,7 @@ export const Form = ({ product, menus }: { product?: Product; menus: Menu[] }) =
                   )
                   .flat(1)}
                 required
+                value={selectedTypes.map((v) => ({ label: v.name, value: v.id }))}
                 defaultValue={selectedTypes.map((v) => ({ label: v.name, value: v.id }))}
                 disabled={!selectedMenus.length}
                 onChange={(values) =>

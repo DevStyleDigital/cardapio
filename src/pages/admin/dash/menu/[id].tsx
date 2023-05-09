@@ -20,6 +20,14 @@ const MenuForm = ({
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+  if (params?.id === 'create')
+    return {
+      props: {
+        menu: null,
+        productTypeDb: [],
+      },
+    };
+
   const menu = await http
     .get(`/api/menu/${params?.id}`)
     .then((res) => res)
