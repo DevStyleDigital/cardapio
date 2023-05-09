@@ -2,6 +2,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Modal } from '../Modal';
 import { Cross1Icon } from '@radix-ui/react-icons';
+import { purifyText } from '@web/services/purifyText';
+import BlurImage from '../imageBlur';
 
 interface ProdutoProps {
   nome: string;
@@ -14,11 +16,11 @@ const ProdutosContent = ({ nome, descricao, preco, img }: ProdutoProps) => {
     <>
       <Modal.Root id="product-modal">
         <Modal.Trigger className="text-start" asChild>
-          <div className="w-full flex items-center gap-4 py-4 h-auto min-h-[150px] border-b-[1px] border-gray-100/30">
+          <div className="w-full flex items-center gap-4 py-6 h-full min-h-[150px] border-b-[1px] border-gray-100/30">
             <div className="w-full flex flex-col gap-2">
               <div className="w-full flex flex-col gap-2">
                 <h1 className="text-lg break-all text-white/95">{nome}</h1>
-                <p className="text-[0.7rem] break-all text-white/70">{descricao}</p>
+                <p className="text-[0.9rem] break-all text-white/70" dangerouslySetInnerHTML={{ __html: purifyText(descricao) }} />
               </div>
               <p className="h-full text-white flex items-center gap-1">
                 <span className="text-sm">R$</span>
@@ -27,15 +29,12 @@ const ProdutosContent = ({ nome, descricao, preco, img }: ProdutoProps) => {
             </div>
             {img && (
               <div className="w-full h-full max-h-[110px] max-w-[130px] md:max-h-[140px] md:max-w-[160px]  bg-golden-400 shadow-lg shadow-black/80">
-                <Image
+                <BlurImage
                   className="w-full h-full"
-                  blurDataURL={img}
-                  placeholder="blur"
-                  loading="lazy"
                   src={img}
                   width={400}
                   height={400}
-                  alt="img-product"
+                  onCover={true}
                 />
               </div>
             )}
@@ -65,7 +64,7 @@ const ProdutosContent = ({ nome, descricao, preco, img }: ProdutoProps) => {
             <div className="w-full flex flex-col max-h-[40vh] overflow-auto gap-2 py-4 pr-6 lg:pr-4 2xl:pr-[30%]">
               <div className="w-full flex flex-col gap-2">
                 <h1 className="text-xl break-all text-white/95">{nome}</h1>
-                <p className="text-md lg:text-lg break-all text-white/70">{descricao}</p>
+                <p className="text-md lg:text-lg break-all text-white/70" dangerouslySetInnerHTML={{ __html: purifyText(descricao) }} />
               </div>
               <p className="h-full text-white flex items-center gap-1">
                 <span className="text-md">R$</span>

@@ -23,7 +23,6 @@ import 'filepond-plugin-file-poster/dist/filepond-plugin-file-poster.css';
 
 import { SideBar } from '@web/components/Pages/Cardapio/sidebar/SidebarCardapio';
 import { SideBarCardapioRoot } from '@web/components/Pages/Cardapio/sidebar';
-
 registerPlugin(
   FilePondPluginFilePoster,
   FilePondPluginImageExifOrientation,
@@ -63,7 +62,7 @@ const App = ({
           {router.pathname.includes('/admin/dash') && <SidebarDash />}
           <Comp hiddenHamburguer={router.pathname === '/'}>
             {!router.pathname.includes('/admin/dash') && <SideBar />}
-            <Component {...pageProps} />
+              <Component {...pageProps} />
           </Comp>
         </div>
         <ToastContainer limit={4} closeOnClick autoClose={5 * 1000} transition={Slide} />
