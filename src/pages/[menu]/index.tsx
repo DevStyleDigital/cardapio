@@ -13,8 +13,8 @@ import type { Menu } from 'types/menu';
 
 const Menu = ({ id }: any) => {
   const { sidebarOpen } = useSideBar();
-  const [ loading, setLoading ] = useState(true);
-  const [ data , setData ] = useState<Menu>();
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState<Menu>();
   const router = useRouter();
 
   useEffect(() => {
@@ -23,26 +23,33 @@ const Menu = ({ id }: any) => {
         .get<Menu>(`/api/menu/${id}`)
         .then((res) => res)
         .catch((error) => null);
-      if (!response){
-        router.push('/')
-      }else{
+      if (!response) {
+        router.push('/');
+      } else {
         setLoading(false);
-        setData(response)
+        setData(response);
       }
     }
     fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
-
-  if(loading){
-    return (
-      <Loading />
-    )
+  if (loading) {
+    return <Loading />;
   }
 
   return (
-    <section className={clsx("w-full h-auto bg-fundo-400 flex flex-col justify-between xl:items-center", {'h-screen overflow-hidden': sidebarOpen})}>
-      <HeaderBanner text={data?.menuName!} responser={data?.menuResponser!} url={data?.menuImage!} />
+    <section
+      className={clsx(
+        'w-full h-auto bg-fundo-400 flex flex-col justify-between xl:items-center',
+        { 'h-screen overflow-hidden': sidebarOpen },
+      )}
+    >
+      <HeaderBanner
+        text={data?.menuName!}
+        responser={data?.menuResponser!}
+        url={data?.menuImage!}
+      />
       <div className="w-full h-auto grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:max-w-[1300px] gap-6 p-6">
         {data?.productTypes?.map((item: any) => {
           return (

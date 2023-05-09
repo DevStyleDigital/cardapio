@@ -23,7 +23,7 @@ const TypeMenu = ({ type, menus }: any) => {
   useEffect(() => {
     async function fetchData() {
       const response = await http
-        .get('/api/products/dash')
+        .get(`/api/products/dash?menu=${menus.id}&type=${type.id}`)
         .then((res) => res)
         .catch((err) => err);
       if (!response) {
@@ -34,6 +34,7 @@ const TypeMenu = ({ type, menus }: any) => {
       }
     }
     fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [type]);
 
   useEffect(() => {
