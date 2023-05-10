@@ -16,7 +16,7 @@ const HeaderBanner = ({
       enableBackdrop
       url={url}
       responser={responser}
-      className="sticky top-0 border-b-red-600 border-b-2 z-[9]"
+      className="sticky top-0 border-b-red-600 border-b-2 z-[6]"
     >
       {text}
     </Banner>

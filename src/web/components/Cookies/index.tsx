@@ -30,9 +30,9 @@ const AcceptCookie = () => {
                 <div className="w-full h-full">
                     <p className="text-sm md:text-md text-white">Quando você usa este site, está aceitando o uso de cookies para melhorar a sua experiência como usuário e cliente.</p>
                 </div>
-                <div className="w-full h-full flex justify-end">
+                {/* <div className="w-full h-full flex justify-end">
                     <button className="text-white bg-golden-400 py-2 px-4 font-semibold  rounded-md" onClick={() => CreateCookie()}>Aceitar</button>
-                </div>
+                </div> */}
             </div>
         )}
         </>

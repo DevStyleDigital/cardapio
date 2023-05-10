@@ -8,33 +8,21 @@ import { http } from '@web/services/http';
 import clsx from 'clsx';
 import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import type { Menu } from 'types/menu';
+import useSWR from 'swr'
+
 
 const Menu = ({ id }: any) => {
   const { sidebarOpen } = useSideBar();
-  const [loading, setLoading] = useState(true);
-  const [data, setData] = useState<Menu>();
+  const { data, error, isLoading } = useSWR<Menu>(`/api/menu/${id}`, http.get)
   const router = useRouter();
-
+  
   useEffect(() => {
-    async function fetchData() {
-      const response = await http
-        .get<Menu>(`/api/menu/${id}`)
-        .then((res) => res)
-        .catch((error) => null);
-      if (!response) {
-        router.push('/');
-      } else {
-        setData(response);
-        setLoading(false);
-      }
-    }
-    fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id]);
-
-  if (loading) {
+    if((!data && !isLoading) || error) router.push('/') 
+  },[isLoading])
+  
+  if (isLoading || !data) {
     return <Loading />;
   }
 

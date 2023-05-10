@@ -10,31 +10,16 @@ import { GetServerSideProps } from 'next';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import useSWR from 'swr';
 import { Menu } from 'types/menu';
 
 const TypeMenu = ({ type, menus }: any) => {
   const { sidebarOpen } = useSideBar();
   const [loading, setLoading] = useState(true);
-  const [data, setData] = useState<any>();
+  const { data, isLoading } = useSWR<any>(`/api/products?menu=${menus.id}&type=${type.id}`, http.get)
   const [productsData, setProductcsData] = useState([]);
   const router = useRouter();
   const TypeFormated = router?.query?.nome;
-
-  useEffect(() => {
-    async function fetchData() {
-      const response = await http
-        .get(`/api/products?menu=${menus.id}&type=${type.id}`)
-        .then((res) => res)
-        .catch((err) => null);
-      if (!response) {
-        router.push('/');
-      } else {
-        setData(response);
-      }
-    }
-    fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [type]);
 
   useEffect(() => {
     if (data?.length) {
@@ -51,10 +36,12 @@ const TypeMenu = ({ type, menus }: any) => {
         return newProduct;
       });
       setLoading(false);
+    }else if (!isLoading){
+      router.push('/')
     }
-  }, [data]);
+  }, [data, isLoading]);
 
-  if (loading) {
+  if (loading || isLoading) {
     return <Loading />;
   }
 
