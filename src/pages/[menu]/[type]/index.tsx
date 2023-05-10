@@ -29,7 +29,6 @@ const TypeMenu = ({ type, menus }: any) => {
       if (!response) {
         router.push('/');
       } else {
-        setLoading(false);
         setData(response);
       }
     }
@@ -51,6 +50,7 @@ const TypeMenu = ({ type, menus }: any) => {
         }
         return newProduct;
       });
+      setLoading(false);
     }
   }, [data]);
 

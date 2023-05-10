@@ -26,8 +26,8 @@ const Menu = ({ id }: any) => {
       if (!response) {
         router.push('/');
       } else {
-        setLoading(false);
         setData(response);
+        setLoading(false);
       }
     }
     fetchData();
@@ -37,7 +37,7 @@ const Menu = ({ id }: any) => {
   if (loading) {
     return <Loading />;
   }
-  console.log(data)
+
   return (
     <section
       className={clsx(
