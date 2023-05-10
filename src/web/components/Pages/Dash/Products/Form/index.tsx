@@ -37,13 +37,15 @@ export const Form = ({ product, menus }: { product?: Product; menus: Menu[] }) =
     formData.append('menus', selectedMenus);
     formData.append('types', selectedTypes);
 
-    if (
-      productImage &&
-      (productImage as any)?.name !== 'default-image.webp' &&
+    if (!productImage && !!product?.image) {
+      formData.append('image', 'delete');
+    } else if (
+      !!productImage &&
+      productImage?.name !== 'default-image.webp' &&
       typeof productImage !== 'string'
-    )
+    ) {
       formData.append('image', productImage, 'image');
-    else formData.append('image', 'delete');
+    }
 
     http[!!product ? 'patch' : 'post'](
       `/api/products/${!!product ? product?.id : 'dash'}`,
