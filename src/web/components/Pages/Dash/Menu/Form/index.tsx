@@ -132,7 +132,10 @@ export const Form = ({
       .catch((err) => {
         toast.error(err.message);
       })
-      .finally(() => router.push('/admin/dash/menu').finally(() => setLoading(false)));
+      .finally(async () => {
+        await router.push('/admin/dash/menu');
+        setLoading(false);
+      });
   }
 
   return (

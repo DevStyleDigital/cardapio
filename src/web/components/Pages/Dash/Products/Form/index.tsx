@@ -52,9 +52,10 @@ export const Form = ({ product, menus }: { product?: Product; menus: Menu[] }) =
       formData,
       { headers: { 'content-type': 'application/x-www-form-urlencode' } },
     )
-      .then(() => {
+      .then(async () => {
         toast.success(!!product ? 'Product edited!' : 'Product created!');
-        router.push('/admin/dash/products').finally(() => setLoading(false));
+        await router.push('/admin/dash/products');
+        setLoading(false);
       })
       .catch(() => {
         toast.error('Something went wrong!');

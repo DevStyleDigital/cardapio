@@ -13,8 +13,11 @@ import {
 import { Input } from '../Input';
 import { Button } from '../Button';
 import { Logo } from '../Logo';
+import { cookie } from '@web/services/cookies';
+import { useRouter } from 'next/router';
 
 export const SidebarDash = () => {
+  const router = useRouter();
   const [codeData, setCode] = useState<string | undefined>();
   const [loading, setLoading] = useState(false);
 
@@ -78,7 +81,12 @@ export const SidebarDash = () => {
         </Sidebar.Nav>
         <Sidebar.Nav>
           <Sidebar.Link asChild>
-            <button onClick={() => true}>
+            <button
+              onClick={() => {
+                cookie.del(null, 'supabase-auth-token');
+                router.push('/admin');
+              }}
+            >
               <ExitIcon className="w-5 h-5" />
               <span>Sign out</span>
             </button>

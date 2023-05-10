@@ -21,9 +21,8 @@ export async function PATCH(req: NextApiRequest, res: NextApiResponse) {
     const file = files?.[0]?.files?.[0];
     let imageUrl;
     if (file) {
-      await storage.in(`products/${id}`).delete();
-      await storage.in('products').upload(`${id}/image.${file.extension}`, file.file);
-      imageUrl = storage.in(`products/${id}`).getUrl(`image.${file.extension}`);
+      await storage.in('products').upsert(`${id}/image.${file.extension}`, file.file);
+      imageUrl = storage.in('products').getUrl(`${id}/image.${file.extension}`);
     }
 
     if (fields.image === 'delete')
