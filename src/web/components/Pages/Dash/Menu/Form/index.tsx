@@ -56,7 +56,9 @@ export const Form = ({
         route || `/api/menu/${filepath.split('/')[0]}/upload`,
         formData,
         { headers: { 'content-type': 'application/x-www-form-urlencode' } },
-      ).catch(() => toast.error('Ocurred an error on submit a few images!')));
+      )
+        .then((res) => res)
+        .catch(() => toast.error('Ocurred an error on submit a few images!')));
   }
 
   function handleSubmit(ev: React.FormEvent<HTMLFormElement>) {
