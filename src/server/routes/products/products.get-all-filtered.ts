@@ -9,8 +9,8 @@ export async function GET_ALL_FILTERED(req: NextApiRequest, res: NextApiResponse
     const { data, error } = await db
       .from('products')
       .select('*')
-      .eq('menus->id', menu)
-      .eq('types->', type);
+      .eq('menus', menu)
+      .eq('types', type);
 
     if (!data?.length || error)
       throw {
