@@ -46,13 +46,13 @@ const ProdutosContent = ({ nome, descricao, preco, img }: ProdutoProps) => {
           classNames={{ container: '!z-[999]', backdrop: 'bg-black/100' }}
         >
           <Modal.Trigger className="relative w-screen h-screen">
-            <div className="text-white absolute top-12 right-8">
+            <div className="text-white absolute top-12 right-8 z-[100]">
               <Cross1Icon className="w-16 h-16 text-golden-400" />
             </div>
           </Modal.Trigger>
-          <div className="fixed w-full sm:w-[50%] h-auto min-h-[50%] top-1/2 -translate-y-1/2 flex flex-col sm:translate-x-1/2 gap-4 p-4">
+          <div className="fixed w-full sm:w-[50%] h-auto min-h-[50%] top-1/2 -translate-y-1/2 flex flex-col sm:translate-x-1/2 gap-4 p-4 mt-8">
             {img && (
-              <div className="w-full max-w-[630px] bg-golden-400 shadow-lg shadow-black/80">
+              <div className="w-full max-w-[630px] z-[100] bg-golden-400 shadow-lg shadow-black/80">
                 <Image
                   className="w-full h-full"
                   src={img}

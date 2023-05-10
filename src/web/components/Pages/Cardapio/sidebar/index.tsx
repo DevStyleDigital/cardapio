@@ -45,7 +45,7 @@ export const SideBarCardapioRoot = ({
 
   return (
     <SidebarContext.Provider value={{ sidebarOpen, setSidebarOpen }}>
-      <div className="fixed w-14 z-[200] h-16 top-12 right-8">
+      <div className="fixed w-14 h-16 top-12 right-8">
         <button
           type="button"
           className="w-full h-full"

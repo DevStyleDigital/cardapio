@@ -40,9 +40,11 @@ const Home = () => {
               </button>
             </div>
           </div>
-          <div className="w-full h-[12rem] md:h-[15rem]">
-            <div className="w-full h-full bg-white">{/* Anunciante aqui */}</div>
-          </div>
+          <div className="w-full flex justify-center px-6 pb-6 h-[13rem] md:h-[15rem] xl:h-[18rem]">
+            <div
+              className="w-full h-full max-w-[550px] xl:max-w-[600px] bg-white"
+            />
+        </div>
         </div>
       </section>
     </>
