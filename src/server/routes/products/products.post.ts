@@ -9,10 +9,7 @@ export async function POST(req: NextApiRequest, res: NextApiResponse) {
   try {
     const db = database({ req, res });
 
-    const {
-      fields: { types, menus, ...fields },
-      files,
-    } = await handleFormData<keyof Product, 'image'>(req);
+    const { fields, files } = await handleFormData<keyof Product, 'image'>(req);
 
     // if (!files.length || !files[0].files[0])
     //   throw {
@@ -20,16 +17,7 @@ export async function POST(req: NextApiRequest, res: NextApiResponse) {
     //     type: 'missing-fields',
     //   };
 
-    const typesParsed = JSON.parse(types as string) as Product['types'];
-    const menusParsed = JSON.parse(menus as string) as Product['menus'];
-
-    if (
-      !fields.name ||
-      !fields.price ||
-      !fields.text ||
-      !typesParsed.length ||
-      !menusParsed.length
-    )
+    if (!fields.name || !fields.price || !fields.text || !fields.types || !fields.menus)
       throw {
         status: 400,
         type: 'missing-fields',
@@ -50,9 +38,7 @@ export async function POST(req: NextApiRequest, res: NextApiResponse) {
 
     if (imageError) throw 'error';
 
-    const { error } = await db
-      .from('products')
-      .insert({ ...fields, types: typesParsed, menus: menusParsed, image, id });
+    const { error } = await db.from('products').insert({ ...fields, image, id });
 
     if (error) throw 'error';
 

@@ -19,8 +19,12 @@ export const Form = ({ product, menus }: { product?: Product; menus: Menu[] }) =
   const [productDesc, setProductDesc] = useState(product?.text || '');
   const [productImage, setProductImage] = useState<File | null>(null);
   const [productPrice, setProductPrice] = useState(product?.price || '0.00');
-  const [selectedTypes, setSelectedTypes] = useState(product?.types ? product.types : []);
-  const [selectedMenus, setSelectedMenus] = useState(product?.menus ? product.menus : []);
+  const [selectedTypes, setSelectedTypes] = useState(product?.types ? product.types : '');
+  const [selectedMenus, setSelectedMenus] = useState(product?.menus ? product.menus : '');
+
+  function getSelectValueFromProductTypes(v: Menu['productTypes'][number] | undefined) {
+    return v && [{ label: v.type, value: v.id }];
+  }
 
   function handleSubmit(ev: React.FormEvent<HTMLFormElement>) {
     ev.preventDefault();
@@ -30,8 +34,8 @@ export const Form = ({ product, menus }: { product?: Product; menus: Menu[] }) =
     product?.name !== productName && formData.append('name', productName);
     product?.name !== productDesc && formData.append('text', productDesc);
     product?.name !== productPrice && formData.append('price', productPrice);
-    formData.append('menus', JSON.stringify(selectedMenus));
-    formData.append('types', JSON.stringify(selectedTypes));
+    formData.append('menus', selectedMenus);
+    formData.append('types', selectedTypes);
 
     if (
       productImage &&
@@ -48,12 +52,10 @@ export const Form = ({ product, menus }: { product?: Product; menus: Menu[] }) =
     )
       .then(() => {
         toast.success(!!product ? 'Product edited!' : 'Product created!');
-        router.push('/admin/dash/products');
+        router.push('/admin/dash/products').finally(() => setLoading(false));
       })
       .catch(() => {
         toast.error('Something went wrong!');
-      })
-      .finally(() => {
         setLoading(false);
       });
   }
@@ -109,10 +111,12 @@ export const Form = ({ product, menus }: { product?: Product; menus: Menu[] }) =
                 }))}
                 id="product-menus"
                 required
-                defaultValue={selectedMenus.map((v) => ({ label: v.name, value: v.id }))}
+                defaultValue={menus
+                  .filter((menu) => menu.id === selectedMenus)
+                  .map((v) => ({ label: v.menuName, value: v.id }))}
                 onChange={(values) => {
-                  setSelectedMenus(values.map((v) => ({ id: v.value, name: v.label })));
-                  setSelectedTypes([]);
+                  setSelectedMenus(values[0].value);
+                  setSelectedTypes('');
                 }}
               />
             </Input.Root>
@@ -121,18 +125,23 @@ export const Form = ({ product, menus }: { product?: Product; menus: Menu[] }) =
               <Select
                 id="product-types"
                 options={menus
-                  .filter((menu) => selectedMenus.some(({ id }) => id === menu.id))
+                  .filter((menu) => selectedMenus === menu.id)
                   .map((menu) =>
                     menu.productTypes.map(({ id, type }) => ({ value: id, label: type })),
                   )
                   .flat(1)}
                 required
-                value={selectedTypes.map((v) => ({ label: v.name, value: v.id }))}
-                defaultValue={selectedTypes.map((v) => ({ label: v.name, value: v.id }))}
-                disabled={!selectedMenus.length}
-                onChange={(values) =>
-                  setSelectedTypes(values.map((v) => ({ id: v.value, name: v.label })))
+                value={
+                  selectedTypes
+                    ? getSelectValueFromProductTypes(
+                        menus
+                          .filter((menu) => selectedMenus === menu.id)?.[0]
+                          ?.productTypes.find(({ id }) => id === selectedTypes),
+                      )
+                    : undefined
                 }
+                disabled={!selectedMenus.length}
+                onChange={(values) => setSelectedTypes(values[0].value)}
               />
             </Input.Root>
           </div>

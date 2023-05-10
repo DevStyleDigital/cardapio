@@ -61,6 +61,7 @@ export const Form = ({
 
   function handleSubmit(ev: React.FormEvent<HTMLFormElement>) {
     ev.preventDefault();
+    setLoading(true);
     const menuData = {
       menuName: menuName === menu?.menuName ? undefined : menuName,
       menuResponser: menuResponser === menu?.menuResponser ? undefined : menuResponser,
@@ -130,9 +131,8 @@ export const Form = ({
       })
       .catch((err) => {
         toast.error(err.message);
-        setLoading(false);
       })
-      .finally(() => router.push('/admin/dash/menu'));
+      .finally(() => router.push('/admin/dash/menu').finally(() => setLoading(false)));
   }
 
   return (

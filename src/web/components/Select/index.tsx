@@ -16,7 +16,7 @@ export const Select = ({
   value?: { value: string; label: string }[];
   disabled?: boolean;
   onChange: (options: { value: string; label: string }[]) => void;
-  defaultValue: { value: string; label: string }[];
+  defaultValue?: { value: string; label: string }[];
 }) => {
   return (
     <ReactSelect
@@ -24,7 +24,7 @@ export const Select = ({
       isMulti={multi}
       isDisabled={disabled}
       value={value}
-      defaultValue={multi ? defaultValue : defaultValue[0]}
+      defaultValue={multi ? defaultValue : defaultValue?.[0]}
       onChange={(ev) => onChange(Array.isArray(ev) ? ev : [ev])}
       classNames={{
         control: ({ isDisabled }) =>

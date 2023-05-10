@@ -5,6 +5,6 @@ export type Product = {
   text: string;
   price: string;
 
-  menus: { id: string; name: string }[];
-  types: { id: string; name: string }[];
+  menus: string;
+  types: string;
 };
