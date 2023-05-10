@@ -14,6 +14,7 @@ import clsx from 'clsx';
 import { Cross1Icon, HamburgerMenuIcon } from '@radix-ui/react-icons';
 import { http } from '@web/services/http';
 import type { Menu } from 'types/menu';
+import useSWR from 'swr';
 
 interface SideBarProps {
   sidebarOpen: boolean;
@@ -100,23 +101,12 @@ const SideBarTitle = ({ children }: any) => {
 
 const SideBarNavs = () => {
   const { setSidebarOpen } = useSideBar();
-  const [menuItems, setMenuItems] = useState([] as Menu[]);
-  useEffect(() => {
-    async function fetchData() {
-      const response = await http
-        .get<Menu[]>('/api/menu')
-        .then((res) => res)
-        .catch(() => []);
-      setMenuItems(response);
-    }
-    fetchData();
-  }, []);
-
+  const { data } = useSWR<Menu[]>(`/api/menu`, http.get)
   return (
     <>
     <div className='mt-10 overflow-y-scroll h-full flex'>
       <div className="w-full flex flex-col  justify-center lg:items-center gap-8">
-        {menuItems.map((item, index) => {
+        {data?.map((item, index) => {
           return (
             <div key={item.id} className="flex flex-col gap-2 md:gap-4 lg:items-center">
               <Link
@@ -127,7 +117,7 @@ const SideBarNavs = () => {
               >
                 {item.menuName}
               </Link>
-              {menuItems.length - 1 > index && (
+              {data?.length - 1 > index && (
                 <div className="w-10/12 sm:w-3/6 md:w-6/12 lg:w-full h-px bg-red-600" />
               )}
             </div>
