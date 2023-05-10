@@ -31,6 +31,7 @@ const MenuItem = ({ nome, menu, link, img }: MenuItemProps) => {
             width={400}
             height={400}
             onCover={true}
+            isfull
           />
         )}
       </div>

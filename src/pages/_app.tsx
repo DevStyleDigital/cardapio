@@ -23,6 +23,10 @@ import 'filepond-plugin-file-poster/dist/filepond-plugin-file-poster.css';
 
 import { SideBar } from '@web/components/Pages/Cardapio/sidebar/SidebarCardapio';
 import { SideBarCardapioRoot } from '@web/components/Pages/Cardapio/sidebar';
+import Head from 'next/head';
+import AcceptCookie from '@web/components/Cookies';
+import { GetServerSideProps } from 'next';
+import { getCookie } from '@web/services/cookies';
 registerPlugin(
   FilePondPluginFilePoster,
   FilePondPluginImageExifOrientation,
@@ -45,7 +49,6 @@ const App = ({
   initialSession: Session;
 }>) => {
   const [supabase] = useState(() => createBrowserSupabaseClient());
-
   const Comp =
     !router.pathname.includes('/admin') &&
     !router.pathname.includes('/code') &&
@@ -57,6 +60,9 @@ const App = ({
       supabaseClient={supabase}
       initialSession={pageProps.initialSession}
     >
+      <Head>
+        <title>Yoshis</title>
+      </Head>
       <div className={`${lato.variable} ${lato.className}`}>
         <div className="flex min-h-screen w-full">
           {router.pathname.includes('/admin/dash') && <SidebarDash />}
@@ -65,10 +71,12 @@ const App = ({
               <Component {...pageProps} />
           </Comp>
         </div>
+        <AcceptCookie />
         <ToastContainer limit={4} closeOnClick autoClose={5 * 1000} transition={Slide} />
       </div>
     </SessionContextProvider>
   );
 };
+
 
 export default App;

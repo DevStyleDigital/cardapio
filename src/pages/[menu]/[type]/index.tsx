@@ -83,7 +83,7 @@ const TypeMenu = ({ type, menus }: any) => {
                   nome={produto.name}
                   img={produto.image}
                   descricao={produto.text}
-                  preco={produto.price}
+                  preco={produto.price.replace('.', ',')}
                 />
                 {produto.anunciante && (
                   <div className="w-full h-auto p-6 lg:hidden">

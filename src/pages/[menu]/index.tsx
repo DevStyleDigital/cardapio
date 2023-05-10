@@ -37,7 +37,7 @@ const Menu = ({ id }: any) => {
   if (loading) {
     return <Loading />;
   }
-
+  console.log(data)
   return (
     <section
       className={clsx(

@@ -35,6 +35,7 @@ const ProdutosContent = ({ nome, descricao, preco, img }: ProdutoProps) => {
                   width={400}
                   height={400}
                   onCover={true}
+                  isfull={true}
                 />
               </div>
             )}

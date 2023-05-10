@@ -3,6 +3,15 @@ module.exports = {
   content: ['./src/**/*.{ts,tsx}'],
   theme: {
     extend: {
+      keyframes: {
+        go: {
+          '0%': { left: '-200px' },
+          '100%': { left: '0' },
+        }
+      },
+      animation: {
+        go: 'go .5s ease-in-out',
+      },
       colors: {
         primary: {
           50: '#ffeded',
