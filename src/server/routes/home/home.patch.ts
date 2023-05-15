@@ -5,14 +5,6 @@ import { storage } from '@server/services/database/storage';
 
 export async function PATCH(req: NextApiRequest, res: NextApiResponse) {
   try {
-    const { id } = req.query;
-
-    if (!id)
-      throw {
-        status: 400,
-        type: 'missing-fields',
-      };
-
     const { fields, files } = await handleFormData(req);
 
     const db = database({ req, res });
@@ -24,7 +16,7 @@ export async function PATCH(req: NextApiRequest, res: NextApiResponse) {
       await db
         .from('home')
         .update({ [files[0].key]: imageUrl })
-        .eq('id', id);
+        .eq('id', 'home');
     } else {
       await Promise.all(
         values.map(async ([key, value]) => {
@@ -32,7 +24,7 @@ export async function PATCH(req: NextApiRequest, res: NextApiResponse) {
           await db
             .from('home')
             .update({ [key]: null })
-            .eq('id', id);
+            .eq('id', 'home');
           await storage.in('home').delete(fields.path);
         }),
       );
