@@ -91,7 +91,7 @@ export const Form = ({
           error={null}
           className="lg:max-w-lg"
         >
-          <Input.Label>Advertiser image:</Input.Label>
+          <Input.Label>Imagem patrocinador:</Input.Label>
           {open && (
             <ImageDropzone
               id={`advertiser-image-${id}`}

@@ -5,11 +5,14 @@ import { useSideBar } from '@web/components/Pages/Cardapio/sidebar';
 import { GetServerSideProps } from 'next';
 import { getCookie } from '@web/services/cookies';
 import clsx from 'clsx';
+import useSWR from 'swr';
+import { http } from '@web/services/http';
 
 
 const Home = () => {
   const { setSidebarOpen, sidebarOpen } = useSideBar();
-
+  const {data} = useSWR<string[]>(`/api/home`, http.get)
+  console.log(data)
   return (
     <>
       <section className={clsx("w-full h-screen relative bg-black" , {'h-screen overflow-hidden': sidebarOpen})}>

@@ -68,7 +68,7 @@ const Dash = ({ homeImageDb }: { homeImageDb: string | null }) => {
     <main className="bg-gray-200 w-full py-16 px-8">
       <form onSubmit={handleSubmit} className="mb-10">
         <Input.Root id="menu-image" error={null}>
-          <Input.Label>Home image*:</Input.Label>
+          <Input.Label>Patrocinador Início:</Input.Label>
           <div>
             <ImageDropzone
               required

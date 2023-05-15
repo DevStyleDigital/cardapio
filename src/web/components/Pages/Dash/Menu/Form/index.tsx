@@ -153,7 +153,7 @@ export const Form = ({
         />
       </Input.Root>
       <Input.Root id="menu-responser" error={null} className="max-w-lg">
-        <Input.Label>Menu sponsor by:</Input.Label>
+        <Input.Label>Menu pratocinador by:</Input.Label>
         <Input
           value={menuResponser}
           name="menu_responser"
@@ -179,7 +179,7 @@ export const Form = ({
         </div>
       </Input.Root>
       <Input.Root id="menu-advertiser-image" error={null} className="lg:max-w-lg">
-        <Input.Label>Menu advertiser:</Input.Label>
+        <Input.Label>Menu patrocinador:</Input.Label>
         <ImageDropzone
           id="menu-advertiser-image"
           className="px-8 max-h-60"

@@ -48,7 +48,7 @@ const Menu = ({ menus }: { menus: Menu[] }) => {
         </div>
         <div className="w-fit">
           <Button
-            className="gap-4 bg-white text-primary-400 hover:bg-slate-100"
+            className="gap-4 bg-white !text-primary-400 hover:bg-slate-100"
             loading={!!menusOrder}
             onClick={() => setMenusOrder([])}
           >

@@ -46,7 +46,7 @@ export const SideBarCardapioRoot = ({
 
   return (
     <SidebarContext.Provider value={{ sidebarOpen, setSidebarOpen }}>
-      <div className="fixed w-14 h-16 top-12 right-8 z-[999]">
+      <div className="fixed w-14 h-16 top-12 right-8 z-[999] xl:right-24">
         <button
           type="button"
           className="w-full h-full "
@@ -102,11 +102,12 @@ const SideBarTitle = ({ children }: any) => {
 const SideBarNavs = () => {
   const { setSidebarOpen } = useSideBar();
   const { data } = useSWR<Menu[]>(`/api/menu`, http.get)
+  const {data: order} = useSWR<string[]>(`/api/menus-order`, http.get)
   return (
     <>
     <div className='mt-10 overflow-y-scroll h-full flex'>
       <div className="w-full flex flex-col  justify-center lg:items-center gap-8">
-        {data?.map((item, index) => {
+        {order &&  data?.sort((a, b) => order!.indexOf(a.id) - order!.indexOf(b.id) ).map((item, index) => {
           return (
             <div key={item.id} className="flex flex-col gap-2 md:gap-4 lg:items-center">
               <Link
@@ -125,7 +126,7 @@ const SideBarNavs = () => {
         })}
       </div>
     </div>
-     <div className="absolute bottom-20 right-4">
+     <div className="absolute bottom-20 right-4 xl:right-24">
      <Image
        className="w-4/5 h-auto lg:w-20"
        src={Logo}
