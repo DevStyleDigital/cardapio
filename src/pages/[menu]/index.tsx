@@ -15,6 +15,7 @@ import useSWR from 'swr';
 const Menu = ({ id }: any) => {
   const { sidebarOpen } = useSideBar();
   const { data, error, isLoading } = useSWR<Menu>(`/api/menu/${id}`, http.get);
+  
   const router = useRouter();
 
   useEffect(() => {
@@ -33,34 +34,38 @@ const Menu = ({ id }: any) => {
         { 'h-screen overflow-hidden': sidebarOpen },
       )}
     >
-      <HeaderBanner
-        text={data?.menuName!}
-        responser={data?.menuResponser!}
-        url={data?.menuImage!}
-      />
-      <div className="w-full h-auto grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:max-w-[1300px] gap-6 p-6">
-        {data?.productTypes
-          ?.sort((a, b) => a.type.localeCompare(b.type))
-          .map((item: any) => {
-            return (
-              <MenuItem
-                key={item.id}
-                menu={id}
-                link={item.id}
-                nome={item.type}
-                img={item.images.image}
-              />
-            );
-          })}
-      </div>
-      <div className="w-full flex justify-center px-6 pb-6 h-[13rem] md:h-[15rem] xl:h-[18rem]">
-        <BlurImage
-          className="w-full h-full max-w-[550px] xl:max-w-[600px]"
-          src={data?.menuAdvertiser}
-          width={1000}
-          height={500}
+      <div>
+        <HeaderBanner
+          text={data?.menuName!}
+          responser={data?.menuResponser!}
+          url={data?.menuImage!}
         />
+        <div className="w-full h-auto grid grid-cols-2 place-items-center md:grid-cols-4 lg:grid-cols-5 xl:max-w-[1300px] gap-6 p-6">
+          {data?.productTypes
+            ?.sort((a, b) => a.type.localeCompare(b.type))
+            .map((item: any) => {
+              return (
+                <MenuItem
+                  key={item.id}
+                  menu={id}
+                  link={item.id}
+                  nome={item.type}
+                  img={item.images.image}
+                />
+              );
+            })}
+        </div>
       </div>
+          {data?.menuAdvertiser && (
+            <div className="w-full flex justify-center px-6 pb-6 h-[13rem] md:h-[15rem] xl:h-[18rem]">
+                <BlurImage
+                  className="w-full h-full max-w-[550px] xl:max-w-[600px]"
+                  src={data?.menuAdvertiser}
+                  width={1000}
+                  height={500}
+                  />
+              </div>
+          )}
     </section>
   );
 };

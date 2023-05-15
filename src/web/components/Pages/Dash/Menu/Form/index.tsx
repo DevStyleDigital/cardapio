@@ -58,7 +58,7 @@ export const Form = ({
         { headers: { 'content-type': 'application/x-www-form-urlencode' } },
       )
         .then((res) => res)
-        .catch(() => toast.error('Ocurred an error on submit a few images!')));
+        .catch((err) => err.response.status !== 404 && toast.error('Ocurred an error on submit a few images!')));
   }
 
   function handleSubmit(ev: React.FormEvent<HTMLFormElement>) {
