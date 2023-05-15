@@ -7,12 +7,17 @@ import { getCookie } from '@web/services/cookies';
 import clsx from 'clsx';
 import useSWR from 'swr';
 import { http } from '@web/services/http';
+import Loading from '@web/components/Loading';
 
 
 const Home = () => {
   const { setSidebarOpen, sidebarOpen } = useSideBar();
-  const {data} = useSWR<string[]>(`/api/home`, http.get)
-  console.log(data)
+  const {data, isLoading} = useSWR<any>(`/api/home`, http.get)
+
+  if (isLoading || !data) {
+    return <Loading />;
+  }
+
   return (
     <>
       <section className={clsx("w-full h-screen relative bg-black" , {'h-screen overflow-hidden': sidebarOpen})}>
@@ -43,10 +48,11 @@ const Home = () => {
               </button>
             </div>
           </div>
-          <div className="w-full flex justify-center px-6 pb-6 h-[13rem] md:h-[15rem] xl:h-[18rem]">
+          <div className="w-full flex justify-center h-[13rem] md:h-[12rem] xl:h-[15rem]">
             <div
-              className="w-full h-full max-w-[550px] xl:max-w-[600px] bg-white"
-            />
+              className="w-full h-full max-w-[600px] md:max-w-[500px] ">
+                <Image src={`${data?.homeImage}?v=${Date.now()}`} width={500} height={500} alt='patrocinador' className='w-full h-full overflow-hidden' />
+              </div>
         </div>
         </div>
       </section>

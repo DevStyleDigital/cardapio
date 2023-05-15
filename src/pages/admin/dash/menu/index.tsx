@@ -58,7 +58,7 @@ const Menu = ({ menus }: { menus: Menu[] }) => {
         </div>
       </div>
       {!!menusOrder && (
-        <div className="fixed bottom-4 z-50 flex gap-4 left-1/2">
+        <div className="fixed bottom-4 z-50 flex gap-4 left-1/2 max-lg:translate-x-[-50%]">
           <Button className="gap-4" loading={menusOrderLoading} onClick={handleMenuOrder}>
             <span>Save</span>
             <Pencil2Icon className="w-6 h-6 pointer-events-none" />
