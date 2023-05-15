@@ -41,7 +41,7 @@ const Dash = ({ homeImageDb }: { homeImageDb: string | null }) => {
     }
     makeFetch &&
       (await http
-        .patch(route || `/api/menu/${filepath.split('/')[0]}/upload`, formData, {
+        .patch(route || '/api/home', formData, {
           headers: { 'content-type': 'application/x-www-form-urlencode' },
         })
         .then((res) => res)
@@ -52,7 +52,7 @@ const Dash = ({ homeImageDb }: { homeImageDb: string | null }) => {
     ev.preventDefault();
     setLoading(true);
 
-    submitImage(!!homeImageDb, 'homeImage', 'home/image.webp', homeImage)
+    submitImage(!!homeImageDb, 'homeImage', 'image.webp', homeImage)
       .then(async (res) => {
         toast.success('Image edited!');
         return res;
