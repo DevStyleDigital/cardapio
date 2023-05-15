@@ -81,7 +81,7 @@ const Menu = ({ menus }: { menus: Menu[] }) => {
             onClick={() =>
               !!menusOrder &&
               setMenusOrder((prev) => {
-                if (prev?.[prev!.length - 1] === id) return prev;
+                if (prev?.includes(id)) return prev;
                 return [...prev!, id];
               })
             }
