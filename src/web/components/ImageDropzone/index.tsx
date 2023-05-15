@@ -5,7 +5,7 @@ type FileUploaderProps = {
   id: string;
   required?: boolean;
   className?: string;
-  defaultValue?: boolean | string | File;
+  defaultValue?: boolean | string | null | File;
   onFileUpload: (file: File | null) => void;
 };
 

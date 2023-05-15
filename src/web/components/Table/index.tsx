@@ -6,6 +6,8 @@ type Column = {
   field: string;
   headerName: string;
   width: number;
+  disableColumnMenu?: boolean;
+  sortable?: boolean;
 };
 
 type TableProps = {

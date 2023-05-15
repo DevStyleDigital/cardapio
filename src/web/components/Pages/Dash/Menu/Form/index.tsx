@@ -153,7 +153,7 @@ export const Form = ({
         />
       </Input.Root>
       <Input.Root id="menu-responser" error={null} className="max-w-lg">
-        <Input.Label>Menu responser:</Input.Label>
+        <Input.Label>Menu sponsor by:</Input.Label>
         <Input
           value={menuResponser}
           name="menu_responser"

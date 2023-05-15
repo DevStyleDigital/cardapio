@@ -55,9 +55,15 @@ const Menu = ({ products }: { products: Product[] }) => {
       <div className="bg-gray-300/40 w-full h-fit flex p-8">
         <Table
           columns={[
-            { field: 'id', headerName: 'ID', width: 120 },
-            { field: 'name', headerName: 'Name', width: 220 },
-            { field: 'price', headerName: 'Price', width: 220 },
+            {
+              field: 'id',
+              headerName: 'ID',
+              width: 280,
+              disableColumnMenu: true,
+              sortable: false,
+            },
+            { field: 'name', headerName: 'Name', width: 300 },
+            { field: 'price', headerName: 'Price', width: 100 },
           ]}
           rows={productsData}
           className="w-full h-96"

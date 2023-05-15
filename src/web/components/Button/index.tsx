@@ -6,7 +6,7 @@ export const Button: GTypes.FC<
   { loading?: boolean; asChild?: boolean },
   React.ButtonHTMLAttributes<HTMLButtonElement>,
   false
-> & { Loading: GTypes.FC } = ({ loading, asChild, ...props }) => {
+> & { Loading: GTypes.FC } = ({ loading, asChild, children, ...props }) => {
   const Comp = asChild ? Slot : 'button';
 
   return (
@@ -18,7 +18,9 @@ export const Button: GTypes.FC<
         props.className,
         { '!cursor-wait': loading },
       )}
-    />
+    >
+      {loading ? <ButtonLoading /> : children}
+    </Comp>
   );
 };
 
