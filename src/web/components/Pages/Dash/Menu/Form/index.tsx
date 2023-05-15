@@ -74,6 +74,9 @@ export const Form = ({
       type: productType.type,
     }));
 
+    if (!productTypesFormatted.length)
+      return toast.warn('You need at least one product type!');
+
     const productsTypes = !!menu
       ? mergeArrays(
           productTypesFormatted,
