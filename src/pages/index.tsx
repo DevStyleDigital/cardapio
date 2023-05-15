@@ -31,7 +31,7 @@ const Home = () => {
           width={1290}
           height={2793}
         />
-        <div className="w-full h-full top-0 absolute z-40 flex flex-col justify-between items-center gap-2 px-8 py-8">
+        <div className="w-full h-full top-0 absolute z-40 flex flex-col justify-between items-center gap-6 px-8 py-8">
           <div className="w-full h-full flex flex-col gap-6 items-center justify-center">
             <Image
               className="w-[12rem] h-auto"
@@ -62,6 +62,7 @@ const Home = () => {
               />
             </div>
           </div>
+          <h1 className='text-white'>Intelligence By Core.Ag</h1>
         </div>
       </section>
     </>
