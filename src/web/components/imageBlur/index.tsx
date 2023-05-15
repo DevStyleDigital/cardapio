@@ -6,12 +6,12 @@ const BlurImage = ({ src, width, height, className , onCover, isfull } : any) =>
   const [isLoading, setLoading] = useState(true);
   return (
     <div className={`w-full h-full ${className}`}>
-      <div className="h-full w-full overflow-hidde">
+      <div className="h-full w-full overflow-hidden">
         <Image
           alt="banner"
           width={width}
           height={height}
-          src={`${src}?v=${Date.now()}`}
+          src={`${src}`}
           className={`
                 duration-700 w-full  ${isfull && 'h-full' } ease-in-out group-hover:opacity-75 ${
                   onCover && 'object-cover'
