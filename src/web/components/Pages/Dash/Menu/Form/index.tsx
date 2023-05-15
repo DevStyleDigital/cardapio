@@ -74,8 +74,10 @@ export const Form = ({
       type: productType.type,
     }));
 
-    if (!productTypesFormatted.length)
+    if (!productTypesFormatted.length) {
+      setLoading(false);
       return toast.warn('You need at least one product type!');
+    }
 
     const productsTypes = !!menu
       ? mergeArrays(
