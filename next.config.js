@@ -16,15 +16,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'i2.wp.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'www.sabornamesa.com.br',
-      },
-      {
-        protocol: 'https',
-        hostname: 'vxegwttiptzqzytzwlhx.supabase.co',
+        hostname: 'ujtbuayqudabkjeehyli.supabase.co',
         pathname: '/**',
       },
     ],
