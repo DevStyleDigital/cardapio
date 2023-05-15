@@ -20,7 +20,10 @@ const ProdutosContent = ({ nome, descricao, preco, img }: ProdutoProps) => {
             <div className="w-full flex flex-col gap-2">
               <div className="w-full flex flex-col gap-2">
                 <h1 className="text-lg break-all text-white/95">{nome}</h1>
-                <p className="text-[0.9rem] break-all text-white/70" dangerouslySetInnerHTML={{ __html: purifyText(descricao) }} />
+                <p
+                  className="text-[0.9rem] break-all text-white/70"
+                  dangerouslySetInnerHTML={{ __html: purifyText(descricao) }}
+                />
               </div>
               <p className="h-full text-white flex items-center gap-1">
                 <span className="text-sm">R$</span>
@@ -65,7 +68,10 @@ const ProdutosContent = ({ nome, descricao, preco, img }: ProdutoProps) => {
             <div className="w-full flex flex-col max-h-[40vh] overflow-auto gap-2 py-4 pr-6 lg:pr-4 2xl:pr-[30%]">
               <div className="w-full flex flex-col gap-2">
                 <h1 className="text-xl break-all text-white/95">{nome}</h1>
-                <p className="text-md lg:text-lg break-all text-white/70" dangerouslySetInnerHTML={{ __html: purifyText(descricao) }} />
+                <p
+                  className="text-md lg:text-lg break-all text-white/70"
+                  dangerouslySetInnerHTML={{ __html: purifyText(descricao) }}
+                />
               </div>
               <p className="h-full text-white flex items-center gap-1">
                 <span className="text-md">R$</span>

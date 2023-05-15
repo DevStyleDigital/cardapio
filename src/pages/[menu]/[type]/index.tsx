@@ -16,7 +16,10 @@ import { Menu } from 'types/menu';
 const TypeMenu = ({ type, menus }: any) => {
   const { sidebarOpen } = useSideBar();
   const [loading, setLoading] = useState(true);
-  const { data, isLoading } = useSWR<any>(`/api/products?menu=${menus.id}&type=${type.id}`, http.get)
+  const { data, isLoading } = useSWR<any>(
+    `/api/products?menu=${menus.id}&type=${type.id}`,
+    http.get,
+  );
   const [productsData, setProductcsData] = useState([]);
   const router = useRouter();
   const TypeFormated = router?.query?.nome;
@@ -36,9 +39,10 @@ const TypeMenu = ({ type, menus }: any) => {
         return newProduct;
       });
       setLoading(false);
-    }else if (!isLoading){
-      router.push('/')
+    } else if (!isLoading) {
+      router.push('/');
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, isLoading]);
 
   if (loading || isLoading) {
@@ -62,34 +66,36 @@ const TypeMenu = ({ type, menus }: any) => {
         </h1>
         <BackButton menuPath={menus} />
         <div className="w-full h-auto flex flex-col lg:grid lg:grid-cols-3 gap-6 pb-24">
-          {productsData?.sort((a,b) => (a as any).name.localeCompare((b as any).name)).map((produto: any, index: number) => {
-            return (
-              <>
-                <ProdutosContent
-                  key={produto.id}
-                  nome={produto.name}
-                  img={produto.image}
-                  descricao={produto.text}
-                  preco={produto.price.replace('.', ',')}
-                />
-                {produto.anunciante && (
-                  <div className="w-full h-auto p-6 lg:hidden">
-                    {type?.images.advertiser && (
-                      <div className="w-full h-full md:h-[15rem] bg-golden-400">
-                        <Image
-                          className="w-full h-full"
-                          src={type.images.advertiser}
-                          width={1000}
-                          height={500}
-                          alt="banner-anunciante"
-                        />
-                      </div>
-                    )}
-                  </div>
-                )}
-              </>
-            );
-          })}
+          {productsData
+            ?.sort((a, b) => (a as any).name.localeCompare((b as any).name))
+            .map((produto: any, index: number) => {
+              return (
+                <>
+                  <ProdutosContent
+                    key={produto.id}
+                    nome={produto.name}
+                    img={produto.image}
+                    descricao={produto.text}
+                    preco={produto.price.replace('.', ',')}
+                  />
+                  {produto.anunciante && (
+                    <div className="w-full h-auto p-6 lg:hidden">
+                      {type?.images.advertiser && (
+                        <div className="w-full h-full md:h-[15rem] bg-golden-400">
+                          <Image
+                            className="w-full h-full"
+                            src={type.images.advertiser}
+                            width={1000}
+                            height={500}
+                            alt="banner-anunciante"
+                          />
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </>
+              );
+            })}
         </div>
       </div>
     </section>

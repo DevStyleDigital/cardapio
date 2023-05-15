@@ -7,7 +7,7 @@ module.exports = {
         go: {
           '0%': { left: '-200px' },
           '100%': { left: '0' },
-        }
+        },
       },
       animation: {
         go: 'go .5s ease-in-out',
@@ -45,7 +45,5 @@ module.exports = {
   corePlugins: {
     aspectRatio: false,
   },
-  plugins: [
-    require('@tailwindcss/aspect-ratio'),
-  ],
+  plugins: [require('@tailwindcss/aspect-ratio')],
 };

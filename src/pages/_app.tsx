@@ -68,7 +68,7 @@ const App = ({
           {router.pathname.includes('/admin/dash') && <SidebarDash />}
           <Comp hiddenHamburguer={router.pathname === '/'}>
             {!router.pathname.includes('/admin/dash') && <SideBar />}
-              <Component {...pageProps} />
+            <Component {...pageProps} />
           </Comp>
         </div>
         <AcceptCookie />
@@ -77,6 +77,5 @@ const App = ({
     </SessionContextProvider>
   );
 };
-
 
 export default App;

@@ -10,18 +10,18 @@ import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import type { Menu } from 'types/menu';
-import useSWR from 'swr'
-
+import useSWR from 'swr';
 
 const Menu = ({ id }: any) => {
   const { sidebarOpen } = useSideBar();
-  const { data, error, isLoading } = useSWR<Menu>(`/api/menu/${id}`, http.get)
+  const { data, error, isLoading } = useSWR<Menu>(`/api/menu/${id}`, http.get);
   const router = useRouter();
-  
+
   useEffect(() => {
-    if((!data && !isLoading) || error) router.push('/') 
-  },[isLoading])
-  
+    if ((!data && !isLoading) || error) router.push('/');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoading]);
+
   if (isLoading || !data) {
     return <Loading />;
   }
@@ -39,17 +39,19 @@ const Menu = ({ id }: any) => {
         url={data?.menuImage!}
       />
       <div className="w-full h-auto grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:max-w-[1300px] gap-6 p-6">
-        {data?.productTypes?.sort((a, b) => a.type.localeCompare(b.type)).map((item: any) => {
-          return (
-            <MenuItem
-              key={item.id}
-              menu={id}
-              link={item.id}
-              nome={item.type}
-              img={item.images.image}
-            />
-          );
-        })}
+        {data?.productTypes
+          ?.sort((a, b) => a.type.localeCompare(b.type))
+          .map((item: any) => {
+            return (
+              <MenuItem
+                key={item.id}
+                menu={id}
+                link={item.id}
+                nome={item.type}
+                img={item.images.image}
+              />
+            );
+          })}
       </div>
       <div className="w-full flex justify-center px-6 pb-6 h-[13rem] md:h-[15rem] xl:h-[18rem]">
         <BlurImage

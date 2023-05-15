@@ -18,4 +18,3 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
     throw err;
   }
 }
-

@@ -9,10 +9,9 @@ import useSWR from 'swr';
 import { http } from '@web/services/http';
 import Loading from '@web/components/Loading';
 
-
 const Home = () => {
   const { setSidebarOpen, sidebarOpen } = useSideBar();
-  const {data, isLoading} = useSWR<any>(`/api/home`, http.get)
+  const { data, isLoading } = useSWR<any>('/api/home', http.get);
 
   if (isLoading || !data) {
     return <Loading />;
@@ -20,7 +19,11 @@ const Home = () => {
 
   return (
     <>
-      <section className={clsx("w-full h-screen relative bg-black" , {'h-screen overflow-hidden': sidebarOpen})}>
+      <section
+        className={clsx('w-full h-screen relative bg-black', {
+          'h-screen overflow-hidden': sidebarOpen,
+        })}
+      >
         <Image
           className="w-full h-full"
           src={FundoImg}
@@ -49,11 +52,16 @@ const Home = () => {
             </div>
           </div>
           <div className="w-full flex justify-center h-[13rem] md:h-[12rem] xl:h-[15rem]">
-            <div
-              className="w-full h-full max-w-[600px] md:max-w-[500px] ">
-                <Image src={`${data?.homeImage}?v=${Date.now()}`} width={500} height={500} alt='patrocinador' className='w-full h-full overflow-hidden' />
-              </div>
-        </div>
+            <div className="w-full h-full max-w-[600px] md:max-w-[500px] ">
+              <Image
+                src={`${data?.homeImage}?v=${Date.now()}`}
+                width={500}
+                height={500}
+                alt="patrocinador"
+                className="w-full h-full overflow-hidden"
+              />
+            </div>
+          </div>
         </div>
       </section>
     </>

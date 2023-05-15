@@ -1,8 +1,7 @@
-import Image from "next/image";
-import { useState } from "react";
+import Image from 'next/image';
+import { useState } from 'react';
 
-
-const BlurImage = ({ src, width, height, className , onCover, isfull } : any) =>  {
+const BlurImage = ({ src, width, height, className, onCover, isfull }: any) => {
   const [isLoading, setLoading] = useState(true);
   return (
     <div className={`w-full h-full ${className}`}>
@@ -13,9 +12,9 @@ const BlurImage = ({ src, width, height, className , onCover, isfull } : any) =>
           height={height}
           src={`${src}`}
           className={`
-                duration-700 w-full  ${isfull && 'h-full' } ease-in-out group-hover:opacity-75 ${
-                  onCover && 'object-cover'
-                }
+                duration-700 w-full  ${
+                  isfull && 'h-full'
+                } ease-in-out group-hover:opacity-75 ${onCover && 'object-cover'}
                 ${
                   isLoading
                     ? 'scale-100 blur-sm grayscale'
@@ -26,6 +25,6 @@ const BlurImage = ({ src, width, height, className , onCover, isfull } : any) =>
       </div>
     </div>
   );
-}
+};
 
-export default BlurImage
+export default BlurImage;

@@ -4,7 +4,7 @@ const Document = () => {
   return (
     <Html lang="en">
       <Head>
-        <link rel='icon' href='/logo.png'  />
+        <link rel="icon" href="/logo.png" />
       </Head>
       <body>
         <Main />

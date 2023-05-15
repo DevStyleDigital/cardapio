@@ -25,15 +25,7 @@ const MenuItem = ({ nome, menu, link, img }: MenuItemProps) => {
       className="w-full flex flex-col items-center gap-2 h-auto min-h-[160px] "
     >
       <div className="w-full h-32 bg-golden-400 shadow-lg shadow-black/90">
-        {img && (
-          <BlurImage
-            src={img}
-            width={400}
-            height={400}
-            onCover={true}
-            isfull
-          />
-        )}
+        {img && <BlurImage src={img} width={400} height={400} onCover={true} isfull />}
       </div>
       <div className="w-full flex flex-col items-center gap-2">
         <h1 className="text-white text-sm">{nome}</h1>
