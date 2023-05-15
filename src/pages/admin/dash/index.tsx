@@ -44,7 +44,7 @@ const Dash = ({ homeImageDb }: { homeImageDb: string | null }) => {
         .patch(route || '/api/home', formData, {
           headers: { 'content-type': 'application/x-www-form-urlencode' },
         })
-        .then((res) => res)
+        .then(() => toast.success('Image edited!'))
         .catch(() => toast.error('Ocurred an error on submit a few images!')));
   }
 
@@ -52,17 +52,9 @@ const Dash = ({ homeImageDb }: { homeImageDb: string | null }) => {
     ev.preventDefault();
     setLoading(true);
 
-    submitImage(!!homeImageDb, 'homeImage', 'image.webp', homeImage)
-      .then(async (res) => {
-        toast.success('Image edited!');
-        return res;
-      })
-      .catch((err) => {
-        toast.error(err.message);
-      })
-      .finally(async () => {
-        setLoading(false);
-      });
+    submitImage(!!homeImageDb, 'homeImage', 'image.webp', homeImage).finally(async () => {
+      setLoading(false);
+    });
   }
   return (
     <main className="bg-gray-200 w-full py-16 px-8">
