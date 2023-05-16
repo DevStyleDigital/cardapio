@@ -17,7 +17,14 @@ export async function POST(req: NextApiRequest, res: NextApiResponse) {
     //     type: 'missing-fields',
     //   };
 
-    if (!fields.name || !fields.price || !fields.text || !fields.types || !fields.menus)
+    if (
+      !fields.name ||
+      !fields.price ||
+      !fields.text ||
+      !fields.types ||
+      !fields.menus ||
+      !fields.visibility
+    )
       throw {
         status: 400,
         type: 'missing-fields',

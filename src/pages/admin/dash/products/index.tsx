@@ -64,8 +64,12 @@ const Menu = ({ products }: { products: Product[] }) => {
             },
             { field: 'name', headerName: 'Name', width: 300 },
             { field: 'price', headerName: 'Price', width: 100 },
+            { field: 'visibility', headerName: 'Is Active', width: 100 },
           ]}
-          rows={productsData}
+          rows={productsData.map((product) => ({
+            ...product,
+            visibility: product.visibility === 'block' ? 'Active' : 'Disable',
+          }))}
           className="w-full h-96"
           rowActions={(params) => (
             <RowActions

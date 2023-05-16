@@ -12,6 +12,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import useSWR from 'swr';
 import { Menu } from 'types/menu';
+import { Product } from 'types/product';
 
 const TypeMenu = ({ type, menus }: any) => {
   const { sidebarOpen } = useSideBar();
@@ -20,7 +21,7 @@ const TypeMenu = ({ type, menus }: any) => {
     `/api/products?menu=${menus.id}&type=${type.id}`,
     http.get,
   );
-  const [productsData, setProductcsData] = useState([]);
+  const [productsData, setProductcsData] = useState<Product[]>([]);
   const router = useRouter();
   const TypeFormated = router?.query?.nome;
 
@@ -68,6 +69,7 @@ const TypeMenu = ({ type, menus }: any) => {
         <div className="w-full h-auto flex flex-col lg:grid lg:grid-cols-3 gap-6 pb-24">
           {productsData
             ?.sort((a, b) => (a as any).name.localeCompare((b as any).name))
+            .filter(({ visibility }) => visibility === 'block')
             .map((produto: any, index: number) => {
               return (
                 <>

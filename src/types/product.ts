@@ -4,6 +4,7 @@ export type Product = {
   name: string;
   text: string;
   price: string;
+  visibility: 'none' | 'block';
 
   menus: string;
   types: string;

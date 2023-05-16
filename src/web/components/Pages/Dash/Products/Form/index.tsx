@@ -17,6 +17,9 @@ export const Form = ({ product, menus }: { product?: Product; menus: Menu[] }) =
   const [loading, setLoading] = useState(false);
   const [productName, setProductName] = useState(product?.name || '');
   const [productDesc, setProductDesc] = useState(product?.text || '');
+  const [productVisibility, setProductVisibility] = useState(
+    product?.visibility || 'block',
+  );
   const [productImage, setProductImage] = useState<File | null>(null);
   const [productPrice, setProductPrice] = useState(product?.price || '0.00');
   const [selectedTypes, setSelectedTypes] = useState(product?.types ? product.types : '');
@@ -32,8 +35,11 @@ export const Form = ({ product, menus }: { product?: Product; menus: Menu[] }) =
 
     const formData = new FormData();
     product?.name !== productName && formData.append('name', productName);
-    product?.name !== productDesc && formData.append('text', productDesc);
-    product?.name !== productPrice && formData.append('price', productPrice);
+    product?.text !== productDesc && formData.append('text', productDesc);
+    product?.price !== productPrice && formData.append('price', productPrice);
+    product?.visibility !== productVisibility &&
+      formData.append('visibility', productPrice);
+
     formData.append('menus', selectedMenus);
     formData.append('types', selectedTypes);
 
@@ -102,6 +108,24 @@ export const Form = ({ product, menus }: { product?: Product; menus: Menu[] }) =
               maxLength={6}
               onChange={setProductPrice}
               defaultValue={productPrice}
+            />
+          </Input.Root>
+          <Input.Root id="product-visibility" error={null} className="w-full">
+            <Input.Label>Product visibility*:</Input.Label>
+            <Select
+              options={[
+                { label: 'Visible', value: 'block' },
+                { label: 'Hidden', value: 'none' },
+              ]}
+              id="product-visibility"
+              defaultValue={
+                productVisibility === 'none'
+                  ? [{ label: 'Hidden', value: 'none' }]
+                  : [{ label: 'Visible', value: 'block' }]
+              }
+              onChange={(values) => {
+                setProductVisibility(values[0].value as 'none');
+              }}
             />
           </Input.Root>
           <div className="flex flex-col gap-2">
