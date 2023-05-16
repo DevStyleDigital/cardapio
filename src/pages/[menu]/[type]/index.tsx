@@ -17,7 +17,7 @@ import { Product } from 'types/product';
 const TypeMenu = ({ type, menus }: any) => {
   const { sidebarOpen } = useSideBar();
   const [loading, setLoading] = useState(true);
-  const { data, isLoading } = useSWR<any>(
+  const { data, isLoading } = useSWR<Product[]>(
     `/api/products?menu=${menus.id}&type=${type.id}`,
     http.get,
   );
@@ -26,7 +26,7 @@ const TypeMenu = ({ type, menus }: any) => {
   const TypeFormated = router?.query?.nome;
 
   useEffect(() => {
-    if (data?.length) {
+    if (data && data.filter(({ visibility }) => visibility === 'block')?.length) {
       setProductcsData(() => {
         const newProduct = data?.map((product: any) => ({
           ...product,

@@ -25,6 +25,8 @@ export const Form = ({ product, menus }: { product?: Product; menus: Menu[] }) =
   const [selectedTypes, setSelectedTypes] = useState(product?.types ? product.types : '');
   const [selectedMenus, setSelectedMenus] = useState(product?.menus ? product.menus : '');
 
+  console.log(product?.visibility);
+
   function getSelectValueFromProductTypes(v: Menu['productTypes'][number] | undefined) {
     return v && [{ label: v.type, value: v.id }];
   }
@@ -38,7 +40,7 @@ export const Form = ({ product, menus }: { product?: Product; menus: Menu[] }) =
     product?.text !== productDesc && formData.append('text', productDesc);
     product?.price !== productPrice && formData.append('price', productPrice);
     product?.visibility !== productVisibility &&
-      formData.append('visibility', productPrice);
+      formData.append('visibility', productVisibility);
 
     formData.append('menus', selectedMenus);
     formData.append('types', selectedTypes);
