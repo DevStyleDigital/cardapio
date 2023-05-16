@@ -25,8 +25,7 @@ import { SideBar } from '@web/components/Pages/Cardapio/sidebar/SidebarCardapio'
 import { SideBarCardapioRoot } from '@web/components/Pages/Cardapio/sidebar';
 import Head from 'next/head';
 import AcceptCookie from '@web/components/Cookies';
-import { GetServerSideProps } from 'next';
-import { getCookie } from '@web/services/cookies';
+
 registerPlugin(
   FilePondPluginFilePoster,
   FilePondPluginImageExifOrientation,

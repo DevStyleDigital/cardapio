@@ -109,10 +109,10 @@ export const Form = ({
           menuAdvertiser,
         );
 
-        console.log(productTypesDeleted);
-
         productTypesDeleted.length &&
-          (await http.post('/api/product-type/delete', { productTypesDeleted }));
+          (await http.post(`/api/product-type/${res.id}/delete`, {
+            productTypesDeleted,
+          }));
 
         await Promise.all(
           productsTypes.map(async (productType) => {
