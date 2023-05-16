@@ -10,6 +10,7 @@ const storageClient = new StorageClient(
 
 async function findFiles(bucket: string, path: string): Promise<string[]> {
   const { data } = await storageClient.from(bucket).list(path);
+
   if (!data) return [];
   return (
     await Promise.all(
@@ -43,6 +44,7 @@ export const storage = {
       async delete(filePath?: string | string[]) {
         if (!filePath) {
           const [bucket, ...path] = bucketPath.split('/');
+
           const filesToRemove = await findFiles(bucket, path.join('/'));
           return await Promise.all(
             filesToRemove.map(async (file) => {

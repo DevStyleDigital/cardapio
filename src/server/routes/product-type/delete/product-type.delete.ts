@@ -11,7 +11,7 @@ export async function DELETE(req: NextApiRequest, res: NextApiResponse) {
     await Promise.all(
       productTypesDeleted.map(async (ptid: string) => {
         await db.from('product_types').delete().eq('id', ptid);
-        await storage.in('menus').delete(`${id}/product-type/${ptid}`);
+        await storage.in(`menus/${id}/product-type/${ptid}`).delete();
       }),
     );
 
