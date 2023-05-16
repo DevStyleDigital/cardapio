@@ -99,18 +99,18 @@ export const Form = ({
         await submitImage(
           !!menu?.menuImage,
           'menuImage',
-          `${res.id}/image.webp`,
+          `${!!menu ? menu.id : res.id}/image.webp`,
           menuImage,
         );
         await submitImage(
           !!menu?.menuAdvertiser,
           'menuAdvertiser',
-          `${res.id}/advertiser.webp`,
+          `${!!menu ? menu.id : res.id}/advertiser.webp`,
           menuAdvertiser,
         );
 
         productTypesDeleted.length &&
-          (await http.post(`/api/product-type/${res.id}/delete`, {
+          (await http.post(`/api/product-type/${!!menu ? menu.id : res.id}/delete`, {
             productTypesDeleted,
           }));
 
@@ -119,7 +119,7 @@ export const Form = ({
             await http
               .post(`/api/product-type/${productType.id}`, {
                 type: productType.type,
-                menuId: res.id,
+                menuId: !!menu ? menu.id : res.id,
               })
               .catch((err) => toast.error(err.message));
           }),
@@ -129,14 +129,14 @@ export const Form = ({
             await submitImage(
               true,
               'image',
-              `${res.id}/product-type/${id}/image.webp`,
+              `${!!menu ? menu.id : res.id}/product-type/${id}/image.webp`,
               images?.image,
               `/api/product-type/${id}/upload`,
             );
             await submitImage(
               true,
               'advertiser',
-              `${res.id}/product-type/${id}/advertiser.webp`,
+              `${!!menu ? menu.id : res.id}/product-type/${id}/advertiser.webp`,
               images?.advertiser,
               `/api/product-type/${id}/upload`,
             );
