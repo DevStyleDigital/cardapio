@@ -114,17 +114,16 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 
   const menu = context?.params?.menu;
+  const type = context?.params?.type;
 
   const menus = await http
     .get<Menu>(`/api/menu/${menu}`)
     .then((res) => res)
     .catch(() => null);
 
-  const MenuType = menus?.productTypes.filter(
-    (item) => item.id === context?.params?.type,
-  );
+  const menuProductType = menus?.productTypes?.filter(({ id }) => `${id}` === type)[0];
 
-  if (!MenuType?.length) {
+  if (!menus || !menuProductType) {
     return {
       redirect: {
         destination: '/',
@@ -132,10 +131,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       },
     };
   }
+
   return {
     props: {
       menus,
-      type: MenuType?.[0],
+      type: menuProductType,
     },
   };
 };

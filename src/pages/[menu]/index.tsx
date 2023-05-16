@@ -15,7 +15,7 @@ import useSWR from 'swr';
 const Menu = ({ id }: any) => {
   const { sidebarOpen } = useSideBar();
   const { data, error, isLoading } = useSWR<Menu>(`/api/menu/${id}`, http.get);
-  
+
   const router = useRouter();
 
   useEffect(() => {
@@ -34,7 +34,7 @@ const Menu = ({ id }: any) => {
         { 'h-screen overflow-hidden': sidebarOpen },
       )}
     >
-      <div>
+      <div className="w-full flex flex-col xl:items-center">
         <HeaderBanner
           text={data?.menuName!}
           responser={data?.menuResponser!}
@@ -56,16 +56,16 @@ const Menu = ({ id }: any) => {
             })}
         </div>
       </div>
-          {data?.menuAdvertiser && (
-            <div className="w-full flex justify-center px-6 pb-6 h-[13rem] md:h-[15rem] xl:h-[18rem]">
-                <BlurImage
-                  className="w-full h-full max-w-[550px] xl:max-w-[600px]"
-                  src={data?.menuAdvertiser}
-                  width={1000}
-                  height={500}
-                  />
-              </div>
-          )}
+      {data?.menuAdvertiser && (
+        <div className="w-full flex justify-center px-6 pb-6 h-[13rem] md:h-[15rem] xl:h-[18rem]">
+          <BlurImage
+            className="w-full h-full max-w-[550px] xl:max-w-[600px]"
+            src={data?.menuAdvertiser}
+            width={1000}
+            height={500}
+          />
+        </div>
+      )}
     </section>
   );
 };
