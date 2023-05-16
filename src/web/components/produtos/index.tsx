@@ -25,10 +25,12 @@ const ProdutosContent = ({ nome, descricao, preco, img }: ProdutoProps) => {
                   dangerouslySetInnerHTML={{ __html: purifyText(descricao) }}
                 />
               </div>
-              <p className="h-full text-white flex items-center gap-1">
-                <span className="text-sm">R$</span>
-                <span className="text-lg">{preco}</span>
-              </p>
+              {preco !== '0.00' && (
+                <p className="h-full text-white flex items-center gap-1">
+                  <span className="text-sm">R$</span>
+                  <span className="text-lg">{preco}</span>
+                </p>
+              )}
             </div>
             {img && (
               <div className="w-full h-full max-h-[110px] max-w-[130px] md:max-h-[140px] md:max-w-[160px]  bg-golden-400 shadow-lg shadow-black/80">
