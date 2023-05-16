@@ -52,7 +52,7 @@ export const Types = ({
                 })
               }
               onClickDelete={() => {
-                setProductTypesDeleted((prev) => [...prev, id]);
+                setProductTypesDeleted((prev) => [...prev, `${id}`]);
                 setProductTypes((prev) => {
                   const newPrev = [...prev];
                   newPrev.splice(i, 1);

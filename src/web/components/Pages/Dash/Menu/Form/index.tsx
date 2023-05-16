@@ -78,7 +78,7 @@ export const Form = ({
       type: productType.type,
     }));
 
-    if (!productTypesFormatted.length) {
+    if (!productTypesFormatted.length && !!menu) {
       setLoading(false);
       return toast.warn('You need at least one product type!');
     }
@@ -109,14 +109,19 @@ export const Form = ({
           menuAdvertiser,
         );
 
+        console.log(productTypesDeleted);
+
         productTypesDeleted.length &&
           (await http.post('/api/product-type/delete', { productTypesDeleted }));
+
         await Promise.all(
           productsTypes.map(async (productType) => {
-            await http[!!menu ? 'patch' : 'post'](`/api/product-type/${productType.id}`, {
-              type: productType.type,
-              menuId: res.id,
-            }).catch((err) => toast.error(err.message));
+            await http
+              .post(`/api/product-type/${productType.id}`, {
+                type: productType.type,
+                menuId: res.id,
+              })
+              .catch((err) => toast.error(err.message));
           }),
         );
         await Promise.all(

@@ -6,7 +6,7 @@ export async function POST(req: NextApiRequest, res: NextApiResponse) {
     const { id } = req.query;
     const db = database({ req, res });
 
-    const { error } = await db.from('product_types').insert({ ...req.body, id });
+    const { error } = await db.from('product_types').upsert({ ...req.body, id });
 
     if (error) throw 'error';
 
