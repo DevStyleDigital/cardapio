@@ -25,7 +25,7 @@ const ProdutosContent = ({ nome, descricao, preco, img }: ProdutoProps) => {
                   dangerouslySetInnerHTML={{ __html: purifyText(descricao) }}
                 />
               </div>
-              {preco !== '0.00' && (
+              {preco !== '0,00' && (
                 <p className="h-full text-white flex items-center gap-1">
                   <span className="text-sm">R$</span>
                   <span className="text-lg">{preco}</span>
@@ -75,10 +75,12 @@ const ProdutosContent = ({ nome, descricao, preco, img }: ProdutoProps) => {
                   dangerouslySetInnerHTML={{ __html: purifyText(descricao) }}
                 />
               </div>
-              <p className="h-full text-white flex items-center gap-1">
-                <span className="text-md">R$</span>
-                <span className="text-xl">{preco}</span>
-              </p>
+              {preco !== '0,00' && (
+                <p className="h-full text-white flex items-center gap-1">
+                  <span className="text-md">R$</span>
+                  <span className="text-xl">{preco}</span>
+                </p>
+              )}
             </div>
           </div>
         </Modal.Portal>
