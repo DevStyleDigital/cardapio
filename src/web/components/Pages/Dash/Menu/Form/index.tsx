@@ -40,7 +40,7 @@ export const Form = ({
     formData.append('path', filepath);
 
     let makeFetch;
-    if (!file && validDelete) {
+    if (!file && validDelete && file?.name !== 'default-image.webp') {
       formData.append(key, 'delete');
       makeFetch = true;
     } else if (
