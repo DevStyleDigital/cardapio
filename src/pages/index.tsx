@@ -51,7 +51,7 @@ const Home = () => {
               </button>
             </div>
           </div>
-          <div className="w-full flex justify-center h-[13rem] md:h-[12rem] xl:h-[15rem]">
+          <div className="w-full flex justify-center h-auto">
             <div className="w-full h-full max-w-[600px] md:max-w-[500px] ">
               <Image
                 src={data?.homeImage}

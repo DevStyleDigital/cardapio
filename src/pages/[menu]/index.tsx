@@ -59,7 +59,7 @@ const Menu = ({ id }: any) => {
       {data?.menuAdvertiser && (
         <div className="w-full flex justify-center px-6 pb-6 h-auto">
           <BlurImage
-            className="w-full h-full max-w-[550px] xl:max-w-[600px]"
+            className="w-full h-auto max-w-[550px] xl:max-w-[600px]"
             src={data?.menuAdvertiser}
             width={1000}
             height={500}
