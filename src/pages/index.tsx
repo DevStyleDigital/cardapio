@@ -34,7 +34,7 @@ const Home = () => {
         <div className="w-full h-full top-0 absolute z-40 flex flex-col justify-between items-center gap-6 px-8 py-8">
           <div className="w-full h-full flex flex-col gap-6 items-center justify-center">
             <Image
-              className="w-[12rem] h-auto"
+              className="w-[17rem] h-auto"
               src={Logo}
               alt="Logo"
               width={378}
