@@ -51,7 +51,7 @@ const Home = () => {
               </button>
             </div>
           </div>
-          <div className="w-full flex justify-center h-auto">
+          <div className="w-full flex justify-center h-auto mb-8">
             <div className="w-full h-full max-w-[600px] md:max-w-[500px] ">
               <Image
                 src={data?.homeImage}
@@ -62,7 +62,7 @@ const Home = () => {
               />
             </div>
           </div>
-          <h1 className="text-white">Intelligence By Core.Ag</h1>
+          <h1 className="text-white text-xs opacity-70">Intelligence By Core.Ag</h1>
         </div>
       </section>
     </>
