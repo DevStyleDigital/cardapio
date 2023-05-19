@@ -80,19 +80,17 @@ const TypeMenu = ({ type, menus }: any) => {
                     descricao={produto.text}
                     preco={produto.price.replace('.', ',')}
                   />
-                  {produto.anunciante && (
+                  {produto.anunciante && type?.images.advertiser && (
                     <div className="w-full h-auto p-6 lg:hidden">
-                      {type?.images.advertiser && (
-                        <div className="w-full h-full md:h-[15rem] bg-golden-400">
-                          <Image
-                            className="w-full h-full"
-                            src={type.images.advertiser}
-                            width={1000}
-                            height={500}
-                            alt="banner-anunciante"
-                          />
-                        </div>
-                      )}
+                      <div className="w-full h-full md:h-[15rem] bg-golden-400">
+                        <Image
+                          className="w-full h-full"
+                          src={type.images.advertiser}
+                          width={1000}
+                          height={500}
+                          alt="banner-anunciante"
+                        />
+                      </div>
                     </div>
                   )}
                 </>
