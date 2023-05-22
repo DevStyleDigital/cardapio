@@ -66,7 +66,7 @@ const TypeMenu = ({ type, menus }: any) => {
           {TypeFormated}
         </h1>
         <BackButton menuPath={menus} />
-        <div className="w-full h-auto flex flex-col lg:grid lg:grid-cols-3 gap-6 pb-24">
+        <div className="w-full h-auto flex flex-col lg:grid lg:grid-cols-3 lg:gap-6 pb-24">
           {productsData
             ?.sort((a, b) => (a as any).name.localeCompare((b as any).name))
             .filter(({ visibility }) => visibility === 'block')
