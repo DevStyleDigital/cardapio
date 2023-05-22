@@ -13,7 +13,7 @@ const AcceptCookie = () => {
 
   function CreateCookie() {
     setCookie(undefined, '_ACCEPT_COOKIE', 'true', {
-      maxAge: 1000 * 60 * 60 * 3,
+      maxAge: 60 * 60 * 24,
       path: '/',
     });
     setOpen(false);
