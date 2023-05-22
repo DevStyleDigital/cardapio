@@ -16,7 +16,7 @@ const ProdutosContent = ({ nome, descricao, preco, img }: ProdutoProps) => {
     <>
       <Modal.Root id="product-modal">
         <Modal.Trigger className="text-start" asChild>
-          <div className="w-full flex items-center gap-4 py-6 h-full min-h-[150px] border-b-[1px] border-gray-100/30">
+          <div className="w-full flex items-center gap-4 py-6 h-full border-b-[1px] border-gray-100/30">
             <div className="w-full flex flex-col gap-2">
               <div className="w-full flex flex-col gap-2">
                 <h1 className="text-lg break-all text-white/95">{nome}</h1>
