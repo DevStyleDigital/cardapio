@@ -48,6 +48,7 @@
     "postcss": "8.4.23",
     "prettier": "^2.8.1",
     "react": "18.2.0",
+    "react-beautiful-dnd": "^13.1.1",
     "react-dom": "18.2.0",
     "react-filepond": "^7.1.2",
     "react-quill": "^2.0.0",
@@ -63,6 +64,7 @@
   "devDependencies": {
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@types/formidable": "^2.0.5",
+    "@types/react-beautiful-dnd": "^13.1.4",
     "@types/sanitize-html": "^2.9.0",
     "@types/uuid": "^9.0.1"
   }
