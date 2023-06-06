@@ -1,8 +1,13 @@
-import { DragHandleDots2Icon } from '@radix-ui/react-icons';
+import {
+  DragHandleDots2Icon,
+  DrawingPinFilledIcon,
+  PlusIcon,
+} from '@radix-ui/react-icons';
 import { Modal } from '@web/components/Modal';
+import ReactDOM from 'react-dom';
 import { Select } from '@web/components/Select';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Menu } from 'types/menu';
 import { Product } from 'types/product';
 import {
@@ -11,12 +16,16 @@ import {
   Droppable,
   type DropResult,
 } from 'react-beautiful-dnd';
+import { Button } from '@web/components/Button';
+import { http } from '@web/services/http';
+import { toast } from 'react-toastify';
 
 export const Order = ({ products, menus }: { products: Product[]; menus: Menu[] }) => {
   const [selectedMenu, setSelectedMenu] = useState<string | undefined>();
   const [selectedType, setSelectedType] = useState<string | undefined>();
 
   const [productsFiltered, setProductsFiltered] = useState<Product[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     if (!selectedType || !selectedMenu) return;
@@ -38,63 +47,77 @@ export const Order = ({ products, menus }: { products: Product[]; menus: Menu[] 
     setProductsFiltered(items);
   }
 
+  function editOrder() {
+    setLoading(true);
+
+    http
+      .patch('/api/products-order', {
+        menu: selectedMenu,
+        type: selectedType,
+        order: productsFiltered.map(({ id }) => id),
+      })
+      .then(() => toast.success('Ordem atualizada com sucesso'))
+      .catch(() => toast.error('Ops... Ocorreu um erro tente novamente mais tarde.'))
+      .finally(() => setLoading(false));
+  }
+
   return (
-    <Modal.Portal className="max-sm:w-full h-full bg-white w-[40rem] rounded-lg max-h-[calc(100vh-4rem)] max-sm:rounded-none overflow-y-auto">
-      <div className="p-8 w-full h-full relative flex flex-col gap-4">
-        <h1 className="text-3xl font-bold">Edit product order:</h1>
-        <div className="flex w-full gap-4 [&>div]:w-full">
-          <div>
-            <label htmlFor="product-menus" className="font-bold">
-              Select a product menu*
-            </label>
-            <Select
-              options={menus.map(({ id, menuName }) => ({
-                value: id,
-                label: menuName,
-              }))}
-              id="product-menus"
-              required
-              onChange={(values) => {
-                setSelectedMenu(values[0].value);
-              }}
-            />
-          </div>
-          <div>
-            <label htmlFor="product-menus" className="font-bold">
-              Select a product type*
-            </label>
-            <Select
-              id="product-types"
-              options={menus
-                .filter((menu) => selectedMenu === menu.id)
-                .map((menu) =>
-                  menu.productTypes.map(({ id, type }) => ({ value: id, label: type })),
-                )
-                .flat(1)}
-              required
-              disabled={!selectedMenu?.length}
-              onChange={(values) => setSelectedType(values[0].value)}
-            />
-          </div>
+    <div className="p-8 max-md:p-0 pt-0 w-full h-full flex flex-col gap-4 relative overflow-auto pb-10">
+      <h1 className="text-3xl font-bold">Edit product order:</h1>
+      <div className="flex w-full gap-4 [&>div]:w-full max-md:flex-col">
+        <div>
+          <label htmlFor="product-menus" className="font-bold">
+            Select a product menu*
+          </label>
+          <Select
+            options={menus.map(({ id, menuName }) => ({
+              value: id,
+              label: menuName,
+            }))}
+            id="product-menus"
+            required
+            onChange={(values) => {
+              setSelectedMenu(values[0].value);
+            }}
+          />
         </div>
-        <div className="flex mt-10">
-          <DragDropContext onDragEnd={handleOnDragEnd}>
-            {productsFiltered.length ? (
-              <Droppable droppableId="droppable">
-                {(provided) => (
-                  <ul
-                    ref={provided.innerRef}
-                    {...provided.droppableProps}
-                    className="flex flex-col w-full gap-4"
-                  >
-                    {productsFiltered.map((product, i) => (
-                      <Draggable key={product.id} draggableId={product.id} index={i}>
-                        {(provided) => (
+        <div>
+          <label htmlFor="product-menus" className="font-bold">
+            Select a product type*
+          </label>
+          <Select
+            id="product-types"
+            options={menus
+              .filter((menu) => selectedMenu === menu.id)
+              .map((menu) =>
+                menu.productTypes.map(({ id, type }) => ({ value: id, label: type })),
+              )
+              .flat(1)}
+            required
+            disabled={!selectedMenu?.length}
+            onChange={(values) => setSelectedType(values[0].value)}
+          />
+        </div>
+      </div>
+      <div className="flex mt-6">
+        <DragDropContext onDragEnd={handleOnDragEnd}>
+          {productsFiltered.length ? (
+            <Droppable droppableId="droppable">
+              {(provided) => (
+                <ul
+                  ref={provided.innerRef}
+                  {...provided.droppableProps}
+                  className="flex flex-col w-full gap-4"
+                >
+                  {productsFiltered.map((product, i) => (
+                    <Draggable key={product.id} draggableId={product.id} index={i}>
+                      {(provided) => {
+                        return (
                           <li
                             ref={provided.innerRef}
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
-                            className="flex items-center justify-between min-h-16 w-full bg-gray-100 p-4 gap-4 rounded-lg "
+                            className="flex top-0 left-0 items-center justify-between min-h-16 w-full bg-gray-100 p-4 gap-4 rounded-lg "
                           >
                             <div className="flex items-center gap-4">
                               {product.image && (
@@ -111,20 +134,28 @@ export const Order = ({ products, menus }: { products: Product[]; menus: Menu[] 
                             </div>
                             <DragHandleDots2Icon className="w-16 h-16 text-slate-300" />
                           </li>
-                        )}
-                      </Draggable>
-                    ))}
-                  </ul>
-                )}
-              </Droppable>
-            ) : (
-              <span className="opacity-60">
-                Você precisa selecionar um menu e um tipo antes.
-              </span>
-            )}
-          </DragDropContext>
-        </div>
+                        );
+                      }}
+                    </Draggable>
+                  ))}
+                </ul>
+              )}
+            </Droppable>
+          ) : (
+            <span className="opacity-60">
+              Você precisa selecionar um menu e um tipo antes.
+            </span>
+          )}
+        </DragDropContext>
       </div>
-    </Modal.Portal>
+      <Button
+        className="gap-4 mt-6 bg-white !text-primary-400 hover:bg-slate-100"
+        loading={loading}
+        onClick={editOrder}
+      >
+        <span>Save</span>
+        <DrawingPinFilledIcon className="w-6 h-6 pointer-events-none" />
+      </Button>
+    </div>
   );
 };
