@@ -29,8 +29,8 @@ const AcceptCookie = () => {
           </div>
           <div className="w-full h-full">
             <p className="text-sm md:text-md text-white">
-              Quando você usa este site, está aceitando o uso de cookies para melhorar a
-              sua experiência como usuário e cliente.
+              Ao utilizar esse site você permite e concorda com a utilização de cookies
+              para melhorar sua experiência com nossa aplicação.
             </p>
           </div>
           {/* <div className="w-full h-full flex justify-end">

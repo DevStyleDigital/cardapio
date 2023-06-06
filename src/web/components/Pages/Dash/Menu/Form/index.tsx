@@ -78,7 +78,7 @@ export const Form = ({
       type: productType.type,
     }));
 
-    if (!productTypesFormatted.length && !!menu) {
+    if (!productTypesFormatted.length) {
       setLoading(false);
       return toast.warn('You need at least one product type!');
     }
@@ -227,7 +227,7 @@ export const Form = ({
         }))}
       />
 
-      <Button type="submit" loading={loading} className="gap-2 py-4">
+      <Button type="submit" loading={loading} className="gap-2 py-4 mt-10">
         <span>{!!menu ? 'Edit' : 'Create'} menu</span>
         <BookmarkFilledIcon className="w-5 h-5" />
       </Button>
