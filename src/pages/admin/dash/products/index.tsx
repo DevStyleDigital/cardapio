@@ -39,7 +39,15 @@ const RowActions = (props: Product & { onDelete: () => void }) => {
   );
 };
 
-const Menu = ({ products, menus }: { products: Product[]; menus: Menu[] }) => {
+const Menu = ({
+  products,
+  menus,
+  orders,
+}: {
+  products: Product[];
+  menus: Menu[];
+  orders: { [key: string]: string[] };
+}) => {
   const [productsData, setProducts] = useState(products);
   return (
     <main className="bg-gray-200 w-full h-auto overflow-auto">
@@ -82,7 +90,7 @@ const Menu = ({ products, menus }: { products: Product[]; menus: Menu[] }) => {
             />
           )}
         />
-        <Order products={products} menus={menus} />
+        <Order products={products} menus={menus} orders={orders} />
       </div>
     </main>
   );
@@ -99,10 +107,16 @@ export const getServerSideProps: GetServerSideProps = async () => {
     .then((res) => res)
     .catch(() => []);
 
+  const orders = await http
+    .get('/api/products-order')
+    .then((res) => res)
+    .catch(() => null);
+
   return {
     props: {
       products: products,
       menus: menus,
+      orders: orders,
     },
   };
 };

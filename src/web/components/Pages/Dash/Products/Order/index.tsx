@@ -20,7 +20,29 @@ import { Button } from '@web/components/Button';
 import { http } from '@web/services/http';
 import { toast } from 'react-toastify';
 
-export const Order = ({ products, menus }: { products: Product[]; menus: Menu[] }) => {
+function isArrayEqual<T>(array1: T[], array2: T[]): boolean {
+  if (array1.length !== array2.length) {
+    return false;
+  }
+
+  for (let i = 0; i < array1.length; i++) {
+    if (array1[i] !== array2[i]) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+export const Order = ({
+  products,
+  menus,
+  orders,
+}: {
+  products: Product[];
+  menus: Menu[];
+  orders: { [key: string]: string[] };
+}) => {
   const [selectedMenu, setSelectedMenu] = useState<string | undefined>();
   const [selectedType, setSelectedType] = useState<string | undefined>();
 
@@ -31,11 +53,15 @@ export const Order = ({ products, menus }: { products: Product[]; menus: Menu[] 
     if (!selectedType || !selectedMenu) return;
 
     setProductsFiltered(
-      products.filter(
-        ({ menus, types }) => menus === selectedMenu && types === selectedType,
-      ),
+      products
+        .filter(({ menus, types }) => menus === selectedMenu && types === selectedType)
+        .sort(
+          (a, b) =>
+            (orders[`${selectedMenu}-${selectedType}`] || []).indexOf(a.id) -
+            (orders[`${selectedMenu}-${selectedType}`] || []).indexOf(b.id),
+        ),
     );
-  }, [selectedMenu, selectedType, products]);
+  }, [selectedMenu, selectedType, products, orders]);
 
   function handleOnDragEnd(result: DropResult) {
     if (!result.destination) return;
@@ -49,12 +75,18 @@ export const Order = ({ products, menus }: { products: Product[]; menus: Menu[] 
 
   function editOrder() {
     setLoading(true);
+    const order = productsFiltered.map(({ id }) => id);
+
+    if (isArrayEqual(order, orders[`${selectedMenu}-${selectedType}`])) {
+      setLoading(false);
+      return toast.success('Ordem atualizada com sucesso');
+    }
 
     http
       .patch('/api/products-order', {
         menu: selectedMenu,
         type: selectedType,
-        order: productsFiltered.map(({ id }) => id),
+        order,
       })
       .then(() => toast.success('Ordem atualizada com sucesso'))
       .catch(() => toast.error('Ops... Ocorreu um erro tente novamente mais tarde.'))

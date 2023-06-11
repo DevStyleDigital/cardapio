@@ -24,6 +24,7 @@ export const Select = ({
       isMulti={multi}
       isDisabled={disabled}
       value={value}
+      inputId={props.id}
       defaultValue={multi ? defaultValue : defaultValue?.[0]}
       onChange={(ev) => onChange(Array.isArray(ev) ? ev : [ev])}
       classNames={{
