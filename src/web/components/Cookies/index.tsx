@@ -22,7 +22,7 @@ const AcceptCookie = () => {
   return (
     <>
       {open && (
-        <div className="w-[300px] h-auto min-h-[150px] bg-fundo-400 absolute z-[999] bottom-3 left-3 rounded-md display flex flex-col gap-4 p-4 shadow-lg shadow-black/90 animate-go">
+        <div className="w-[300px] h-auto min-h-[150px] bg-fundo-400 fixed z-[999] bottom-3 left-3 rounded-md display flex flex-col gap-4 p-4 shadow-lg shadow-black/90 animate-go">
           <div className="w-full h-full flex justify-between items-start">
             <h1 className="text-md font-bold text-golden-400">Accept Cookies</h1>
             <Cross1Icon className="w-4 h-4 text-white" onClick={() => CreateCookie()} />
