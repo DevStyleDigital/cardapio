@@ -14,7 +14,7 @@ import useSWR from 'swr';
 import { Menu } from 'types/menu';
 import { Product } from 'types/product';
 
-const TypeMenu = ({ type, menus }: any) => {
+const TypeMenu = ({ type, menus, productsOrder }: any) => {
   const { sidebarOpen } = useSideBar();
   const [loading, setLoading] = useState(true);
   const { data, isLoading } = useSWR<Product[]>(
@@ -70,6 +70,10 @@ const TypeMenu = ({ type, menus }: any) => {
           {productsData
             ?.sort((a, b) => (a as any).name.localeCompare((b as any).name))
             .filter(({ visibility }) => visibility === 'block')
+            .sort(
+              (a, b) =>
+                (productsOrder || []).indexOf(a.id) - (productsOrder || []).indexOf(b.id),
+            )
             .map((produto: any, index: number) => {
               return (
                 <>
@@ -120,6 +124,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     .get<Menu>(`/api/menu/${menu}`)
     .then((res) => res)
     .catch(() => null);
+  const productsOrder = await http
+    .get(`/api/products-order/${`${menu}-${type}`}`)
+    .then((res) => res)
+    .catch(() => []);
 
   const menuProductType = menus?.productTypes?.filter(({ id }) => `${id}` === type)[0];
 
@@ -136,6 +144,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     props: {
       menus,
       type: menuProductType,
+      productsOrder,
     },
   };
 };

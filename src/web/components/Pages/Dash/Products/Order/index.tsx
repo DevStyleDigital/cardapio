@@ -77,7 +77,10 @@ export const Order = ({
     setLoading(true);
     const order = productsFiltered.map(({ id }) => id);
 
-    if (isArrayEqual(order, orders[`${selectedMenu}-${selectedType}`])) {
+    if (
+      orders[`${selectedMenu}-${selectedType}`] &&
+      isArrayEqual(order, orders[`${selectedMenu}-${selectedType}`])
+    ) {
       setLoading(false);
       return toast.success('Ordem atualizada com sucesso');
     }
@@ -88,7 +91,10 @@ export const Order = ({
         type: selectedType,
         order,
       })
-      .then(() => toast.success('Ordem atualizada com sucesso'))
+      .then(() => {
+        toast.success('Ordem atualizada com sucesso');
+        orders[`${selectedMenu}-${selectedType}`] = order;
+      })
       .catch(() => toast.error('Ops... Ocorreu um erro tente novamente mais tarde.'))
       .finally(() => setLoading(false));
   }
