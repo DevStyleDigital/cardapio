@@ -17,7 +17,7 @@ const Code = ({ codeApi }: { codeApi: string }) => {
   function ValidCode() {
     if (`${codeApi}` === code) {
       setCookie(undefined, '_CODE_VALID', 'true', {
-        maxAge: 1000 * 60 * 60 * 3,
+        maxAge: 60 * 60 * 3, // 3hrs
         path: '/',
       });
       router.push('/');
