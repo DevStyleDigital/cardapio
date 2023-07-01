@@ -38,7 +38,7 @@ const BannerText: GTypes.FC<{ children: string; responser?: string }> = ({
     >
       <span dangerouslySetInnerHTML={{ __html: purifyText(children) }} />
       {responser && (
-        <span className="text-2xl normal-case font-light">by {responser}</span>
+        <span className="text-2xl normal-case font-light">{responser}</span>
       )}
     </div>
   );
