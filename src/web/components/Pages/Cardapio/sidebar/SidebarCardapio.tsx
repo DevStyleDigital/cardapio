@@ -6,9 +6,9 @@ export const SideBar = () => {
     <SidebarCardapio.Fundo>
       <SidebarCardapio.Title>
         <div className="uppercase">Menu Yoshi&#39;s</div>
-        <div className="text-white flex text-sm">
+        {/* <div className="text-white flex text-sm">
           by <LogoVelasco />
-        </div>
+        </div> */}
       </SidebarCardapio.Title>
       <SidebarCardapio.Navs />
     </SidebarCardapio.Fundo>
